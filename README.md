@@ -1,3 +1,3 @@
 # COMS3-MISIS
 
-[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+[![CircleCI](https://circleci.com/gh/1826461/COMS3-MISIS.svg?style=svg)](https://circleci.com/gh/1826461/COMS3-MISIS)
