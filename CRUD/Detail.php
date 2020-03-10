@@ -20,10 +20,58 @@
             <div class="page-header">
                 <h1>Read Users</h1>
             </div>
+
     <!-- PHP code for read records here-->
         <?php
         // Add code to connect to database
+        include 'database.php';
+        //delete message prompt here
 
+        //select all data from database
+        $data = "SELECT * FROM COMS3Project ORDER BY studentNo DESC";
+        $stmt = $connection->prepare($data);
+        $stmt ->execute();
+
+        $numrows = $stmt->rowCount();
+
+        if ($numrows>0){
+            //code to create database table
+            echo "<table class='table table-hover table-responsive table-bordered'>";
+            //start table
+            //creating our table heading
+            echo "<tr>";
+            //add echos for table fields from database
+                    echo "<th><!--Name of columns--></th>";
+
+                echo "</tr>";
+            echo "</table>";
+
+            //add table contents
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                //create new table row per record
+                echo "<tr>";
+                    echo "<td> </td>";
+                    //add more columns for td
+
+                echo "<td>";
+                    // read one record
+                    //     echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
+
+                        // we will use this links on next part of this post
+                    //    echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
+
+                        // we will use this links on next part of this post
+                    //    echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                     echo "</td>";
+                echo "</tr>";
+            }
+        }else{
+            echo "<div class='alert alert-danger'>No records found.</div>";
+        }
+
+        //link to create record form
+        //echo "<a href='create.php' class='btn btn-primary m-b-1em'>Create New Product</a>";
 
         ?>
 
@@ -36,8 +84,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- confirm delete record will be here -->
-
-
 
 </body>
 </html>
