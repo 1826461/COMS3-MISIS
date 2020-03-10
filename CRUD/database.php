@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$db_name = "COMS3Project";
+$db_name = "COMS3Project"; //need to confirm
 $username = "root";
 $passwrd = "root";
 

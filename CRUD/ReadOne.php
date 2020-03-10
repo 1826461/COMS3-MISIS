@@ -57,7 +57,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <a href='Detail.php' class='btn btn-danger'>Back to read products</a>
+                    <a href='Detail.php' class='btn btn-danger'>Back to read users</a>
                 </td>
             </tr>
         </table>

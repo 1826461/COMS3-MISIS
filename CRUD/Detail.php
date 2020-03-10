@@ -55,13 +55,10 @@
                     //add more columns for td
 
                 echo "<td>";
-                    // read one record
+                    // read one record for this user
                     //     echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
 
-                        // we will use this links on next part of this post
-                    //    echo "<a href='update.php?id={$id}' class='btn btn-primary m-r-1em'>Edit</a>";
-
-                        // we will use this links on next part of this post
+                    // link for deleting this user
                     //    echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
                      echo "</td>";
                 echo "</tr>";
@@ -72,7 +69,6 @@
 
         //link to create record form
         //echo "<a href='create.php' class='btn btn-primary m-b-1em'>Create New Product</a>";
-
         ?>
 
     </div> <!-- end of container-->
