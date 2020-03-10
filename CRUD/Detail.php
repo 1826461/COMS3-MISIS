@@ -44,6 +44,8 @@
                     echo "<th>Student Number</th>";
                     echo "<th>Name</th>";
                     echo "<th>Surname</th>";
+                    echo "<td>Subject</td>";
+                    echo "<td>Expiry Date</td>";
                 echo "</tr>";
 
 
@@ -55,13 +57,16 @@
                     echo "<td>{$row['studentNo']}</td>";
                     echo "<td>{$row['name']}</td>";
                     echo "<td>{$row['surname']}</td>";
-                    //add more columns for td
+                    echo "<td>{$row['subject']}</td>";
+                    echo "<td>{$row['expiryDate']}</td>";
+
+                //add more columns for td
                     echo "<td>";
                         // read one record for this user
                         echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
 
                         // link for deleting this user
-                        //echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                        echo "<a href='#' onclick='delete_user({$row['studentNo']});'  class='btn btn-danger'>Delete</a>";
                     echo "</td>";
                 echo "</tr>";
             }
