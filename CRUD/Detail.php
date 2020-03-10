@@ -18,7 +18,7 @@
     <!--Container-->
     <div class="container">
             <div class="page-header">
-                <h1>Read Users</h1>
+                <h1>Moodle Users</h1>
             </div>
 
     <!-- PHP code for read records here-->
@@ -28,8 +28,8 @@
         //delete message prompt here
 
         //select all data from database
-        $data = "SELECT * FROM COMS3Project ORDER BY studentNo DESC";
-        $stmt = $connection->prepare($data);
+        $data = "SELECT * FROM users";
+        $stmt = $dbh->prepare($data); //issue
         $stmt ->execute();
 
         $numrows = $stmt->rowCount();
@@ -41,28 +41,32 @@
             //creating our table heading
             echo "<tr>";
             //add echos for table fields from database
-                    echo "<th><!--Name of columns--></th>";
-
+                    echo "<th>Student Number</th>";
+                    echo "<th>Name</th>";
+                    echo "<th>Surname</th>";
                 echo "</tr>";
-            echo "</table>";
+
 
             //add table contents
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
                 //create new table row per record
                 echo "<tr>";
-                    echo "<td> </td>";
+                    echo "<td>{$row['studentNo']}</td>";
+                    echo "<td>{$row['name']}</td>";
+                    echo "<td>{$row['surname']}</td>";
                     //add more columns for td
+                    echo "<td>";
+                        // read one record for this user
+                        echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
 
-                echo "<td>";
-                    // read one record for this user
-                    //     echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";
-
-                    // link for deleting this user
-                    //    echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
-                     echo "</td>";
+                        // link for deleting this user
+                        //echo "<a href='#' onclick='delete_user({$id});'  class='btn btn-danger'>Delete</a>";
+                    echo "</td>";
                 echo "</tr>";
             }
+            echo "</table>";
+
         }else{
             echo "<div class='alert alert-danger'>No records found.</div>";
         }

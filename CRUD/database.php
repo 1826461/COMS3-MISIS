@@ -1,11 +1,14 @@
 <?php
-$host = "localhost";
-$db_name = "COMS3Project"; //need to confirm
-$username = "root";
-$passwrd = "root";
+$host="localhost";
+$port=3306;
+$socket="";
+$user="Test";
+$password="testing1234";
+$dbname="coms3project";
 
 try {
-    $connection = new  PDO("mysql:host={$host};dbname={$db_name}",$username,$passwrd);
-}catch (PDOException $exception){
-    echo "Connection error: ".$exception->getMessage();
+    $dbh = new PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $password);
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
 }
+

@@ -9,23 +9,23 @@
     <!-- container -->
     <div class="container">
         <div class="page-header">
-            <h1>Read User</h1>
+            <?php
+            $studentNo =isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: User not found.');
+              echo "<h1>Current User: {$studentNo}</h1>" ?>
         </div>
 
         <!-- PHP read one record will be here -->
         <?php
-        $studentNo =isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: User not found.');
-
         include 'database.php';
+        $studentNo =isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: User not found.');
         try {
-            $data = "SELECT * FROM COMS3Project WHERE studentNo = ? LIMIT 0,1";
-            $stmt = $connection->prepare($data);
+            $data = "SELECT * FROM users WHERE studentNo = ? LIMIT 0,1";
+            $stmt = $dbh->prepare($data);
             $stmt->bindParam(1,$studentNo);
             $stmt->execute();
 
             // store retrieved row to a variable
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
             // values to fill up our form
             $name = $row['name'];
             $surname = $row['surname'];
@@ -40,6 +40,10 @@
         <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
         <table class='table table-hover table-responsive table-bordered'>
+            <tr>
+                <td>Student Number</td>
+                <td><?php echo htmlspecialchars($studentNo, ENT_QUOTES);  ?></td>
+            </tr>
             <tr>
                 <td>Name</td>
                 <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
