@@ -4,5 +4,10 @@
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.2",
         "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "eucleia\\": "src/"
+        }
     }
 }
