@@ -1,0 +1,9 @@
+  
+coverage:
+  status:
+    project:
+      default: on
+flags:
+  tests:
+    paths:
+      - tests/
