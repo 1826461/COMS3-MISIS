@@ -20,23 +20,7 @@ session_start();
         </ul>
     </div>
     <?php
-    /////functions
-    function getSalt(){
-//        global  $random_salt_length;
-        return bin2hex(openssl_random_pseudo_bytes(20));
-    }
-
-    function concatPasswordSalt($password,$salt){
-        global  $random_salt_length;
-        if($random_salt_length%2==0){
-            $mid = $random_salt_length/2;
-        }else{
-            $mid = ($random_salt_length-1)/2;
-        }
-        return substr($salt,0,$mid-1).$password.substr($salt,$mid,$random_salt_length-1);
-    }
-    ///
-    include 'database.php';
+     include 'database.php';
     $username ="";
     $password="";
     $hashPassword="";
