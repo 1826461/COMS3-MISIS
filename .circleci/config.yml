@@ -47,3 +47,7 @@ jobs:
       - run: php vendor/bin/phpunit
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
+
+      - codecov/upload:
+        file: coverage/*.json
+        flags: backend,unittest,frontend

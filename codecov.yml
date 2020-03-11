@@ -2,7 +2,7 @@
 coverage:
   status:
     project:
-      default: on
+      default: off
 flags:
   tests:
     paths:
