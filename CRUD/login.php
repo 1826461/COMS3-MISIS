@@ -52,8 +52,7 @@ session_start();
 
         }else{
             $password = $_POST["Password"];
-            $hashPassword = concatPasswordSalt($password,getSalt());
-           //echo "<h1>'$hashPassword'</h1>";
+            //echo "<p>$hashPassword</p>";
            //query DB
             try {
                 $data = "SELECT * FROM userroles WHERE userID = ? LIMIT 0,1";
@@ -67,7 +66,9 @@ session_start();
 
                 }else{
                     $userPassword = $row['password'];
-                    if ($userPassword==$password){
+                    echo "<p>$hashPassword</p>";
+                    echo "<p>$userPassword</p>";
+                    if (password_verify($password,$userPassword)){
                         $_SESSION['loggedin'] = true;
                         $_SESSION['username'] = $username;
                         header("location: Detail.php");
