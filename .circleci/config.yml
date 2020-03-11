@@ -50,4 +50,4 @@ jobs:
 
       - codecov/upload:
         file: coverage/*.json
-        flags: backend,unittest,frontend
+        flags: unittest
