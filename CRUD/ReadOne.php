@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
+    header ("Location: login.php");
+}
+?>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -19,16 +26,21 @@
         include 'database.php';
         $studentNo =isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: User not found.');
         try {
-            $data = "SELECT * FROM users WHERE studentNo = ? LIMIT 0,1";
+            $data = "SELECT * FROM users WHERE studentNo = ?";
             $stmt = $dbh->prepare($data);
             $stmt->bindParam(1,$studentNo);
             $stmt->execute();
-
+            $name ="";
+            $surname="";
+            $subjects ="";
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $name = $row['name'];
+                $surname = $row['surname'];
+                $subjects .=",".$row['subject'];
+            }
+            $subjects = substr($subjects,1);
             // store retrieved row to a variable
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             // values to fill up our form
-            $name = $row['name'];
-            $surname = $row['surname'];
             //add for for other fields
 
         }catch (PDOException $exception){
@@ -54,8 +66,8 @@
             </tr>
             <!-- add more table records -->
             <tr>
-                <td><!--etc--></td>
-<!--                <td>--><?php //echo htmlspecialchars($, ENT_QUOTES);  ?><!--</td>-->
+                <td>Subjects</td>
+                <td><?php echo htmlspecialchars($subjects, ENT_QUOTES);  ?></td>
             </tr>
 
             <tr>

@@ -1,3 +1,28 @@
+<?php
+session_start();
+if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
+    header ("Location: login.php");
+}
+$timeout = 180; // Number of seconds until it times out.
+
+// Check if the timeout field exists.
+if(isset($_SESSION['timeout'])) {
+    // See if the number of seconds since the last
+    // visit is larger than the timeout period.
+    $duration = time() - (int)$_SESSION['timeout'];
+    if($duration > $timeout) {
+        // Destroy the session and restart it.
+        $_SESSION =array();
+        session_destroy();
+        session_start();
+    }
+}
+
+// Update the timout field with the current time.
+$_SESSION['timeout'] = time();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,42 +36,84 @@
         .m-b-1em{ margin-bottom:1em; }
         .m-l-1em{ margin-left:1em; }
         .mt0{ margin-top:0; }
+        .list{ padding: 5px;width: 150px; margin-bottom: 10px;}
+
+
     </style>
 
 </head>
 <body>
+<form class="detail" method="post">
     <!--Container-->
     <div class="container">
             <div class="page-header">
                 <h1>Moodle Users</h1>
             </div>
-
+        <script>
+        //hide records that dont have class value
+            function changeClasses() {
+                var element = document.getElementById("ClassList").value;
+                var table = document.getElementById("tableData");
+                var tr = table.getElementsByTagName("tr");
+                if (element=='All'){
+                    for (var i =0;i<tr.length;i++){
+                        tr[i].style.display="";
+                    }
+                }else{
+                    for (var i =0;i<tr.length;i++){
+                        var td = tr[i].getElementsByTagName("td")[3]; //gets subject
+                        if (td){
+                            var txtVal = td.textContent||td.innerText;
+                           // window.alert(txtVal);
+                            if (txtVal==element){
+                                tr[i].style.display = "";
+                            }else{
+                                tr[i].style.display="none";
+                            }
+                            }
+                        }
+                }
+            }
+            
+        </script>
     <!-- PHP code for read records here-->
         <?php
         // Add code to connect to database
         include 'database.php';
         //delete message prompt here
 
-        //select all data from database
+        //populate select
+        echo "Subjects: ";
+        echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
+        echo"<option selected='selected' name='All'>All</option>";
+        $querySubjects = "SELECT DISTINCT subject FROM users";
+        $stmt = $dbh->prepare($querySubjects); //issue
+        $stmt ->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $item = $row['subject'];
+            echo"<option name='$item' value=$item>'$item'</option>";
+        }
+        echo "</select>";
+       //end of select
         $data = "SELECT * FROM users";
         $stmt = $dbh->prepare($data); //issue
         $stmt ->execute();
+        $numRows = $stmt->rowCount();
 
-        $numrows = $stmt->rowCount();
-
-        if ($numrows>0){
+        if ($numRows>0){
             //code to create database table
-            echo "<table class='table table-hover table-responsive table-bordered'>";
+            echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
             //start table
             //creating our table heading
             echo "<tr>";
             //add echos for table fields from database
-                    echo "<th>Student Number</th>";
-                    echo "<th>Name</th>";
-                    echo "<th>Surname</th>";
-                    echo "<td>Subject</td>";
-                    echo "<td>Expiry Date</td>";
-                echo "</tr>";
+            echo "<th>Student Number</th>";
+            echo "<th>Name</th>";
+            echo "<th>Surname</th>";
+            echo "<td>Subject</td>";
+            echo "<td>Expiry Date</td>";
+            echo "</tr>";
 
 
             //add table contents
@@ -54,20 +121,20 @@
                 extract($row);
                 //create new table row per record
                 echo "<tr>";
-                    echo "<td>{$row['studentNo']}</td>";
-                    echo "<td>{$row['name']}</td>";
-                    echo "<td>{$row['surname']}</td>";
-                    echo "<td>{$row['subject']}</td>";
-                    echo "<td>{$row['expiryDate']}</td>";
+                echo "<td>{$row['studentNo']}</td>";
+                echo "<td>{$row['name']}</td>";
+                echo "<td>{$row['surname']}</td>";
+                echo "<td>{$row['subject']}</td>";
+                echo "<td>{$row['expiryDate']}</td>";
 
                 //add more columns for td
-                    echo "<td>";
-                        // read one record for this user
-                        echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
+                echo "<td>";
+                // read one record for this user
+                echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
 
-                        // link for deleting this user
-                        echo "<a href='#' onclick='delete_user({$row['studentNo']});'  class='btn btn-danger'>Delete</a>";
-                    echo "</td>";
+                // link for deleting this user
+                echo "<a href='#' onclick='delete_user({$row['studentNo']});'  class='btn btn-danger'>Delete</a>";
+                echo "</td>";
                 echo "</tr>";
             }
             echo "</table>";
@@ -89,6 +156,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- confirm delete record will be here -->
-
+</form>
 </body>
 </html>
