@@ -37,18 +37,40 @@ $_SESSION['timeout'] = time();
         .m-l-1em{ margin-left:1em; }
         .mt0{ margin-top:0; }
         .list{ padding: 5px;width: 150px; margin-bottom: 10px;}
-
-
+        body{
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+        #tableData{
+            background-color: white;
+        }
+        .logOut{
+            position: absolute;
+            right: 15%;
+            padding-top: 50px;
+        }
     </style>
 
 </head>
 <body>
+<div class="content">
 <form class="detail" method="post">
     <!--Container-->
     <div class="container">
+            <div class="logOut">
+                <input type="submit" name="Logout" id="exitButton" value="Logout"></input>
+                <?php
+                if(isset($_POST["Logout"])) {
+                    session_start();
+                    unset($_SESSION["loggedin"]);
+                    unset($_SESSION["username"]);
+                    header("Location:login.php");
+                }
+                ?>
+            </div>
             <div class="page-header">
                 <h1>Moodle Users</h1>
             </div>
+
         <script>
         //hide records that dont have class value
             function changeClasses() {
@@ -76,6 +98,7 @@ $_SESSION['timeout'] = time();
             }
             
         </script>
+
     <!-- PHP code for read records here-->
         <?php
         // Add code to connect to database
@@ -96,6 +119,7 @@ $_SESSION['timeout'] = time();
         }
         echo "</select>";
        //end of select
+
         $data = "SELECT * FROM users";
         $stmt = $dbh->prepare($data); //issue
         $stmt ->execute();
@@ -149,6 +173,7 @@ $_SESSION['timeout'] = time();
 
     </div> <!-- end of container-->
 
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -157,5 +182,7 @@ $_SESSION['timeout'] = time();
 
 <!-- confirm delete record will be here -->
 </form>
+</div>
 </body>
+
 </html>

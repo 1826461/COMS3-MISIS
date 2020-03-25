@@ -51,7 +51,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
 
         <!-- HTML read one record table will be here -->
         <!--we have our html table here where the record will be displayed-->
-        <table class='table table-hover table-responsive table-bordered'>
+        <table id="table" class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>Student Number</td>
                 <td><?php echo htmlspecialchars($studentNo, ENT_QUOTES);  ?></td>
@@ -85,6 +85,14 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
    
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    body{
+        background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    }
+    #table{
+        background-color: white;
+    }
+</style>
  
 </body>
 </html>
