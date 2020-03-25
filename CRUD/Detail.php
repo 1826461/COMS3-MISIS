@@ -3,7 +3,7 @@ session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     header ("Location: login.php");
 }
-$timeout = 180; // Number of seconds until it times out.
+$timeout = 600; // Number of seconds until it times out.
 
 // Check if the timeout field exists.
 if(isset($_SESSION['timeout'])) {
