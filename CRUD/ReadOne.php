@@ -73,7 +73,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <tr>
                 <td></td>
                 <td>
-                    <a href='Detail.php' class='btn btn-danger'>Back to read users</a>
+                    <a href='Detail.php' class='btn btn-danger'>Back to Moodle users</a>
                 </td>
             </tr>
         </table>
