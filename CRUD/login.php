@@ -45,7 +45,6 @@ session_start();
     ul.list li{
         width: 250px;
         padding: 10px;
-
     }
     ul.list li input[type="submit"]{
         background-color: #4690fb;
@@ -91,7 +90,7 @@ session_start();
                     header("location: Detail.php");
                 }else{
                     $passwordErr="Incorrect Password";
-                    echo "<script type='javascript'> 
+                    echo "<script type='javascript'>
                     var name = document.getElementById('UserName').value;
                     name = $username;        
                     </script>";
@@ -105,7 +104,7 @@ session_start();
     <div class="form-container">
         <ul class="list">
             <li id="user">User Login</li>
-            <li><input type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error">* <?php echo"<p>$usernameErr</p>";?></span></li>
+            <li><input type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error">* <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
             <li><input type="password" name="Password" placeholder="Password" ><span class="error">* <?php echo"<p> $passwordErr</p>";?></span></li>
             <li><input type="submit" name="Login" value="Login"></li>
         </ul>
