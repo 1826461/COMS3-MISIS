@@ -32,9 +32,11 @@ $numRows = $stmt->rowCount();
 
 if ($numRows>0){
     //code to create database table
+    echo"<div class='scrollit'>";
     echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
     //start table
     //creating our table heading
+    echo "<thead>";
     echo "<tr>";
     //add echos for table fields from database
     echo "<th>Student Number</th>";
@@ -43,8 +45,9 @@ if ($numRows>0){
     echo "<td>Subject</td>";
     echo "<td>Expiry Date</td>";
     echo "</tr>";
+    echo"</thead>";
 
-
+    echo "<tbody>";
     //add table contents
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         extract($row);
@@ -72,6 +75,8 @@ if ($numRows>0){
         echo "</td>";
         echo "</tr>";
     }
+    echo "</tbody>";
+    echo"</div>";
     echo "</table>";
 
 }else{

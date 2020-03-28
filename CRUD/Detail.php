@@ -76,6 +76,11 @@ if (isset($_POST["Logout"])) {
             width: 250px;
             padding: 5px;
         }
+        .scrollit {
+            overflow:scroll;
+            overflow-x: hidden;
+            height:700px;
+        }
 
     </style>
 </head>
