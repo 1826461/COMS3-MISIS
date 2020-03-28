@@ -59,7 +59,7 @@ session_start();
 
 <form class="Login" method="post">
     <?php
-     include 'database.php';
+    include 'database.php';
     $username ="";
     $password="";
     $hashPassword="";
@@ -87,13 +87,14 @@ session_start();
                 if (password_verify($password,$userPassword)){
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $username;
+                    if($row['role']==admin){
+                        $_SESSION['admin']=1;
+                    }else{
+                        $_SESSION['admin']=0;
+                    }
                     header("location: Detail.php");
                 }else{
                     $passwordErr="Incorrect Password";
-                    echo "<script type='javascript'>
-                    var name = document.getElementById('UserName').value;
-                    name = $username;        
-                    </script>";
                 }
             }
         }
