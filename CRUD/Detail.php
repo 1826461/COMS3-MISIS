@@ -50,9 +50,9 @@ if (isset($_POST["Logout"])) {
             background-color: white;
         }
         .logOut{
-            position: fixed;
-            right: 15%;
-            padding-top: 50px;
+            position: absolute;
+            right: 16%;
+            top: 50px;
         }
         .form-popup{
             display: none;
@@ -77,7 +77,7 @@ if (isset($_POST["Logout"])) {
             padding: 5px;
         }
         .scrollit {
-            overflow:scroll;
+            overflow:auto;
             overflow-x: hidden;
             height:700px;
         }
@@ -129,7 +129,6 @@ if (isset($_POST["Logout"])) {
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter="blur(4px)grayscale(30%)";
         document.getElementById("exitButton").style.webkitFilter="blur(4px)grayscale(30%)";
-
         deleteStudentNumber = studentNumber[0];
         delSub = studentNumber[1];
     }
@@ -152,15 +151,16 @@ if (isset($_POST["Logout"])) {
 <body>
 <!--main form-->
 <div class="detail" method="post" id="mainView">
-    <!--logout button-->
-    <form class="logOut" method="post">
-        <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
-    </form>
+
     <!--Container-->
     <div class="container">
         <div class="page-header">
             <h1>Moodle Users</h1>
         </div>
+        <!--logout button-->
+        <form class="logOut" method="post">
+            <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
+        </form>
     <!-- PHP code for read records here-->
         <?php
         include 'readRecords.php';
