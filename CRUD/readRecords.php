@@ -7,6 +7,10 @@ if ($action == 'deleted') {
     echo "<div class='alert alert-success'>Record was deleted.</div>";
 }
 
+if ($action == 'deny') {
+    echo "<div class='alert alert-success'>You don't have permission to edit the database.</div>";
+}
+
 echo "Subjects: ";
 echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
@@ -52,13 +56,19 @@ if ($numRows>0){
         echo "<td>{$row['subject']}</td>";
         echo "<td>{$row['expiryDate']}</td>";
 
+        $user = $row['studentNo'];
+        $sub = $row['subject'];
+        $arr = array($user,$sub);
+        $sendVar = json_encode($arr);
+        //issue in returning 2 variables to javascript
+
         //add more columns for td
         echo "<td>";
         // read one record for this user
         echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
 
         // link for deleting this user
-        echo "<a onclick='showDelete({$row['studentNo']})'  class='btn btn-danger'>Delete</a>";
+        echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger'>Delete</a>";
         echo "</td>";
         echo "</tr>";
     }

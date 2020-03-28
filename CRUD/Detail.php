@@ -21,7 +21,6 @@ if(isset($_SESSION['timeout'])) {
 $_SESSION['timeout'] = time();
 
 if (isset($_POST["Logout"])) {
-    echo "<script> window.alert('helo')</script>]";
     session_start();
     $_SESSION = array();
     session_unset();
@@ -90,6 +89,7 @@ if (isset($_POST["Logout"])) {
 <script>
     //hide records that dont have class value
     var deleteStudentNumber;
+    var delSub;
 
     function changeClasses() {
         var element = document.getElementById("ClassList").value;
@@ -124,12 +124,16 @@ if (isset($_POST["Logout"])) {
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter="blur(4px)grayscale(30%)";
         document.getElementById("exitButton").style.webkitFilter="blur(4px)grayscale(30%)";
-        deleteStudentNumber = studentNumber;
+
+        deleteStudentNumber = studentNumber[0];
+        delSub = studentNumber[1];
     }
 
     function deleteUser() {
         //string here is fine
-        window.location.href = 'deleteUser.php?studentNo=' + deleteStudentNumber;
+        var user= deleteStudentNumber;
+        var sub = delSub;
+        window.location.href = 'deleteUser.php?studentNo=' + user+ '&subject='+sub;
     }
 
     function closeForm(){
