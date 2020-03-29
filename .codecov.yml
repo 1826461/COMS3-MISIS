@@ -1,8 +1,1 @@
-coverage:
-  status:
-    project:
-      default: on
-flags:
-  tests:
-    paths:
-      - tests/
+cat codecov.yml | curl --data-binary @- https://codecov.io/validate

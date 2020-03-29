@@ -4,8 +4,7 @@
 #
 version: 2.1
 orbs:
-  codecov: codecov/codecov@1.0.5
-
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -36,17 +35,16 @@ jobs:
             - v1-dependencies-
 
       - run: composer install -n --prefer-dist
-      - run: composer require --dev php-coveralls/php-coveralls
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
           paths:
-            - vendor
+            - ./vendor
 
       # run tests with phpunit or codecept
-      - run: php vendor/bin/phpunit
+      - run: php ./vendor/bin/phpunit
+      - run: php ./vendor/bin/phpunit --coverage-clover=coverage.xml
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
-
       - codecov/upload:
-        file: coverage/*.json
+          file: coverage.xml
