@@ -43,3 +43,5 @@ jobs:
       - run: php ./vendor/bin/phpunit
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
+      
+      bash <(curl -s https://codecov.io/bash)
