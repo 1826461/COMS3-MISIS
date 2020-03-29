@@ -47,4 +47,5 @@ jobs:
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
       - codecov/upload:
+        file: .coverage.xml
 
