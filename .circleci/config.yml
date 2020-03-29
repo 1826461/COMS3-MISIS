@@ -46,5 +46,5 @@ jobs:
       - run: php ./vendor/bin/phpunit --coverage-clover=coverage.xml
       #- run: ./vendor/bin/codecept build
       #- run: ./vendor/bin/codecept run
-       - codecov/upload:
-#          file: coverage.xml
+      - codecov/upload:
+          file: coverage.xml
