@@ -11,7 +11,7 @@ if ($action == 'deny') {
     echo "<div class='alert alert-success'>You don't have permission to edit the database.</div>";
 }
 
-echo "Subjects: ";
+echo "Subject code: ";
 echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
 $querySubjects = "SELECT DISTINCT subject FROM enrollments";
@@ -24,6 +24,12 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 }
 echo "</select>";
 //end of select
+//search for user
+echo  "<div class='topnav'>
+       <input id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
+       </div>";
+//
+
 
 $data = "SELECT * FROM enrollments";
 $stmt = $dbh->prepare($data); //issue
@@ -42,8 +48,8 @@ if ($numRows>0){
     echo "<th>Student Number</th>";
     echo "<th>Name</th>";
     echo "<th>Surname</th>";
-    echo "<td>Subject</td>";
-    echo "<td>Expiry Date</td>";
+    echo "<th>Subject</th>";
+    echo "<th>Expiry Date</th>";
     echo "</tr>";
 
 

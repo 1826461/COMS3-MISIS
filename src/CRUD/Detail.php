@@ -76,10 +76,29 @@ if (isset($_POST["Logout"])) {
             width: 250px;
             padding: 5px;
         }
+        #ClassList{
+            margin-top: 5px;
+        }
         .scrollit {
             overflow:auto;
             overflow-x: hidden;
             height:700px;
+            margin-top: 10px;
+        }
+        #searchBar{
+            background-image: url('https://img.icons8.com/color/search'); /* Add a search icon to input */
+            background-size: 30px 30px;
+            background-position: 1px 2px; /* Position the search icon */
+            height: 40px;
+            padding: 12px 20px 12px 40px;
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            font-size: 16px; /* Increase font-size */
+            border: 1px solid #ddd; /* Add a grey border */
+        }
+        .topnav{
+            list-style: none;
+            overflow: hidden;
+            float: right;
         }
 
     </style>
@@ -145,6 +164,27 @@ if (isset($_POST["Logout"])) {
         document.getElementById("mainView").style.webkitFilter="";
         document.getElementById("exitButton").style.webkitFilter="";
     }
+    
+    function findUser() {
+        var element = document.getElementById("searchBar").value.toUpperCase();
+        var table = document.getElementById("tableData");
+        var tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            a = tr[i].getElementsByTagName("td")[0];
+            b  = tr[i].getElementsByTagName("td")[1];
+            c = tr[i].getElementsByTagName("td")[2];
+            txtValue1 = a.textContent || a.innerText;
+            txtValue2 = b.textContent || b.innerText;
+            txtValue3 = c.textContent || c.innerText;
+            if (txtValue1.indexOf(element) > -1||txtValue2.toUpperCase().indexOf(element) > -1||txtValue3.toUpperCase().indexOf(element) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+
 
 </script>
 
