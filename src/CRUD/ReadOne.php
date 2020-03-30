@@ -26,7 +26,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         include 'database.php';
         $studentNo =isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: User not found.');
         try {
-            $data = "SELECT * FROM users WHERE studentNo = ?";
+            $data = "SELECT * FROM enrollments WHERE studentNo = ?";
             $stmt = $dbh->prepare($data);
             $stmt->bindParam(1,$studentNo);
             $stmt->execute();

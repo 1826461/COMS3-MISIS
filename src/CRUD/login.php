@@ -69,7 +69,7 @@ session_start();
         $username = $_POST["UserName"];
         $password = $_POST["Password"];
         if (!(empty($_POST["UserName"])&&empty($_POST["Password"]))){
-            $data = "SELECT * FROM userroles WHERE userID = ? LIMIT 0,1";
+            $data = "SELECT * FROM users WHERE userID = ? LIMIT 0,1";
             $stmt = $dbh->prepare($data);
             $stmt->bindParam(1,$username);
             $stmt->execute();

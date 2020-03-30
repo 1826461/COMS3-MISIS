@@ -14,7 +14,7 @@ if ($action == 'deny') {
 echo "Subjects: ";
 echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
-$querySubjects = "SELECT DISTINCT subject FROM users";
+$querySubjects = "SELECT DISTINCT subject FROM enrollments";
 $stmt = $dbh->prepare($querySubjects); //issue
 $stmt ->execute();
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -25,7 +25,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 echo "</select>";
 //end of select
 
-$data = "SELECT * FROM users";
+$data = "SELECT * FROM enrollments";
 $stmt = $dbh->prepare($data); //issue
 $stmt ->execute();
 $numRows = $stmt->rowCount();
