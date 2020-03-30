@@ -1,13 +1,25 @@
 {
-    "require": {        
+    "name": "codecov/codecov-php",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/codecov/codecov-php",
+    "description": "demo repo",
+    "keywords": ["code coverage", "codecov", "coverage reports"],
+    "authors": [
+        {
+            "name": "codecov.io",
+            "email": "hello@codecov.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.0.0"
     },
     "require-dev": {
-        "php-coveralls/php-coveralls": "^2.2",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-4": {
-            "eucleia\\": "src/"
+        "psr-0": { 
+            "Example": "src/"
         }
     }
 }
