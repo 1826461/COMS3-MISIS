@@ -4,14 +4,19 @@ include 'database.php';
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 // if it was redirected from delete.php
 if ($action == 'deleted') {
-    echo "<div class='alert alert-success'>Record was deleted.</div>";
+    echo "<div class='alert alert-success' id='message'>Record was deleted.</div>";
 }
 
 if ($action == 'deny') {
-    echo "<div class='alert alert-success'>You don't have permission to edit the database.</div>";
+    echo "<div class='alert alert-success' id='message'>You don't have permission to edit the database.</div>";
 }
 
-echo "Subject code: ";
+
+if ($action == 'created') {
+    echo "<div class='alert alert-success' id='message'>User record was created.</div>";
+}
+
+echo "Filter by course code: ";
 echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
 $querySubjects = "SELECT DISTINCT subject FROM enrollments";
@@ -25,10 +30,13 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 echo "</select>";
 //end of select
 //search for user
-echo  "<div class='topnav'>
-       <input id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
-       </div>";
-//
+echo  "<ul class='topnav'>
+       <li><input id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'></li>
+       <li><button class='btn' onclick='showCreate()'>Create New User</button></li>
+       </ul>";
+
+//add create button
+//echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
 
 
 $data = "SELECT * FROM enrollments";

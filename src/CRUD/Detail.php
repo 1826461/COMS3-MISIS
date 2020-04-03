@@ -36,79 +36,81 @@ if (isset($_POST["Logout"])) {
     <title>Manage Database</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- custom css -->
-    <style>
-        .m-r-1em{ margin-right:1em; }
-        .m-r-2em{background-color: blue}
-        .m-b-1em{ margin-bottom:1em; }
-        .m-l-1em{ margin-left:1em; }
-        .mt0{ margin-top:0; }
-        .list{ padding: 5px;width: 150px; margin-bottom: 10px;}
-        body{
-            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-        }
-        #tableData{
-            background-color: white;
-        }
-        .logOut{
-            position: absolute;
-            right: 16%;
-            top: 50px;
-        }
-        .form-popup{
-            display: none;
-            width: 350px;
-            border: 3px solid #f1f1f1;
-            position: fixed;
-            left: 40%;
-            top: 30%;
-        }
-        .form-container{
-            margin: auto;
-            padding:20px;
-            height:200px;
-            background-color: white;
-        }
-        ul.buttonGroup{
-            list-style: none;
-            text-align: center;
-        }
-        ul.buttonGroup li{
-            width: 250px;
-            padding: 5px;
-        }
-        #ClassList{
-            margin-top: 5px;
-        }
-        .scrollit {
-            overflow:auto;
-            overflow-x: hidden;
-            height:700px;
-            margin-top: 10px;
-        }
-        #searchBar{
-            background-image: url('https://img.icons8.com/color/search'); /* Add a search icon to input */
-            background-size: 30px 30px;
-            background-position: 1px 2px; /* Position the search icon */
-            height: 40px;
-            padding: 12px 20px 12px 40px;
-            background-repeat: no-repeat; /* Do not repeat the icon image */
-            font-size: 16px; /* Increase font-size */
-            border: 1px solid #ddd; /* Add a grey border */
-        }
-        .topnav{
-            list-style: none;
-            overflow: hidden;
-            float: right;
-        }
-
-    </style>
+    <link href="style.css" rel="stylesheet">
 </head>
+
+<body>
+<!--main form-->
+<div class="detail" method="post" id="mainView">
+
+    <!--Container-->
+    <div class="container">
+        <div class="page-header">
+            <h1>Moodle Users</h1>
+        </div>
+        <!--logout button-->
+        <form class="logOut" method="post">
+            <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
+        </form>
+    <!-- PHP code for read records here-->
+        <?php
+        include 'readRecords.php';
+        ?>
+    </div>
+
+
+</div>
+
+
+<div class="form-popup" id="deleteForm" method="post">
+    <div class="form-container">
+        <ul class="buttonGroup">
+        <li><b>Are you sure you want to delete this user?</b></li>
+        <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
+        <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
+        </ul>
+    </div>
+</div>
+
+<div class="create_pop" id="create">
+    <div class="create-container">
+        <h2>Create User</h2>
+        <div class="ulDiv">
+            <ul class="createList">
+                <li><input type="text" id="cNum" placeholder="Student Number"></li>
+                <li><input type="text" id="cName" placeholder="Name"></li>
+                <li><input type="text" id="sName" placeholder="Surname"></li>
+                <li><input type="text" id="sub" placeholder="Subject"></li>
+                <li><input type="text" id="slot" placeholder="Slot"></li>
+                <li>Expiry Date:</li>
+                <li><div class='input-group date' id='datetimepicker1'>
+                        <input type='text' id="time" class="form-control" placeholder="Expiry Date" />
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div></li>
+                <div class="createButtons"><li><button type="submit" class='btn btn-danger' onclick="createUser()">Create New User</button></li>
+                <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+</body>
 
 <!--javascript code -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!---->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
 <script>
     //hide records that dont have class value
@@ -146,8 +148,7 @@ if (isset($_POST["Logout"])) {
         var delForm = document.getElementById("deleteForm");
         delForm.style.display="block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter="blur(4px)grayscale(30%)";
-        document.getElementById("exitButton").style.webkitFilter="blur(4px)grayscale(30%)";
+        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
         deleteStudentNumber = studentNumber[0];
         delSub = studentNumber[1];
     }
@@ -162,9 +163,13 @@ if (isset($_POST["Logout"])) {
     function closeForm(){
         document.getElementById("deleteForm").style.display="none";
         document.getElementById("mainView").style.webkitFilter="";
-        document.getElementById("exitButton").style.webkitFilter="";
     }
-    
+
+    function closeCreate(){
+        document.getElementById("create").style.display="none";
+        document.getElementById("mainView").style.webkitFilter="";
+    }
+
     function findUser() {
         var element = document.getElementById("searchBar").value.toUpperCase();
         var table = document.getElementById("tableData");
@@ -185,44 +190,41 @@ if (isset($_POST["Logout"])) {
         }
     }
 
+    function showCreate() {
+        var createForm = document.getElementById("create");
+        createForm.style.display="block";
+        //hide table and make it un-editable
+        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("cNum").focus();
+    }
+
+    function createUser() {
+        var student = 'studentNo=' + document.getElementById("cNum").value + '&';
+        var name = 'name=' + document.getElementById("cName").value + '&';
+        var sur = 'surname=' + document.getElementById("sName").value + '&';
+        var sub = 'subject=' + document.getElementById("sub").value + '&';
+        var slot = 'slot=' + document.getElementById("slot").value + '&';
+        var time = 'time=' + document.getElementById("time").value;
+
+        //send to php create script
+        var statement = 'createUser.php?'+student+name+sur+sub+slot+time;
+        window.location.href = statement;
+    }
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            defaultDate: new Date(),
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true
+        });
+    });
+
+    setTimeout(function() {
+        $('#message').fadeOut('fast');
+    }, 5000); // <-- time in milliseconds
+
 
 </script>
 
-<body>
-<!--main form-->
-<div class="detail" method="post" id="mainView">
-
-    <!--Container-->
-    <div class="container">
-        <div class="page-header">
-            <h1>Moodle Users</h1>
-        </div>
-        <!--logout button-->
-        <form class="logOut" method="post">
-            <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
-        </form>
-    <!-- PHP code for read records here-->
-        <?php
-        include 'readRecords.php';
-        ?>
-    </div>
-
-    <!--confirm delete record here-->
-
-</div>
-
-
-<div class="form-popup" id="deleteForm" method="post">
-    <div class="form-container">
-        <ul class="buttonGroup">
-        <li><b>Are you sure you want to delete this user?</b></li>
-        <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
-        <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
-        </ul>
-    </div>
-</div>
-
-
-</body>
 
 </html>
