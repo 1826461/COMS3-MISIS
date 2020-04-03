@@ -17,7 +17,7 @@ if ($action == 'created') {
 }
 
 echo "Filter by course code: ";
-echo "<select id='ClassList' class='list' name='ClassList' onChange='changeClasses()'>";
+echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
 $querySubjects = "SELECT DISTINCT subject FROM enrollments";
 $stmt = $dbh->prepare($querySubjects); //issue
@@ -30,10 +30,10 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 echo "</select>";
 //end of select
 //search for user
-echo  "<ul class='topnav'>
-       <li><input id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'></li>
-       <li><button class='btn' onclick='showCreate()'>Create New User</button></li>
-       </ul>";
+echo  "<div class='topnav'>
+       <input class='form-control' id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
+       <div class='createHold'><button class='btn btn-success' onclick='showCreate()'>Create New User</button></div>
+       </div>";
 
 //add create button
 //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";

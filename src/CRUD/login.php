@@ -6,9 +6,14 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
     <title>Login Page</title>
 </head>
-
 <body>
 
 <style>
@@ -25,7 +30,7 @@ session_start();
     }
 
     .form-container{
-        width: 250px;
+        width: 420px;
         height: auto;
         padding: 30px 100px;
         background-color: white ;
@@ -35,7 +40,7 @@ session_start();
     }
 
     p{
-        padding-top: 2px;
+        padding-top: 10px;
     }
 
     ul.list{
@@ -54,6 +59,10 @@ session_start();
     }
     p{
         color: red;
+    }
+
+    .form-control{
+        width: 200px;
     }
 </style>
 
@@ -102,15 +111,17 @@ session_start();
 
     }
     ?>
+
     <div class="form-container">
         <ul class="list">
             <li id="user">User Login</li>
-            <li><input type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error">* <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
-            <li><input type="password" name="Password" placeholder="Password" ><span class="error">* <?php echo"<p> $passwordErr</p>";?></span></li>
-            <li><input type="submit" name="Login" value="Login"></li>
+            <li><input class="form-control"type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error"> <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
+            <li><input class="form-control"type="password" name="Password" placeholder="Password" ><span class="error"><?php echo"<p> $passwordErr</p>";?></span></li>
+            <li><input class="btn" type="submit" name="Login" value="Login"></li>
         </ul>
     </div>
 </form>
 </body>
+
 
 </html>

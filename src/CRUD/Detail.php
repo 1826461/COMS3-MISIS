@@ -50,7 +50,7 @@ if (isset($_POST["Logout"])) {
         </div>
         <!--logout button-->
         <form class="logOut" method="post">
-            <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
+            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
         </form>
     <!-- PHP code for read records here-->
         <?php
@@ -77,11 +77,18 @@ if (isset($_POST["Logout"])) {
         <h2>Create User</h2>
         <div class="ulDiv">
             <ul class="createList">
-                <li><input type="text" id="cNum" placeholder="Student Number"></li>
-                <li><input type="text" id="cName" placeholder="Name"></li>
-                <li><input type="text" id="sName" placeholder="Surname"></li>
-                <li><input type="text" id="sub" placeholder="Subject"></li>
-                <li><input type="text" id="slot" placeholder="Slot"></li>
+                <li><input type="text" id="cNum" placeholder="Student Number"class="form-control"></li>
+                <li><input type="text" id="cName" placeholder="Name"class="form-control"></li>
+                <li><input type="text" id="sName" placeholder="Surname"class="form-control"></li>
+                <li><input type="text" id="sub" placeholder="Subject"class="form-control"></li>
+                <li>Select a slot</li>
+                <li><select class="selectpicker" type="text" id="slot">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select></li>
                 <li>Expiry Date:</li>
                 <li><div class='input-group date' id='datetimepicker1'>
                         <input type='text' id="time" class="form-control" placeholder="Expiry Date" />
@@ -89,7 +96,7 @@ if (isset($_POST["Logout"])) {
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div></li>
-                <div class="createButtons"><li><button type="submit" class='btn btn-danger' onclick="createUser()">Create New User</button></li>
+                <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
                 <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
             </ul>
         </div>
@@ -104,13 +111,15 @@ if (isset($_POST["Logout"])) {
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 <!---->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 <script>
     //hide records that dont have class value
@@ -198,17 +207,36 @@ if (isset($_POST["Logout"])) {
         document.getElementById("cNum").focus();
     }
 
-    function createUser() {
-        var student = 'studentNo=' + document.getElementById("cNum").value + '&';
-        var name = 'name=' + document.getElementById("cName").value + '&';
-        var sur = 'surname=' + document.getElementById("sName").value + '&';
-        var sub = 'subject=' + document.getElementById("sub").value + '&';
-        var slot = 'slot=' + document.getElementById("slot").value + '&';
-        var time = 'time=' + document.getElementById("time").value;
+    function isBlank(){
+        var student = document.getElementById("cNum").value;
+        var name = document.getElementById("cName").value;
+        var sur =  document.getElementById("sName").value;
+        var sub = document.getElementById("sub").value ;
 
-        //send to php create script
-        var statement = 'createUser.php?'+student+name+sur+sub+slot+time;
-        window.location.href = statement;
+
+        if(student==""){document.getElementById("cNum").focus(); return [true,"Please insert a student number."];}
+        if(name==""){document.getElementById("cName").focus(); return[true,"Please insert a name."];}
+        if(sur==""){document.getElementById("sName").focus(); return[true,"Please insert a surname."];}
+        if(sub==""){document.getElementById("sub").focus(); return[true,"Please insert a subject code."];}
+
+        return [false,"none"];
+    }
+    function createUser() {
+        if (isBlank()[0]){
+            var msg = isBlank()[1];
+            alert(msg);
+        }else{
+            var student = 'studentNo=' + document.getElementById("cNum").value + '&';
+            var name = 'name=' + document.getElementById("cName").value + '&';
+            var sur = 'surname=' + document.getElementById("sName").value + '&';
+            var sub = 'subject=' + document.getElementById("sub").value + '&';
+            var slot = 'slot=' + document.getElementById("slot").value + '&';
+            var time = 'time=' + document.getElementById("time").value;
+
+            //send to php create script
+            var statement = 'createUser.php?'+student+name+sur+sub+slot+time;
+            window.location.href = statement;
+        }
     }
 
     $(function () {

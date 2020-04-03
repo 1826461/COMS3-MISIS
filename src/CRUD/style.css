@@ -3,7 +3,7 @@
 .m-b-1em{ margin-bottom:1em; }
 .m-l-1em{ margin-left:1em; }
 .mt0{ margin-top:0; }
-.list{ padding: 5px;width: 150px; margin-bottom: 10px;}
+.selectpicker list{ padding: 2px;width: 150px; margin-bottom: 10px;}
 body{
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
@@ -12,8 +12,11 @@ body{
 }
 .logOut{
     position: absolute;
-    right: 16%;
+    right: 14%;
     top: 50px;
+}
+#exitButton{
+    width: 100px;
 }
 .form-popup{
     display: none;
@@ -44,7 +47,7 @@ ul.buttonGroup li{
     overflow:auto;
     overflow-x: hidden;
     height:700px;
-    margin-top: 55px;
+    margin-top: 70px;
 }
 #searchBar{
     background-image: url('https://img.icons8.com/color/search'); /* Add a search icon to input */
@@ -56,29 +59,30 @@ ul.buttonGroup li{
     font-size: 16px; /* Increase font-size */
     border: 1px solid #ddd; /* Add a grey border */
 }
-ul.topnav{
+.topnav{
     display:inline-block;
     list-style: none;
     overflow: hidden;
     float: right;
 }
-ul.topnav li{
-    padding: 3px;
-
+.createHold{
+    padding-top: 15px;
+    padding-left: 150px;
 }
 .create_pop{
     display: none;
-    width: 500px;
+    width: 650px;
+    height:550px;
     border: 3px solid #f1f1f1;
     position: fixed;
-    left: 35%;
-    top: 20%;
+    left: 30%;
+    top: 10%;
+    background-color: white;
 }
 .create-container{
-    margin: auto;
-    padding:20px;
-    height:500px;
-    background-color: white;
+    position: center;
+    padding-left: 5px;
+
 }
 ul.createList{
     list-style-type: none;
@@ -92,4 +96,10 @@ ul.createList li{
 }
 .ulDiv{
     padding-top: 20px;
+}
+.form-control{
+    width: 300px;
+}
+.input-group{
+    width: 300px;
 }
