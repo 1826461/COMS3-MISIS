@@ -74,7 +74,7 @@ if (isset($_POST["Logout"])) {
 
 <div class="create_pop" id="create">
     <div class="create-container">
-        <h2>Create User</h2>
+        <h2>Create a new user:</h2>
         <div class="ulDiv">
             <ul class="createList">
                 <li><input type="text" id="cNum" placeholder="Student Number"class="form-control"></li>
