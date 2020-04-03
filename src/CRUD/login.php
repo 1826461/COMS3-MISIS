@@ -1,8 +1,3 @@
-<?php
-//start session
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +47,6 @@ session_start();
         padding: 10px;
     }
     ul.list li input[type="submit"]{
-        background-color: #4690fb;
         width: 150px;
         height: 30px;
         color: black;
@@ -77,6 +71,7 @@ session_start();
     if(isset($_POST["Login"])) {
         $username = $_POST["UserName"];
         $password = $_POST["Password"];
+
         if (!(empty($_POST["UserName"])&&empty($_POST["Password"]))){
             $data = "SELECT * FROM users WHERE userID = ? LIMIT 0,1";
             $stmt = $dbh->prepare($data);
@@ -94,6 +89,7 @@ session_start();
             }else{
                 $userPassword = $row['password'];
                 if (password_verify($password,$userPassword)){
+                    session_start();
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $username;
                     if($row['role']==admin){
@@ -117,7 +113,7 @@ session_start();
             <li id="user">User Login</li>
             <li><input class="form-control"type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error"> <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
             <li><input class="form-control"type="password" name="Password" placeholder="Password" ><span class="error"><?php echo"<p> $passwordErr</p>";?></span></li>
-            <li><input class="btn" type="submit" name="Login" value="Login"></li>
+            <li><input class="btn btn-success" type="submit" name="Login" value="Login"></li>
         </ul>
     </div>
 </form>
