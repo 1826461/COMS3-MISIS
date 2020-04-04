@@ -29,6 +29,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 }
 echo "</select>";
 //end of select
+
 //search for user
 echo  "<div class='topnav'>
        <input class='form-control' id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>

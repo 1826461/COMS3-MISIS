@@ -42,7 +42,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
                 $slot = $row['classSection'];
                 $expiry = $row['expiryDate'];
                 $unit .= ",".$row['unitCode'];
-
+                $enrolled = $row['status'];
             }
             $subjects = substr($subjects,1);
             $unit = substr($unit,1);
@@ -91,6 +91,10 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <tr>
                 <td>Expiry Date</td>
                 <td><?php echo htmlspecialchars($expiry, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td><?php echo htmlspecialchars($enrolled, ENT_QUOTES);  ?></td>
             </tr>
 
             <tr>

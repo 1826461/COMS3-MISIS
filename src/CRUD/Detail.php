@@ -82,13 +82,13 @@ if (isset($_POST["Logout"])) {
                 <li><input type="text" id="sName" placeholder="Surname"class="form-control"></li>
                 <li><input type="text" id="sub" placeholder="Subject"class="form-control"></li>
                 <li><input type="text" id="cod" placeholder="Unit Code"class="form-control"></li>
-                <li>Select a session</li>
+                <li>Select a session:</li>
                 <li><select class="selectpicker" type="text" id="session">
                         <option value="SM1">SM1</option>
                         <option value="SM2">SM2</option>
                         <option value="FYR">FYR</option>
                     </select></li>
-                <li>Select a slot</li>
+                <li>Select a slot:</li>
                 <li><select class="selectpicker" type="text" id="slot">
                         <option value="A">A</option>
                         <option value="B">B</option>
@@ -221,6 +221,10 @@ if (isset($_POST["Logout"])) {
         var sub = document.getElementById("sub").value ;
         var cod = document.getElementById("cod").value ;
 
+        if(isNaN(student)){
+            document.getElementById("cNum").focus();
+            return [true,"Please insert a valid student number."];
+        }
 
         if(student==""){document.getElementById("cNum").focus(); return [true,"Please insert a student number."];}
         if(name==""){document.getElementById("cName").focus(); return[true,"Please insert a name."];}

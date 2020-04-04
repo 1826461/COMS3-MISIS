@@ -103,3 +103,6 @@ ul.createList li{
 .input-group{
     width: 300px;
 }
+.selectList{
+    list-style: none;
+}
