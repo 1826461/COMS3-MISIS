@@ -87,9 +87,13 @@ if ($numRows>0){
         echo "<td>";
         // read one record for this user
         echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
+        //edit user
+        echo "<a class='btn btn-warning'>Edit</a>";
+        //href='editUser.php?studentNo={$row['studentNo']}'
 
         // link for deleting this user
-        echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger'>Delete</a>";
+        echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger  m-l-1em'>Delete</a>";
+
         echo "</td>";
         echo "</tr>";
     }
