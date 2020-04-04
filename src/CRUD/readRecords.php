@@ -86,7 +86,7 @@ if ($numRows>0){
         //add more columns for td
         echo "<td>";
         // read one record for this user
-        echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>Read</a>";
+        echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>View</a>";
         //edit user
         echo "<a class='btn btn-warning'>Edit</a>";
         //href='editUser.php?studentNo={$row['studentNo']}'
