@@ -72,7 +72,7 @@ ul.buttonGroup li{
 .create_pop{
     display: none;
     width: 550px;
-    height:650px;
+    height:auto;
     border: 3px solid #f1f1f1;
     position: fixed;
     left: 30%;

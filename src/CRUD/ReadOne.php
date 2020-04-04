@@ -98,7 +98,6 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <tr>
                 <td></td>
                 <td>
-                    <a href='' class='btn btn-warning'>Edit User</a>
                     <a href='Detail.php' class='btn btn-danger'>Back to Moodle users</a>
                 </td>
             </tr>
