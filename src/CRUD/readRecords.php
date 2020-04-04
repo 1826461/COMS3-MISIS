@@ -16,15 +16,15 @@ if ($action == 'created') {
     echo "<div class='alert alert-success' id='message'>User record was created.</div>";
 }
 
-echo "Filter by course code: ";
+echo "Filter by unit code: ";
 echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
-$querySubjects = "SELECT DISTINCT subject FROM enrollments";
+$querySubjects = "SELECT DISTINCT unitCode FROM enrollments";
 $stmt = $dbh->prepare($querySubjects); //issue
 $stmt ->execute();
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     extract($row);
-    $item = $row['subject'];
+    $item = $row['unitCode'];
     echo"<option name='$item' value=$item>'$item'</option>";
 }
 echo "</select>";
@@ -57,6 +57,8 @@ if ($numRows>0){
     echo "<th>Name</th>";
     echo "<th>Surname</th>";
     echo "<th>Subject</th>";
+    echo "<th>Unit Code</th>";
+    echo "<th>Session</th>";
     echo "<th>Expiry Date</th>";
     echo "</tr>";
 
@@ -70,6 +72,8 @@ if ($numRows>0){
         echo "<td>{$row['name']}</td>";
         echo "<td>{$row['surname']}</td>";
         echo "<td>{$row['subject']}</td>";
+        echo "<td>{$row['unitCode']}</td>";
+        echo "<td>{$row['session']}</td>";
         echo "<td>{$row['expiryDate']}</td>";
 
         $user = $row['studentNo'];

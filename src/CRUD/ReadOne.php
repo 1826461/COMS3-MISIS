@@ -33,12 +33,19 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             $name ="";
             $surname="";
             $subjects ="";
+            $unit = "";
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $name = $row['name'];
                 $surname = $row['surname'];
                 $subjects .=",".$row['subject'];
+                $session = $row['session'];
+                $slot = $row['classSection'];
+                $expiry = $row['expiryDate'];
+                $unit .= ",".$row['unitCode'];
+
             }
             $subjects = substr($subjects,1);
+            $unit = substr($unit,1);
             // store retrieved row to a variable
             // values to fill up our form
             //add for for other fields
@@ -68,6 +75,22 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <tr>
                 <td>Subjects</td>
                 <td><?php echo htmlspecialchars($subjects, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Unit Code</td>
+                <td><?php echo htmlspecialchars($unit, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Session</td>
+                <td><?php echo htmlspecialchars($session, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Slot</td>
+                <td><?php echo htmlspecialchars($slot, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Expiry Date</td>
+                <td><?php echo htmlspecialchars($expiry, ENT_QUOTES);  ?></td>
             </tr>
 
             <tr>

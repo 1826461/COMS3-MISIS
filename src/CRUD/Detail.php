@@ -81,6 +81,13 @@ if (isset($_POST["Logout"])) {
                 <li><input type="text" id="cName" placeholder="Name"class="form-control"></li>
                 <li><input type="text" id="sName" placeholder="Surname"class="form-control"></li>
                 <li><input type="text" id="sub" placeholder="Subject"class="form-control"></li>
+                <li><input type="text" id="cod" placeholder="Unit Code"class="form-control"></li>
+                <li>Select a session</li>
+                <li><select class="selectpicker" type="text" id="session">
+                        <option value="SM1">SM1</option>
+                        <option value="SM2">SM2</option>
+                        <option value="FYR">FYR</option>
+                    </select></li>
                 <li>Select a slot</li>
                 <li><select class="selectpicker" type="text" id="slot">
                         <option value="A">A</option>
@@ -136,7 +143,7 @@ if (isset($_POST["Logout"])) {
             }
         }else{
             for (var i =0;i<tr.length;i++){
-                var td = tr[i].getElementsByTagName("td")[3]; //gets subject
+                var td = tr[i].getElementsByTagName("td")[4]; //gets unit code
                 if (td){
                     var txtVal = td.textContent||td.innerText;
                     // window.alert(txtVal);
@@ -212,12 +219,14 @@ if (isset($_POST["Logout"])) {
         var name = document.getElementById("cName").value;
         var sur =  document.getElementById("sName").value;
         var sub = document.getElementById("sub").value ;
+        var cod = document.getElementById("cod").value ;
 
 
         if(student==""){document.getElementById("cNum").focus(); return [true,"Please insert a student number."];}
         if(name==""){document.getElementById("cName").focus(); return[true,"Please insert a name."];}
         if(sur==""){document.getElementById("sName").focus(); return[true,"Please insert a surname."];}
-        if(sub==""){document.getElementById("sub").focus(); return[true,"Please insert a subject code."];}
+        if(sub==""){document.getElementById("sub").focus(); return[true,"Please insert a subject."];}
+        if(cod==""){document.getElementById("cod").focus(); return[true,"Please insert a unit code."];}
 
         return [false,"none"];
     }
@@ -230,11 +239,13 @@ if (isset($_POST["Logout"])) {
             var name = 'name=' + document.getElementById("cName").value + '&';
             var sur = 'surname=' + document.getElementById("sName").value + '&';
             var sub = 'subject=' + document.getElementById("sub").value + '&';
+            var cod = 'code=' + document.getElementById("cod").value + '&';
+            var session = 'session=' + document.getElementById("session").value + '&';
             var slot = 'slot=' + document.getElementById("slot").value + '&';
             var time = 'time=' + document.getElementById("time").value;
 
             //send to php create script
-            var statement = 'createUser.php?'+student+name+sur+sub+slot+time;
+            var statement = 'createUser.php?'+student+name+sur+sub+cod+session+slot+time;
             window.location.href = statement;
         }
     }
