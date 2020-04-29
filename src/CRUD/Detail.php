@@ -36,79 +36,97 @@ if (isset($_POST["Logout"])) {
     <title>Manage Database</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- custom css -->
-    <style>
-        .m-r-1em{ margin-right:1em; }
-        .m-r-2em{background-color: blue}
-        .m-b-1em{ margin-bottom:1em; }
-        .m-l-1em{ margin-left:1em; }
-        .mt0{ margin-top:0; }
-        .list{ padding: 5px;width: 150px; margin-bottom: 10px;}
-        body{
-            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-        }
-        #tableData{
-            background-color: white;
-        }
-        .logOut{
-            position: absolute;
-            right: 16%;
-            top: 50px;
-        }
-        .form-popup{
-            display: none;
-            width: 350px;
-            border: 3px solid #f1f1f1;
-            position: fixed;
-            left: 40%;
-            top: 30%;
-        }
-        .form-container{
-            margin: auto;
-            padding:20px;
-            height:200px;
-            background-color: white;
-        }
-        ul.buttonGroup{
-            list-style: none;
-            text-align: center;
-        }
-        ul.buttonGroup li{
-            width: 250px;
-            padding: 5px;
-        }
-        #ClassList{
-            margin-top: 5px;
-        }
-        .scrollit {
-            overflow:auto;
-            overflow-x: hidden;
-            height:700px;
-            margin-top: 10px;
-        }
-        #searchBar{
-            background-image: url('https://img.icons8.com/color/search'); /* Add a search icon to input */
-            background-size: 30px 30px;
-            background-position: 1px 2px; /* Position the search icon */
-            height: 40px;
-            padding: 12px 20px 12px 40px;
-            background-repeat: no-repeat; /* Do not repeat the icon image */
-            font-size: 16px; /* Increase font-size */
-            border: 1px solid #ddd; /* Add a grey border */
-        }
-        .topnav{
-            list-style: none;
-            overflow: hidden;
-            float: right;
-        }
-
-    </style>
+    <link href="style.css" rel="stylesheet">
 </head>
+
+<body>
+<!--main form-->
+<div class="detail" method="post" id="mainView">
+
+    <!--Container-->
+    <div class="container">
+        <div class="page-header">
+            <h1>Moodle Users</h1>
+        </div>
+        <!--logout button-->
+        <form class="logOut" method="post">
+            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
+        </form>
+    <!-- PHP code for read records here-->
+        <?php
+        include 'readRecords.php';
+        ?>
+    </div>
+
+
+</div>
+
+
+<div class="form-popup" id="deleteForm" method="post">
+    <div class="form-container">
+        <ul class="buttonGroup">
+        <li><b>Are you sure you want to delete this user?</b></li>
+        <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
+        <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
+        </ul>
+    </div>
+</div>
+
+<div class="create_pop" id="create">
+    <div class="create-container">
+        <h2>Create a new user:</h2>
+        <div class="ulDiv">
+            <ul class="createList">
+                <li><input type="text" id="cNum" placeholder="Student Number"class="form-control"></li>
+                <li><input type="text" id="cName" placeholder="Name"class="form-control"></li>
+                <li><input type="text" id="sName" placeholder="Surname"class="form-control"></li>
+                <li><input type="text" id="sub" placeholder="Subject"class="form-control"></li>
+                <li><input type="text" id="cod" placeholder="Unit Code"class="form-control"></li>
+                <li>Select a session:</li>
+                <li><select class="selectpicker" type="text" id="session">
+                        <option value="SM1">SM1</option>
+                        <option value="SM2">SM2</option>
+                        <option value="FYR">FYR</option>
+                    </select></li>
+                <li>Select a slot:</li>
+                <li><select class="selectpicker" type="text" id="slot">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                    </select></li>
+                <li>Expiry Date:</li>
+                <li><div class='input-group date' id='datetimepicker1'>
+                        <input type='text' id="time" class="form-control" placeholder="Expiry Date" />
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div></li>
+                <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
+                <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+</body>
 
 <!--javascript code -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+<!---->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 <script>
     //hide records that dont have class value
@@ -125,7 +143,7 @@ if (isset($_POST["Logout"])) {
             }
         }else{
             for (var i =0;i<tr.length;i++){
-                var td = tr[i].getElementsByTagName("td")[3]; //gets subject
+                var td = tr[i].getElementsByTagName("td")[4]; //gets unit code
                 if (td){
                     var txtVal = td.textContent||td.innerText;
                     // window.alert(txtVal);
@@ -146,8 +164,7 @@ if (isset($_POST["Logout"])) {
         var delForm = document.getElementById("deleteForm");
         delForm.style.display="block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter="blur(4px)grayscale(30%)";
-        document.getElementById("exitButton").style.webkitFilter="blur(4px)grayscale(30%)";
+        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
         deleteStudentNumber = studentNumber[0];
         delSub = studentNumber[1];
     }
@@ -162,9 +179,13 @@ if (isset($_POST["Logout"])) {
     function closeForm(){
         document.getElementById("deleteForm").style.display="none";
         document.getElementById("mainView").style.webkitFilter="";
-        document.getElementById("exitButton").style.webkitFilter="";
     }
-    
+
+    function closeCreate(){
+        document.getElementById("create").style.display="none";
+        document.getElementById("mainView").style.webkitFilter="";
+    }
+
     function findUser() {
         var element = document.getElementById("searchBar").value.toUpperCase();
         var table = document.getElementById("tableData");
@@ -185,44 +206,68 @@ if (isset($_POST["Logout"])) {
         }
     }
 
+    function showCreate() {
+        var createForm = document.getElementById("create");
+        createForm.style.display="block";
+        //hide table and make it un-editable
+        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("cNum").focus();
+    }
+
+    function isBlank(){
+        var student = document.getElementById("cNum").value;
+        var name = document.getElementById("cName").value;
+        var sur =  document.getElementById("sName").value;
+        var sub = document.getElementById("sub").value ;
+        var cod = document.getElementById("cod").value ;
+
+        if(isNaN(student)){
+            document.getElementById("cNum").focus();
+            return [true,"Please insert a valid student number."];
+        }
+
+        if(student==""){document.getElementById("cNum").focus(); return [true,"Please insert a student number."];}
+        if(name==""){document.getElementById("cName").focus(); return[true,"Please insert a name."];}
+        if(sur==""){document.getElementById("sName").focus(); return[true,"Please insert a surname."];}
+        if(sub==""){document.getElementById("sub").focus(); return[true,"Please insert a subject."];}
+        if(cod==""){document.getElementById("cod").focus(); return[true,"Please insert a unit code."];}
+
+        return [false,"none"];
+    }
+    function createUser() {
+        if (isBlank()[0]){
+            var msg = isBlank()[1];
+            alert(msg);
+        }else{
+            var student = 'studentNo=' + document.getElementById("cNum").value + '&';
+            var name = 'name=' + document.getElementById("cName").value + '&';
+            var sur = 'surname=' + document.getElementById("sName").value + '&';
+            var sub = 'subject=' + document.getElementById("sub").value + '&';
+            var cod = 'code=' + document.getElementById("cod").value + '&';
+            var session = 'session=' + document.getElementById("session").value + '&';
+            var slot = 'slot=' + document.getElementById("slot").value + '&';
+            var time = 'time=' + document.getElementById("time").value;
+
+            //send to php create script
+            var statement = 'createUser.php?'+student+name+sur+sub+cod+session+slot+time;
+            window.location.href = statement;
+        }
+    }
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+            defaultDate: new Date(),
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true
+        });
+    });
+
+    setTimeout(function() {
+        $('#message').fadeOut('fast');
+    }, 5000); // <-- time in milliseconds
+
 
 </script>
 
-<body>
-<!--main form-->
-<div class="detail" method="post" id="mainView">
-
-    <!--Container-->
-    <div class="container">
-        <div class="page-header">
-            <h1>Moodle Users</h1>
-        </div>
-        <!--logout button-->
-        <form class="logOut" method="post">
-            <input type="submit" class="btn" name="Logout" id="exitButton" value="Logout">
-        </form>
-    <!-- PHP code for read records here-->
-        <?php
-        include 'readRecords.php';
-        ?>
-    </div>
-
-    <!--confirm delete record here-->
-
-</div>
-
-
-<div class="form-popup" id="deleteForm" method="post">
-    <div class="form-container">
-        <ul class="buttonGroup">
-        <li><b>Are you sure you want to delete this user?</b></li>
-        <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
-        <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
-        </ul>
-    </div>
-</div>
-
-
-</body>
 
 </html>

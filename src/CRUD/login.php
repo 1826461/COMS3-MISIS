@@ -1,14 +1,14 @@
-<?php
-//start session
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
     <title>Login Page</title>
 </head>
-
 <body>
 
 <style>
@@ -25,7 +25,7 @@ session_start();
     }
 
     .form-container{
-        width: 250px;
+        width: 420px;
         height: auto;
         padding: 30px 100px;
         background-color: white ;
@@ -35,7 +35,7 @@ session_start();
     }
 
     p{
-        padding-top: 2px;
+        padding-top: 10px;
     }
 
     ul.list{
@@ -47,13 +47,16 @@ session_start();
         padding: 10px;
     }
     ul.list li input[type="submit"]{
-        background-color: #4690fb;
         width: 150px;
         height: 30px;
         color: black;
     }
     p{
         color: red;
+    }
+
+    .form-control{
+        width: 200px;
     }
 </style>
 
@@ -68,6 +71,7 @@ session_start();
     if(isset($_POST["Login"])) {
         $username = $_POST["UserName"];
         $password = $_POST["Password"];
+
         if (!(empty($_POST["UserName"])&&empty($_POST["Password"]))){
             $data = "SELECT * FROM users WHERE userID = ? LIMIT 0,1";
             $stmt = $dbh->prepare($data);
@@ -85,6 +89,7 @@ session_start();
             }else{
                 $userPassword = $row['password'];
                 if (password_verify($password,$userPassword)){
+                    session_start();
                     $_SESSION['loggedin'] = true;
                     $_SESSION['username'] = $username;
                     if($row['role']==admin){
@@ -102,15 +107,17 @@ session_start();
 
     }
     ?>
+
     <div class="form-container">
         <ul class="list">
             <li id="user">User Login</li>
-            <li><input type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error">* <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
-            <li><input type="password" name="Password" placeholder="Password" ><span class="error">* <?php echo"<p> $passwordErr</p>";?></span></li>
-            <li><input type="submit" name="Login" value="Login"></li>
+            <li><input class="form-control"type="text" name="UserName" placeholder="User Name" id="UserName" ><span class="error"> <?php echo"<p>$usernameErr</p>"; echo "<script>document.getElementById(\"UserName\").focus();</script>";?></span></li>
+            <li><input class="form-control"type="password" name="Password" placeholder="Password" ><span class="error"><?php echo"<p> $passwordErr</p>";?></span></li>
+            <li><input class="btn btn-success" type="submit" name="Login" value="Login"></li>
         </ul>
     </div>
 </form>
 </body>
+
 
 </html>
