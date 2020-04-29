@@ -88,11 +88,14 @@ if ($numRows>0){
         // read one record for this user
         echo "<a href='ReadOne.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>View</a>";
         //edit user
-        echo "<a class='btn btn-warning'>Edit</a>";
-        //href='editUser.php?studentNo={$row['studentNo']}'
+        if ($_SESSION['admin']==1) {
+            //TODO implement button functionality
+            //echo "<a class='btn btn-warning'>Edit</a>";
+            //href='editUser.php?studentNo={$row['studentNo']}'
 
-        // link for deleting this user
-        echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger  m-l-1em'>Delete</a>";
+            // link for deleting this user
+            echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger  m-l-1em'>Delete</a>";
+        }
 
         echo "</td>";
         echo "</tr>";
