@@ -18,6 +18,10 @@ if ($action == 'created') {
     echo "<div class='alert alert-success' id='message'>User record was created.</div>";
 }
 
+if ($action == 'edited') {
+    echo "<div class='alert alert-success' id='message'>User record was edited.</div>";
+}
+
 
 //filter displayed enrollments using drop down list of unit codes:
 echo "Filter by unit code: ";
@@ -33,8 +37,5 @@ echo  "<div class='topnav'>
        <input class='form-control' id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
        <div class='createHold'><button class='btn btn-success' onclick='showCreate()'>Create New User</button></div>
        </div>";
-
-//add create button
-//echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
 
 $enrollment->showAllEnrollments();

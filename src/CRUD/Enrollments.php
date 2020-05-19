@@ -68,7 +68,6 @@ class Enrollments
         }catch (PDOException $exception){
             die('Error: ' .$exception->getMessage());
         }
-
     }
 
     public function getEnrollments()
@@ -126,12 +125,10 @@ class Enrollments
             echo "<td>";
             // read one record for this user
             echo "<a href='viewOneEnrollment.php?studentNo={$row['studentNo']}' class='btn btn-info m-r-1em'>View</a>";
-            //edit user
-            if ($_SESSION['admin']==1) {
-                //TODO implement button functionality
-                //echo "<a class='btn btn-warning'>Edit</a>";
-                //href='editUser.php?studentNo={$row['studentNo']}'
 
+            if ($_SESSION['admin']==1) {
+                //edit user
+                echo "<a class='btn btn-warning' href='editEnrollment.php?studentNo={$row['studentNo']}&unitCode={$row['unitCode']}'>Edit</a>";
                 // link for deleting this user
                 echo "<a onclick='showDelete({$sendVar});' class='btn btn-danger  m-l-1em'>Delete</a>";
             }
@@ -215,6 +212,51 @@ class Enrollments
             }
 
         }catch (PDOException $exception){
+            die('ERROR: ' . $exception->getMessage());
+        }
+    }
+
+    function getEditDetails($studentNo, $code){
+        include 'database.php';
+        try {
+            $data = "SELECT * FROM enrollments WHERE studentNo = ? AND unitCode = ?";
+            $stmt = $dbh->prepare($data);
+            $stmt->bindParam(1, $studentNo);
+            $stmt->bindParam(2, $code);
+            $stmt->execute();
+            //$this->results = $stmt->fetchAll();
+            $arr = array();
+            $arr = $stmt->fetchAll();
+            return $arr;
+        }catch (PDOException $exception) {
+            die('ERROR: ' . $exception->getMessage());
+        }
+    }
+
+    function updateEnrollment($name,$surname,$slot,$time,$enrolled,$studentNo,$code){
+        include 'database.php';
+        try {
+            $data = "UPDATE enrollments SET name =:nam,surname=:surname, classSection = :sec,expiryDate=:tim,status=:en WHERE (studentNo=:num AND unitCode=:code)";
+            $stmt = $dbh->prepare($data);
+            $stmt->bindParam(":nam", $name);
+            $stmt->bindParam(":surname", $surname);
+            $stmt->bindParam(":sec", $slot);
+            $stmt->bindParam(":tim", $time);
+            $stmt->bindParam(":en", $enrolled);
+            $stmt->bindParam(":num", $studentNo);
+            $stmt->bindParam(":code", $code);
+
+            if ($_SESSION['admin'] == 1) {
+                if ($stmt->execute()) {
+                    header('Location: enrollmentsDetails.php?action=edited');
+                } else {
+                    die('Unable to edit record.');
+                }
+            } else {
+                header('Location: enrollmentsDetails.php?action=deny');
+            }
+
+        }catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
     }
