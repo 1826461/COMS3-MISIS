@@ -16,6 +16,11 @@ if ($action == 'created') {
     echo "<div class='alert alert-success' id='message'>User record was created.</div>";
 }
 
+
+if ($action == 'edited') {
+    echo "<div class='alert alert-success' id='message'>User record was edited.</div>";
+}
+
 echo "Filter by unit code: ";
 echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
 echo"<option selected='selected' name='All'>All</option>";
@@ -59,6 +64,7 @@ if ($numRows>0){
     echo "<th>Surname</th>";
     echo "<th>Subject</th>";
     echo "<th>Unit Code</th>";
+    echo "<th>Slot</th>";
     echo "<th>Session</th>";
     echo "<th>Expiry Date</th>";
     echo "</tr>";
@@ -74,13 +80,16 @@ if ($numRows>0){
         echo "<td>{$row['surname']}</td>";
         echo "<td>{$row['subject']}</td>";
         echo "<td>{$row['unitCode']}</td>";
+        echo "<td>{$row['classSection']}</td>";
         echo "<td>{$row['session']}</td>";
         echo "<td>{$row['expiryDate']}</td>";
 
         $user = $row['studentNo'];
         $sub = $row['subject'];
+        $code = $row['unitCode'];
         $arr = array($user,$sub);
         $sendVar = json_encode($arr);
+
         //issue in returning 2 variables to javascript
 
         //add more columns for td
@@ -90,7 +99,7 @@ if ($numRows>0){
         //edit user
         if ($_SESSION['admin']==1) {
             //TODO implement button functionality
-            //echo "<a class='btn btn-warning'>Edit</a>";
+            echo "<a class='btn btn-warning' href='EditOne.php?studentNo={$user}&unitCode={$code}'>Edit</a>";
             //href='editUser.php?studentNo={$row['studentNo']}'
 
             // link for deleting this user
