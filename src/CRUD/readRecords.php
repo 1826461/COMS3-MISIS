@@ -38,8 +38,18 @@ echo "</select>";
 //search for user
 echo  "<div class='topnav'>
        <input class='form-control' id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
-       <div class='createHold'><button class='btn btn-success' onclick='showCreate()'>Create New User</button></div>
-       </div>";
+       <div class='createHold'>";
+
+if ($_SESSION['admin']==1) {
+    echo "<button class='btn btn-success' onclick='showCreate()'>Create New User</button></div>
+       </div> ";
+} else {
+    echo "</div>
+       </div> ";
+}
+
+
+
 
 //add create button
 //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
