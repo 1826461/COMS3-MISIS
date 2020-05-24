@@ -1,5 +1,6 @@
 <?php
 
+use Helpers\DatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 use PHPUnit\Framework\TestCase;
 use Objects\Enrollment;
@@ -43,12 +44,24 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals("ENROLLED", $result->getStatus(), "Correct status returned");
     }
 
-
-
     public function testDeleteEnrollment() {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollmentDatabaseHelper->deleteEnrollment(1826461, 'COMS3006A');
         assertEquals(1, 1, "Enrollment added to database table");
+    }
+
+    public function testDeleteAllCourseEnrollments() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS4000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+        $enrollment = new Enrollment(0, 1826423, "John", "Paul", "COMS", "COMS4000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+        $enrollmentDatabaseHelper->deleteAllCourseEnrollments('COMS4000A');
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
+        assertEquals(0, $databaseHelper->rowCount(), "Enrollments removed from database table");
     }
 
 }

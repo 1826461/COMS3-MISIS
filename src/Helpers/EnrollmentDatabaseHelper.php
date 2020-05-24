@@ -43,6 +43,14 @@ class EnrollmentDatabaseHelper
 
     }
 
+    public static function deleteAllCourseEnrollments($unitCode) {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("DELETE FROM enrollments WHERE unitCode = :unitCode");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->execute();
+
+    }
+
     public static function getEnrollment($studentNo, $unitCode) {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT * FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode LIMIT 0,1");
