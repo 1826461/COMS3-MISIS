@@ -5,5 +5,11 @@
         <testsuite name="Example">
             <file>./tests/test.php</file>
         </testsuite>
+        <testsuite name="Objects">
+            <file>./tests/Objects/UserTest.php</file>
+        </testsuite>
+        <testsuite name="Helpers">
+            <file>./tests/Helpers/DatabaseHelperTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>
