@@ -9,4 +9,10 @@
             <file>./tests/Helpers/DatabaseHelperTest.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <file>./tests/Objects/UserTest.php</file>
+            <file>./tests/Helpers/DatabaseHelperTest.php</file>
+        </whitelist>
+    </filter>
 </phpunit>
