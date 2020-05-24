@@ -2,9 +2,6 @@
 
 <phpunit bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="Example">
-            <file>./tests/test.php</file>
-        </testsuite>
         <testsuite name="Objects">
             <file>./tests/Objects/UserTest.php</file>
         </testsuite>
