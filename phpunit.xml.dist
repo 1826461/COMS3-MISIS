@@ -4,9 +4,12 @@
     <testsuites>
         <testsuite name="Objects">
             <file>./tests/Objects/UserTest.php</file>
+            <file>./tests/Objects/EnrollmentTest.php</file>
         </testsuite>
         <testsuite name="Helpers">
             <file>./tests/Helpers/DatabaseHelperTest.php</file>
+            <file>./tests/Helpers/EnrollmentDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
         </testsuite>
     </testsuites>
     <filter>

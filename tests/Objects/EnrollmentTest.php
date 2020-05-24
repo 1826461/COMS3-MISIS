@@ -10,8 +10,7 @@ class EnrollmentTest extends TestCase
 
     public function testUserConstructor() {
         self::$enrollment = new Enrollment(1, 1826461, "Tristen", "Paul", "COMS",
-            "COMS3007A", "SM1", "A", DateTime::createFromFormat('Y-m-d H:i:s',
-                '2020-06-30 00:00:00') );
+            "COMS3007A", "SM1", "A", "2020-06-30 00:00:00", "ENROLLED" );
         assertEquals(1, self::$enrollment->id, "created id equals expected value");
         assertEquals(1826461, self::$enrollment->studentNo, "created student number equals expected value");
         assertEquals("Tristen", self::$enrollment->name, "created name equals expected value");
@@ -20,8 +19,8 @@ class EnrollmentTest extends TestCase
         assertEquals("COMS3007A", self::$enrollment->unitCode, "created unit code equals expected value");
         assertEquals("SM1", self::$enrollment->session, "created session equals expected value");
         assertEquals("A", self::$enrollment->classSection, "created class section equals expected value");
-        assertEquals(DateTime::createFromFormat('Y-m-d H:i:s',
-            '2020-06-30 00:00:00'), self::$enrollment->expiryDate, "created expiry date equals expected value");
+        assertEquals("2020-06-30 00:00:00", self::$enrollment->expiryDate, "created expiry date equals expected value");
+        assertEquals("ENROLLED", self::$enrollment->status, "created class section equals expected value");
     }
 
 
