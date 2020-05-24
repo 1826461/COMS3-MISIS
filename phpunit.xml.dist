@@ -15,7 +15,10 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <file>./tests/Objects/UserTest.php</file>
+            <file>./tests/Objects/EnrollmentTest.php</file>
             <file>./tests/Helpers/DatabaseHelperTest.php</file>
+            <file>./tests/Helpers/EnrollmentDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
         </whitelist>
     </filter>
 </phpunit>
