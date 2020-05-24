@@ -2,8 +2,6 @@
 
 namespace Objects;
 
-use DateTime;
-
 class Enrollment
 {
     public int $id;

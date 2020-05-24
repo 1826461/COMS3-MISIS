@@ -15,17 +15,30 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, $result, "Enrollment added to database table");
     }
 
+    public function testUpdateEnrollment() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = $enrollmentDatabaseHelper->getEnrollment(1826461, "COMS3006A");
+        $enrollment->setName("Tristan");
+        $enrollment->setSession("SM2");
+        $enrollment->setClassSection("B");
+        $enrollmentDatabaseHelper->updateEnrollment($enrollment);
+        $result = $enrollmentDatabaseHelper->getEnrollment(1826461, 'COMS3006A');
+        assertEquals("Tristan", $result->getName(), "Correct name returned");
+        assertEquals("SM2", $result->getSession(), "Correct session returned");
+        assertEquals("B", $result->getClassSection(), "Correct class section returned");
+    }
+
 
     public function testGetEnrollment() {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $result = $enrollmentDatabaseHelper->getEnrollment(1826461, 'COMS3006A');
         assertEquals(1826461, $result->getStudentNo(), "Correct student number returned");
-        assertEquals("Tristen", $result->getName(), "Correct name returned");
+        assertEquals("Tristan", $result->getName(), "Correct name returned");
         assertEquals("Paul", $result->getSurname(), "Correct surname returned");
         assertEquals("COMS", $result->getSubject(), "Correct subject returned");
         assertEquals("COMS3006A", $result->getUnitCode(), "Correct unit code returned");
-        assertEquals("SM1", $result->getSession(), "Correct session returned");
-        assertEquals("A", $result->getClassSection(), "Correct class section returned");
+        assertEquals("SM2", $result->getSession(), "Correct session returned");
+        assertEquals("B", $result->getClassSection(), "Correct class section returned");
         assertEquals("2020-06-30 00:00:00", $result->getExpiryDate(), "Correct expiry date returned");
         assertEquals("ENROLLED", $result->getStatus(), "Correct status returned");
     }
