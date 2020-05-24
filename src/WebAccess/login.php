@@ -78,4 +78,4 @@ if(isset($_POST["login"])) {
         </div>
     </section>
 
-<?php include "SharedViews/LoginHeader.php"; ?>
+<?php include "SharedViews/LoginFooter.php"; ?>
