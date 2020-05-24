@@ -919,7 +919,7 @@
       <ColNames>unitCode</ColNames>
       <UnderlyingIndexName>unitCode_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="290" parent="284" name="userID">
+    <column id="290" parent="284" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
@@ -981,7 +981,7 @@
     </column>
     <key id="300" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>userID</ColNames>
+      <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="301" parent="285" name="userID">

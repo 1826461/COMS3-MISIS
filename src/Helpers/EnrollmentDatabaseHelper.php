@@ -57,4 +57,22 @@ class EnrollmentDatabaseHelper
             $enrollment['expiryDate'], $enrollment['status']);
     }
 
+    public static function updateEnrollment(Enrollment $enrollment) {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("UPDATE enrollments SET studentNo = :studentNo, name = :name, surname = :surname, 
+                       subject= :subject, unitCode = :unitCode, session = :session, classSection = :classSection , expiryDate = :expiryDate,
+                       status = :status WHERE (id= :id)");
+        $databaseHelper->bind(':studentNo', $enrollment->getStudentNo());
+        $databaseHelper->bind(':name', $enrollment->getName());
+        $databaseHelper->bind(':surname', $enrollment->getSurname());
+        $databaseHelper->bind(':subject', $enrollment->getSubject());
+        $databaseHelper->bind(':unitCode', $enrollment->getUnitCode());
+        $databaseHelper->bind(':session', $enrollment->getSession());
+        $databaseHelper->bind(':classSection', $enrollment->getClassSection());
+        $databaseHelper->bind(':expiryDate', $enrollment->getExpiryDate());
+        $databaseHelper->bind(':status', $enrollment->getStatus());
+        $databaseHelper->bind(':id', $enrollment->getId());
+
+        $databaseHelper->execute();
+    }
 }
