@@ -8,10 +8,7 @@ services:
     - mysql
 
 before_install:
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS `coms3-misis` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;'
-    - mysql -u root --password="" < db_backups/coms3-misis_courses.sql
-    - mysql -u root --password="" < db_backups/coms3-misis_enrollments.sql
-    - mysql -u root --password="" < db_backups/coms3-misis_users.sql
+    - mysql -u root --password="" < db_backups/Dump20200524.sql
 
 before_script:
     - travis_retry composer self-update
