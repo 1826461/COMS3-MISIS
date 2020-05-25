@@ -34,7 +34,7 @@ if(isset($_POST["login"])) {
                     $_SESSION['admin'] = 0;
                 }
                 //TODO implement go to list view
-            header("location: ../CRUD/Detail.php");
+            header("location: Detail.php");
             echo '<p class="message message.alert login-page" style="text-align: center">'. "THIS WILL LOG IN " .'</p>';
         } else {
             echo '<p class="message message.alert login-page" style="text-align: center">'. "incorrect username or password" .'</p>';

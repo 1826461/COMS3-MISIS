@@ -34,6 +34,28 @@ class EnrollmentDatabaseHelper
 
     }
 
+    public static function getAllEnrollments() {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() == 0) {
+            return 0;
+        } else {
+            return $result;
+        }
+    }
+
+    public static function getCourseList() {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() == 0) {
+            return 0;
+        } else {
+            return $result;
+        }
+    }
+
     public static function deleteEnrollment($studentNo, $unitCode) {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("DELETE FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode");

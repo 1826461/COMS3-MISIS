@@ -8,6 +8,8 @@ use function PHPUnit\Framework\assertEquals;
 
 class EnrollmentDatabaseHelperTest extends TestCase
 {
+    //TODO Write cases for getAllEnrollments and GetCourseList
+
     public function testInsertEnrollment() {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS3006A",
