@@ -63,7 +63,7 @@ if (isset($_POST["Logout"])) {
         $action = isset($_GET['action']) ? $_GET['action'] : "";
         // if it was redirected from EnrollmentDelete.php
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success' id='message'>Record was deleted.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment deleted.</div>";
         }
 
         if ($action == 'deny') {
@@ -72,12 +72,12 @@ if (isset($_POST["Logout"])) {
 
 
         if ($action == 'created') {
-            echo "<div class='alert alert-success' id='message'>User record was created.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment created.</div>";
         }
 
 
         if ($action == 'edited') {
-            echo "<div class='alert alert-success' id='message'>User record was edited.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment edited.</div>";
         }
 
         echo "Filter by unit code: ";
