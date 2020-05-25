@@ -1,20 +1,20 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
-include ("..\Helpers\EnrollmentDatabaseHelper.php");
-include ("..\Helpers\DatabaseHelper.php");
-include ("..\Objects\Enrollment.php");
+include ("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include ("..\..\Helpers\DatabaseHelper.php");
+include ("..\..\Objects\Enrollment.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header("Location: login.php");
+    header("Location: ../index.php");
 }
 ?>
 
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Edit User</title>
+    <title>Enrollment Edit</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -41,9 +41,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode']: die('Error: Unit code not found.');
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = $enrollmentDatabaseHelper->getEnrollment($studentNo, $unitCode);
-        echo "<h1>Current User: {$enrollment->getStudentNo()}</h1>";
-        echo "<h1>Unit: {$enrollment->getUnitCode()}</h1>";
-        ?>
+        echo "<h1>Enrollment Edit: {$enrollment->getStudentNo()} - {$enrollment->getUnitCode()}</h1>" ?>
     </div>
 
     <!-- HTML read one record table will be here -->
@@ -165,7 +163,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <td></td>
             <td>
                 <button type="submit" onclick="doUpdate()" class="btn btn-primary">Update record</button>
-                <a href='Detail.php' class='btn btn-danger'>Back to Moodle users</a>
+                <a href='EnrollmentMasterView.php' class='btn btn-danger'>Back to Moodle users</a>
             </td>
         </tr>
     </table>
@@ -206,7 +204,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         var status = 'status=' + document.getElementById('status').value;
 
         //send to php edit script
-        window.location.href = 'update.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
+        window.location.href = 'WebAPI/EnrollmentUpdate.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
     }
 </script>
 

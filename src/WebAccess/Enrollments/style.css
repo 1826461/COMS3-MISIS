@@ -50,7 +50,7 @@ ul.buttonGroup li{
     margin-top: 70px;
 }
 #searchBar{
-    background-image: url('https://img.icons8.com/color/search'); /* Add a search icon to input */
+    background-image: url('https://img.icons8.com/windows/search'); /* Add a search icon to input */
     background-size: 30px 30px;
     background-position: 1px 2px; /* Position the search icon */
     height: 40px;
