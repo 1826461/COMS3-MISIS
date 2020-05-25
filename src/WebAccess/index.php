@@ -34,7 +34,7 @@ if(isset($_POST["login"])) {
                     $_SESSION['admin'] = 0;
                 }
                 //TODO implement go to list view
-            header("location: Detail.php");
+            header("location: Enrollments\EnrollmentMasterView.php");
             echo '<p class="message message.alert login-page" style="text-align: center">'. "THIS WILL LOG IN " .'</p>';
         } else {
             echo '<p class="message message.alert login-page" style="text-align: center">'. "incorrect username or password" .'</p>';
@@ -50,7 +50,7 @@ if(isset($_POST["login"])) {
                     <div class="brand">
                     </div>
                     <div class="text-center">
-                        <h1 class="card-title" style="color:#f8f9fa"><?php echo "WITS MOODLE THINGS"?></h1>
+                        <h1 class="card-title" style="color:#000000"><?php echo "COMS3-MISIS"?></h1>
                     </div>
                     <div class="card fat">
                         <div class="card-body">

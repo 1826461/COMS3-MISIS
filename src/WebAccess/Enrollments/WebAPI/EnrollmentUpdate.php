@@ -2,9 +2,9 @@
 
 use Helpers\EnrollmentDatabaseHelper;
 use Objects\Enrollment;
-include ("..\Helpers\EnrollmentDatabaseHelper.php");
-include ("..\Helpers\DatabaseHelper.php");
-include ("..\Objects\Enrollment.php");
+include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\..\Helpers\DatabaseHelper.php");
+include("..\..\..\Objects\Enrollment.php");
 
 session_start();
 
@@ -26,9 +26,9 @@ $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 $enrollmentDatabaseHelper->updateEnrollment($enrollment);
 
     if ($_SESSION['admin'] == 1) {
-        header('Location: Detail.php?action=edited');
+        header('Location: ..\EnrollmentMasterView.php?action=edited');
 
     } else {
-        header('Location: Detail.php?action=deny');
+        header('Location: ..\EnrollmentMasterView.php?action=deny');
     }
 

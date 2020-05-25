@@ -1,20 +1,20 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
-include ("..\Helpers\EnrollmentDatabaseHelper.php");
-include ("..\Helpers\DatabaseHelper.php");
-include ("..\Objects\Enrollment.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Helpers\DatabaseHelper.php");
+include("..\..\Objects\Enrollment.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header ("Location: login.php");
+    header ("Location: ../index.php");
 }
 ?>
 
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>User Record</title>
+    <title>Enrollment Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 </head>
@@ -27,7 +27,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: User not found.');
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = $enrollmentDatabaseHelper->getEnrollment($studentNo, $unitCode);
-        echo "<h1>Current User: {$enrollment->getStudentNo()}</h1>" ?>
+        echo "<h1>Enrollment Detail: {$enrollment->getStudentNo()} - {$enrollment->getUnitCode()}</h1>" ?>
     </div>
 
 
@@ -75,7 +75,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         <tr>
             <td></td>
             <td>
-                <a href='Detail.php' class='btn btn-danger'>Back to Moodle users</a>
+                <a href='EnrollmentMasterView.php' class='btn btn-danger'>Back to Moodle users</a>
             </td>
         </tr>
     </table>
