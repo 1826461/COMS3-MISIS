@@ -35,7 +35,7 @@ class JSONHelper
         curl_close($curl);
         return $result;
     }
-    //TODO WHEN GIVEN ACCESS
+    //TODO TEST WHEN GIVEN ACCESS
     function updateCourseData(string $unitCode) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $data = self::getVirtusCourseJSON($unitCode);

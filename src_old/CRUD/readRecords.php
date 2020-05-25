@@ -2,7 +2,7 @@
 include 'database.php';
 
 $action = isset($_GET['action']) ? $_GET['action'] : "";
-// if it was redirected from delete.php
+// if it was redirected from EnrollmentDelete.php
 if ($action == 'deleted') {
     echo "<div class='alert alert-success' id='message'>Record was deleted.</div>";
 }
