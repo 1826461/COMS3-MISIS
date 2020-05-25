@@ -1,13 +1,13 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
-include ("..\Helpers\EnrollmentDatabaseHelper.php");
-include ("..\Helpers\DatabaseHelper.php");
-include ("..\Objects\Enrollment.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Helpers\DatabaseHelper.php");
+include("..\..\Objects\Enrollment.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header ("Location: login.php");
+    header ("Location: ../index.php");
 }
 $timeout = 3600; // Number of seconds until it times out.
 
@@ -31,14 +31,14 @@ if (isset($_POST["Logout"])) {
     $_SESSION = array();
     session_unset();
     session_destroy();
-    header("Location: login.php");
+    header("Location: ../index.php");
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Database</title>
+    <title>Enrollment Master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- custom css -->
     <link href="style.css" rel="stylesheet">
@@ -51,7 +51,7 @@ if (isset($_POST["Logout"])) {
     <!--Container-->
     <div class="container">
         <div class="page-header">
-            <h1>Moodle Users</h1>
+            <h1>Enrollment Master</h1>
         </div>
         <!--logout button-->
         <form class="logOut" method="post">
@@ -61,9 +61,9 @@ if (isset($_POST["Logout"])) {
         <?php
 
         $action = isset($_GET['action']) ? $_GET['action'] : "";
-        // if it was redirected from delete.php
+        // if it was redirected from EnrollmentDelete.php
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success' id='message'>Record was deleted.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment deleted.</div>";
         }
 
         if ($action == 'deny') {
@@ -72,12 +72,12 @@ if (isset($_POST["Logout"])) {
 
 
         if ($action == 'created') {
-            echo "<div class='alert alert-success' id='message'>User record was created.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment created.</div>";
         }
 
 
         if ($action == 'edited') {
-            echo "<div class='alert alert-success' id='message'>User record was edited.</div>";
+            echo "<div class='alert alert-success' id='message'>Enrollment edited.</div>";
         }
 
         echo "Filter by unit code: ";
@@ -95,11 +95,11 @@ if (isset($_POST["Logout"])) {
 
         //search for user
         echo  "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search for user...' onkeyup='findUser()'>
+       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
-            echo "<button class='btn btn-success' onclick='showCreate()'>Create New User</button></div>
+            echo "<button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></div>
        </div> ";
         } else {
             echo "</div>
@@ -170,10 +170,10 @@ if (isset($_POST["Logout"])) {
                 //add more columns for td
                 echo "<td>";
                 // read one record for this user
-                echo "<a href='read.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
+                echo "<a href='EnrollmentDetailView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
                 //edit user
                 if ($_SESSION['admin']==1) {
-                    echo "<a class='btn btn-warning' href='edit.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}'>Edit</a>";
+                    echo "<a class='btn btn-warning' href='EnrollmentEditView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}'>Edit</a>";
                     //href='editUser.php?studentNo={$row['studentNo']}'
 
                     // link for deleting this user
@@ -198,7 +198,7 @@ if (isset($_POST["Logout"])) {
 <div class="form-popup" id="deleteForm" method="post">
     <div class="form-container">
         <ul class="buttonGroup">
-            <li><b>Are you sure you want to delete this user?</b></li>
+            <li><b>Are you sure you want to delete this enrollment?</b></li>
             <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
             <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
         </ul>
@@ -207,7 +207,7 @@ if (isset($_POST["Logout"])) {
 
 <div class="create_pop" id="create">
     <div class="create-container">
-        <h2>Create a new user:</h2>
+        <h2>Add Enrollment:</h2>
         <div class="ulDiv">
             <ul class="createList">
                 <li><input type="text" id="studentNo" placeholder="Student Number"class="form-control"></li>
@@ -306,7 +306,7 @@ if (isset($_POST["Logout"])) {
     function deleteUser() {
         var student= deleteStudentNumber;
         var unit = deleteUnitCode;
-        window.location.href = 'delete.php?studentNo=' + student + '&unitCode='+ unit;
+        window.location.href = 'WebAPI/EnrollmentDelete.php?studentNo=' + student + '&unitCode='+ unit;
     }
 
     function closeForm(){
@@ -383,7 +383,7 @@ if (isset($_POST["Logout"])) {
             var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value;
 
             //send to php create script
-            var statement = 'create.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
+            var statement = 'WebAPI/EnrollmentCreate.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
             window.location.href = statement;
         }
     }

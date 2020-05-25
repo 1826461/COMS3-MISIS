@@ -3,9 +3,9 @@
 use Helpers\EnrollmentDatabaseHelper;
 use Objects\Enrollment;
 
-include("..\Helpers\EnrollmentDatabaseHelper.php");
-include("..\Helpers\DatabaseHelper.php");
-include("..\Objects\Enrollment.php");
+include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\..\Helpers\DatabaseHelper.php");
+include("..\..\..\Objects\Enrollment.php");
 
 session_start();
 
@@ -24,9 +24,9 @@ $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 
 if ($_SESSION['admin'] == 1) {
     $enrollmentDatabaseHelper->insertEnrollment($enrollment);
-    header('Location: Detail.php?action=created');
+    header('Location: ../EnrollmentMasterView.php?action=created');
 
 } else {
-    header('Location: Detail.php?action=deny');
+    header('Location: ../EnrollmentMasterView.php?action=deny');
 }
 

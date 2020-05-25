@@ -9,12 +9,12 @@
     <meta name="author" content="Tristen Paul">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex">
-    <title>WITS MOODLE THINGS</title>
+    <title>COMS3-MISIS</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Latest compiled and minified Bootstrap JavaScript -->
     <style>
-body.login-page{background-color:#282828;font-size:14px}
+body.login-page{background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);font-size:14px; }
         .login-page .brand{width:121px;overflow:hidden;
             margin: 40px auto 0;
             position:relative;z-index:1}
