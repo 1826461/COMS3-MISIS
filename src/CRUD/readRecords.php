@@ -124,4 +124,3 @@ if ($numRows>0){
 }else{
     echo "<div class='alert alert-danger'>No records found.</div>";
 }
-
