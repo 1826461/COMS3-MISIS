@@ -10,6 +10,7 @@ class JSONHelper
 {
     //TODO TEST FUNCTIONALITY WITH VM - LOCAL TESTS PASS
     function parseEnrollmentJSON(string $json) {
+        $success = false;
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollmentJSONArray = json_decode($json, true);
         foreach ($enrollmentJSONArray as $enrollmentJSON) {
@@ -19,9 +20,9 @@ class JSONHelper
                 $enrollmentJSON['unitStatus']);
 
             $enrollmentDatabaseHelper->insertEnrollment($enrollment);
-
+            $success = true;
         }
-
+    return $success;
     }
 
     function getVirtusCourseJSON(string $unitCode) {
@@ -34,12 +35,12 @@ class JSONHelper
         curl_close($curl);
         return $result;
     }
-    //TODO WHEN GIVEN ACCESS
+    //TODO TEST WHEN GIVEN ACCESS
     function updateCourseData(string $unitCode) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $data = self::getVirtusCourseJSON($unitCode);
         $enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
-        self::parseEnrollmentJSON($data);
+        return self::parseEnrollmentJSON($data);
 
     }
 

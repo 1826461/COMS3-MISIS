@@ -204,7 +204,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         var status = 'status=' + document.getElementById('status').value;
 
         //send to php edit script
-        window.location.href = 'WebAPI/EnrollmentUpdate.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
+        window.location.href = '../WebAPI/Enrollments/EnrollmentUpdate.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
     }
 </script>
 

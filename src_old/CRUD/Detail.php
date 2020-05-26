@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header ("Location: login.php");
+    header ("Location: index.php");
 }
 $timeout = 3600; // Number of seconds until it times out.
 
@@ -25,7 +25,7 @@ if (isset($_POST["Logout"])) {
     $_SESSION = array();
     session_unset();
     session_destroy();
-    header("Location: login.php");
+    header("Location: index.php");
 }
 
 ?>
@@ -52,9 +52,9 @@ if (isset($_POST["Logout"])) {
         <form class="logOut" method="post">
             <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
         </form>
-        <!-- PHP code for read records here-->
+    <!-- PHP code for read records here-->
         <?php
-        include 'viewAllEnrollments.php';
+        include 'readRecords.php';
         ?>
     </div>
 
@@ -65,9 +65,9 @@ if (isset($_POST["Logout"])) {
 <div class="form-popup" id="deleteForm" method="post">
     <div class="form-container">
         <ul class="buttonGroup">
-            <li><b>Are you sure you want to delete this user?</b></li>
-            <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
-            <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
+        <li><b>Are you sure you want to delete this user?</b></li>
+        <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
+        <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
         </ul>
     </div>
 </div>
@@ -104,7 +104,7 @@ if (isset($_POST["Logout"])) {
                         </span>
                     </div></li>
                 <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
-                    <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
+                <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
             </ul>
         </div>
     </div>
@@ -173,7 +173,7 @@ if (isset($_POST["Logout"])) {
         //string here is fine
         var user= deleteStudentNumber;
         var sub = delSub;
-        window.location.href = 'deleteEnrollment.php?studentNo=' + user+ '&subject='+sub;
+        window.location.href = 'deleteUser.php?studentNo=' + user+ '&subject='+sub;
     }
 
     function closeForm(){
@@ -249,7 +249,7 @@ if (isset($_POST["Logout"])) {
             var time = 'time=' + document.getElementById("time").value;
 
             //send to php create script
-            var statement = 'createEnrollment.php?'+student+name+sur+sub+cod+session+slot+time;
+            var statement = 'createUser.php?'+student+name+sur+sub+cod+session+slot+time;
             window.location.href = statement;
         }
     }

@@ -12,12 +12,12 @@ try{
 
     if ($_SESSION['admin']==1){
         if($stmt->execute()){
-            header('Location: Detail.php?action=deleted');
+            header('Location: EnrollmentMasterView.php?action=deleted');
         }else{
             die('Unable to delete record.');
         }
     }else{
-        header('Location: Detail.php?action=deny');
+        header('Location: EnrollmentMasterView.php?action=deny');
     }
 
 }catch (PDOException $exception){
