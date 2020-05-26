@@ -3,9 +3,9 @@
 $host="localhost";
 $port=3306;
 $socket="";
-$user="projectUser";
-$password="COMSPROJECT2020";
-$dbname="coms3project";
+$user="root";
+$password="";
+$dbname="coms3-misis";
 
 try {
 $dbh = new PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $password);
