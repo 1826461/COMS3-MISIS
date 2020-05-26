@@ -11,10 +11,10 @@ $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 
 if ($_SESSION['admin']==1){
         $enrollmentDatabaseHelper->deleteEnrollment($studentNo, $unitCode);
-        header('Location: ../EnrollmentMasterView.php?action=deleted');
+        header('Location: ../../Enrollments/EnrollmentMasterView.php?action=deleted');
 
 }else{
-        header('Location: ../EnrollmentMasterView.php?action=deny');
+        header('Location: ../../Enrollments/EnrollmentMasterView.php?action=deny');
 }
 
 

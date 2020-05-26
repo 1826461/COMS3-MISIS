@@ -1,6 +1,6 @@
 <?php
 session_start();
-include  'database.php';
+include 'database.php';
 $studentNo = isset($_GET['studentNo']) ? $_GET['studentNo']: die('Error: Username not found.');
 $name = isset($_GET['name']) ? $_GET['name']: die('Error: Name not found');
 $surname = isset($_GET['surname']) ? $_GET['surname']: die('Error: Surname not found.');
@@ -26,12 +26,12 @@ $stmt->bindParam(":en",$enrolled);
 
     if ($_SESSION['admin']==1){
         if($stmt->execute()){
-            header('Location: Detail.php?action=created');
+            header('Location: EnrollmentMasterView.php?action=created');
         }else{
             die('Unable to create record.');
         }
     }else{
-        header('Location: Detail.php?action=deny');
+        header('Location: EnrollmentMasterView.php?action=deny');
     }
 
 }catch (PDOException $exception){

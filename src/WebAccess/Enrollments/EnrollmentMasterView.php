@@ -306,7 +306,7 @@ if (isset($_POST["Logout"])) {
     function deleteUser() {
         var student= deleteStudentNumber;
         var unit = deleteUnitCode;
-        window.location.href = 'WebAPI/EnrollmentDelete.php?studentNo=' + student + '&unitCode='+ unit;
+        window.location.href = '../WebAPI/Enrollments/EnrollmentDelete.php?studentNo=' + student + '&unitCode='+ unit;
     }
 
     function closeForm(){
@@ -383,7 +383,7 @@ if (isset($_POST["Logout"])) {
             var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value;
 
             //send to php create script
-            var statement = 'WebAPI/EnrollmentCreate.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
+            var statement = '../WebAPI/Enrollments/EnrollmentCreate.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
             window.location.href = statement;
         }
     }

@@ -27,12 +27,12 @@ try {
 
     if ($_SESSION['admin'] == 1) {
         if ($stmt->execute()) {
-            header('Location: Detail.php?action=edited');
+            header('Location: EnrollmentMasterView.php?action=edited');
         } else {
             die('Unable to edit record.');
         }
     } else {
-        header('Location: Detail.php?action=deny');
+        header('Location: EnrollmentMasterView.php?action=deny');
     }
 
 } catch (PDOException $exception) {

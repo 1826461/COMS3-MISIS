@@ -97,7 +97,7 @@
                     }else{
                         $_SESSION['admin']=0;
                     }
-                    header("location: Detail.php");
+                    header("location: EnrollmentMasterView.php");
                 }else{
                     $passwordErr="Incorrect Password";
                 }
