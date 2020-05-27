@@ -4,7 +4,6 @@
 namespace Helpers;
 
 use Objects\Enrollment;
-include("EnrollmentDatabaseHelper.php");
 
 class JSONHelper
 {

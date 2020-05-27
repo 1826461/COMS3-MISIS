@@ -1,6 +1,6 @@
 <?php
 
-/*use Helpers\DatabaseHelper;
+use Helpers\DatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 use Helpers\JSONHelper;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +11,7 @@ class JSONHelperTest extends TestCase
     private static DatabaseHelper $databaseHelper;
     private static JSONHelper $jsonHelper;
     private static string $json;
+
     public function testParseJSONEnrollment() {
         self::$jsonHelper = new JSONHelper();
         self::$json = '[{"subject":"COMS","surname":"Komape","firstName":"Kabelo","unitStatus":"ENROLLED","unitCode":"COMS3007A","studentNumber":"676400","expiryDate":"2020-06-30 00:00:00","sessionCode":"SM1","classSection":"D"},{"subject":"COMS","surname":"Mkhondo","firstName":"Anastacia","unitStatus":"ENROLLED","unitCode":"COMS3007A","studentNumber":"1624102","expiryDate":"2020-06-30 00:00:00","sessionCode":"SM1","classSection":"D"}]';
