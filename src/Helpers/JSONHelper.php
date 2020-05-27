@@ -25,7 +25,7 @@ class JSONHelper
     return $success;
     }
 
-    /*function getVirtusCourseJSON(string $unitCode) {
+    function getVirtusCourseJSON(string $unitCode) {
         $url = 'http://wims-service-user:w!im5-5erv1s-u5er@virtus.wits.ac.za:8180/wits-wims-services/wims/student/unitStudents/';
         $url = $url . $unitCode .'/';
         return json_decode(file_get_contents($url), true);
@@ -56,6 +56,6 @@ class JSONHelper
         //TODO Virtus system not responding to URL
         //$data = self::getVirtusCourseJSON($unitCode);
         //return self::parseEnrollmentJSON($data);
-    }*/
+    }
 
 }
