@@ -94,7 +94,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         var unitCode = 'unitCode=' + document.getElementById('unitCode').value;
 
         //send to php edit script
-        window.location.href = 'WebAPI/CourseUpdate.php?' + courseId + courseName + unitCode;
+        window.location.href = '../WebAPI/Courses/CourseUpdate.php?' + courseId + courseName + unitCode;
     }
 </script>
 

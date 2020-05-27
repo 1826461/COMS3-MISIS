@@ -266,7 +266,7 @@ if (isset($_POST["Logout"])) {
 
     function deleteCourse() {
         var unit = deleteUnitCode;
-        window.location.href = 'WebAPI/CourseDelete.php?unitCode=' + unit;
+        window.location.href = '../WebAPI/Courses/CourseDelete.php?unitCode=' + unit;
     }
 
     function closeForm(){
@@ -331,7 +331,7 @@ if (isset($_POST["Logout"])) {
             var unitCode = 'unitCode=' + document.getElementById("unitCode").value;
 
             //send to php create script
-            var statement = 'WebAPI/CourseCreate.php?'+ courseName + unitCode;
+            var statement = '../WebAPI/Courses/CourseCreate.php?'+ courseName + unitCode;
             window.location.href = statement;
         }
     }
