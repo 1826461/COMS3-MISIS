@@ -1,7 +1,9 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
+//include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\JSONHelper.php");
 include("..\..\Objects\Course.php");
@@ -91,6 +93,7 @@ if (isset($_POST["Logout"])) {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $result = $courseDatabaseHelper->getCourseList();
 
+
         for ($index = 0; $index < sizeof($result); $index++) {
             $listItem = $result[$index]['unitCode'];
             echo"<option name='$listItem' value=$listItem>$listItem</option>";
@@ -127,6 +130,7 @@ if (isset($_POST["Logout"])) {
 
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $courses = $courseDatabaseHelper->getAllCourses();
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 
         if (sizeof($courses) > 0){
             //code to create database table
@@ -137,8 +141,11 @@ if (isset($_POST["Logout"])) {
 
             echo "<tr>";
             //add echos for table fields from database
-            echo "<th>Course Name</th>";
             echo "<th>Unit Code</th>";
+            echo "<th>Course ID</th>";
+            echo "<th>Course Name</th>";
+            echo "<th>Enrollment Count</th>";
+            echo "<th>Actions</th>";
             echo "</tr>";
 
 
@@ -147,10 +154,14 @@ if (isset($_POST["Logout"])) {
                 //while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 //extract($row);
                 //create new table row per record
-                echo "<tr>";
-                echo "<td>{$courses[$index]['courseName']}</td>";
-                echo "<td>{$courses[$index]['unitCode']}</td>";
 
+
+                echo "<tr>";
+
+                echo "<td>{$courses[$index]['unitCode']}</td>";
+                echo "<td>{$courses[$index]['courseID']}</td>";
+                echo "<td>{$courses[$index]['courseName']}</td>";
+                echo "<td>{$enrollmentDatabaseHelper->getCourseEnrollmentsCount($courses[$index]['unitCode'])}</td>";
                 $name = $courses[$index]['courseName'];
                 $code = $courses[$index]['unitCode'];
                 $arr = array($courses[$index]['courseName'],$courses[$index]['unitCode']);
@@ -161,7 +172,7 @@ if (isset($_POST["Logout"])) {
                 //add more columns for td
                 echo "<td>";
                 // read one record for this user
-                echo "<a href='CourseDetailView.php?courseName={$courses[$index]['courseName']}&unitCode={$courses[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
+                echo "<a href='CourseDetailView.php?unitCode={$courses[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
                 //edit user
                 if ($_SESSION['admin']==1) {
                     echo "<a class='btn btn-warning' href='CourseEditView.php?courseName={$courses[$index]['courseName']}&unitCode={$courses[$index]['unitCode']}'>Edit</a>";
@@ -203,8 +214,10 @@ if (isset($_POST["Logout"])) {
         <h2>Add Course:</h2>
         <div class="ulDiv">
             <ul class="createList">
-                <li><input type="text" id="courseName" placeholder="Course Name"class="form-control"></li>
                 <li><input type="text" id="unitCode" placeholder="Unit Code"class="form-control"></li>
+                <li><input type="text" id="courseID" placeholder="Course ID"class="form-control"></li>
+                <li><input type="text" id="courseName" placeholder="Course Name"class="form-control"></li>
+
 
                 <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createCourse()">Create New Course</button></li>
                     <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
@@ -261,7 +274,7 @@ if (isset($_POST["Logout"])) {
     }
 
     function refreshCourse(unitCode) {
-        window.location.href = '../WebAPI/Courses/CourseUpdate.php?unitCode=' + unitCode;
+        window.location.href = '../WebAPI/Courses/CourseRefresh.php?unitCode=' + unitCode;
     }
 
     function showDelete(unitCode){
@@ -322,13 +335,17 @@ if (isset($_POST["Logout"])) {
     }
 
     function isBlank(){
+        var courseID = document.getElementById("courseID").value;
         var courseName = document.getElementById("courseName").value;
         var unitCode = document.getElementById("unitCode").value;
 
         //TODO improve input validation
 
-        if(courseName === ""){document.getElementById("courseName").focus(); return [true,"Please insert a course name."];}
+        if(courseName === ""){
+            courseName = unitCode;
+        }
         if(unitCode === ""){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
+        if(courseID === ""){document.getElementById("courseID").focus(); return[true,"Please insert a course ID."];}
 
         return [false,"none"];
     }
@@ -337,11 +354,13 @@ if (isset($_POST["Logout"])) {
             var msg = isBlank()[1];
             alert(msg);
         }else{
-            var courseName = 'courseName=' + document.getElementById("courseName").value + '&';
-            var unitCode = 'unitCode=' + document.getElementById("unitCode").value;
+            var courseID = 'courseID=' + document.getElementById("courseID").value + '&';
+            var unitCode = 'unitCode=' + document.getElementById("unitCode").value + '&';
+            var courseName = 'courseName=' + document.getElementById("courseName").value;
+
 
             //send to php create script
-            var statement = '../WebAPI/Courses/CourseCreate.php?'+ courseName + unitCode;
+            var statement = '../WebAPI/Courses/CourseCreate.php?'+ courseID + unitCode + courseName;
             window.location.href = statement;
         }
     }

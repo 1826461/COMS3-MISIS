@@ -14,16 +14,7 @@ class CourseDatabaseHelper
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseName', $course->getCourseName());
-
-        $previousInsertId = $databaseHelper->lastInsertId();
         $databaseHelper->execute();
-
-        if ($previousInsertId == $databaseHelper->lastInsertId()) {
-            return 0;
-        } else {
-            return 1;
-        }
-
     }
 
     public static function getAllCourses() {
@@ -36,7 +27,7 @@ class CourseDatabaseHelper
             return $result;
         }
     }
-
+//MIGHT NOT BE NEEDED
     public static function getCourseList() {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT DISTINCT unitCode FROM courses");
@@ -64,15 +55,19 @@ class CourseDatabaseHelper
         if ($databaseHelper->rowCount() === 0) {
             return 0;
         }
-        return new Course($course['courseID'], $course['courseName'], $course['unitCode']);
+        $newCourse = new Course($course['unitCode'], $course['courseID']);
+        $newCourse->setCourseName($course['courseName']);
+        return $newCourse;
     }
 
     public static function updateCourse(Course $course) {
         $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("UPDATE courses SET  courseName = :courseName, unitCode = :unitCode WHERE (courseID = :courseID)");
-        $databaseHelper->bind(':courseName', $course->getCourseName());
+        $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseID', $course->getCourseID());
+        $databaseHelper->bind(':courseName', $course->getCourseName());
+
+
         $databaseHelper->execute();
     }
 }

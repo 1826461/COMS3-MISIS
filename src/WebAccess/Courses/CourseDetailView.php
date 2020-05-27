@@ -1,7 +1,9 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Objects\Course.php");
 
@@ -26,7 +28,13 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Course not found.');
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $course = $courseDatabaseHelper->getCourse($unitCode);
-        echo "<h1>Course Detail: {$course->getCourseName()} - {$course->getUnitCode()}</h1>" ?>
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        if ($enrollmentDatabaseHelper->getAllCourseEnrollments($unitCode) === 0) {
+            $enrollmentCount = 0;
+        } else {
+            $enrollmentCount = sizeof($enrollmentDatabaseHelper->getAllCourseEnrollments($unitCode));
+        }
+        echo "<h1>Course Detail: {$course->getUnitCode()}</h1>" ?>
     </div>
 
 
@@ -38,8 +46,16 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <td><?php echo htmlspecialchars($course->getUnitCode(), ENT_QUOTES);  ?></td>
         </tr>
         <tr>
+            <td>Course ID</td>
+            <td><?php echo htmlspecialchars($course->getCourseID(), ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
             <td>Course Name</td>
             <td><?php echo htmlspecialchars($course->getCourseName(), ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
+            <td>Enrollment Count</td>
+            <td><?php echo htmlspecialchars($enrollmentCount, ENT_QUOTES);  ?></td>
         </tr>
 
 

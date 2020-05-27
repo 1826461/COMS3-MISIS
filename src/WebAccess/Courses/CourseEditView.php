@@ -41,15 +41,15 @@ set_time_limit(0);
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Course not found.');
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $course = $courseDatabaseHelper->getCourse($unitCode);
-        echo "<h1>Course Edit: {$course->getCourseName()} - {$course->getUnitCode()}</h1>" ?>
+        echo "<h1>Course Edit: {$course->getUnitCode()}</h1>" ?>
     </div>
 
     <!-- HTML read one record table will be here -->
     <!--we have our html table here where the record will be displayed-->
     <table id="table" class='table table-hover table-responsive '>
         <tr>
-            <td>Unit Code</td>
-            <td><input id="unitCode" class="form-control" type="text" value="<?php echo htmlspecialchars($course->getUnitCode(), ENT_QUOTES);  ?>"></input></td>
+            <td>Course ID</td>
+            <td><input id="courseID" class="form-control" type="text" value="<?php echo htmlspecialchars($course->getCourseID(), ENT_QUOTES);  ?>"></input></td>
         </tr>
         <tr>
             <td>Course Name</td>
@@ -90,14 +90,13 @@ set_time_limit(0);
     });
 
     function doEdit() {
-        var courseID = 'courseID=' + <?php echo(json_encode($course->getCourseID()))?> + '&';
+        var courseID = 'courseID=' + document.getElementById("courseID").value + '&';
         var courseName = 'courseName=' + document.getElementById("courseName").value + '&';
-        var unitCode = 'unitCode=' + document.getElementById('unitCode').value + '&';
-        var oldUnitCode = 'oldUnitCode=' + <?php echo(json_encode($course->getUnitCode()))?>;
+        var unitCode = 'unitCode=' + <?php echo(json_encode($course->getUnitCode()))?>;
 
 
         //send to php edit script
-        window.location.href = '../WebAPI/Courses/CourseEdit.php?' + courseID + courseName + unitCode + oldUnitCode;
+        window.location.href = '../WebAPI/Courses/CourseUpdate.php?' + courseID + courseName + unitCode;
     }
 </script>
 

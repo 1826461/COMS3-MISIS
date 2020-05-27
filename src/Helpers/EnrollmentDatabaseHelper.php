@@ -73,6 +73,25 @@ class EnrollmentDatabaseHelper
 
     }
 
+    public static function getAllCourseEnrollments($unitCode) {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $enrollments = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() === 0) {
+            return 0;
+        }
+        return $enrollments;
+    }
+
+    public static function getCourseEnrollmentsCount($unitCode) {
+        if (self::getAllCourseEnrollments($unitCode) === 0) {
+           return 0;
+        } else {
+            return sizeof(self::getAllCourseEnrollments($unitCode));
+        }
+    }
+
     public static function getEnrollment($studentNo, $unitCode) {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT * FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode LIMIT 0,1");
