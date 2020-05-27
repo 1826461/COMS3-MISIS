@@ -16,10 +16,10 @@ $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 if ($_SESSION['admin']==1){
         $courseDatabaseHelper->deleteCourse($unitCode);
         $enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
-        header('Location: ../CourseMasterView.php?action=deleted');
+        header('Location: ../../Courses/CourseMasterView.php?action=deleted');
 
 }else{
-        header('Location: ../CourseMasterView.php?action=deny');
+        header('Location: ../../Courses/CourseMasterView.php?action=deny');
 }
 
 

@@ -105,4 +105,12 @@ class EnrollmentDatabaseHelper
 
         $databaseHelper->execute();
     }
+
+    public static function updateEnrollmentWhenCourseChange(string $unitCode,string $oldUnitCode) {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("UPDATE enrollments SET unitCode = :unitCode WHERE (unitCode = :oldUnitCode)");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->bind(':oldUnitCode', $oldUnitCode);
+        $databaseHelper->execute();
+    }
 }

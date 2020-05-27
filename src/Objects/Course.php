@@ -4,12 +4,12 @@ namespace Objects;
 
 class Course
 {
-    public int $courseId;
+    public int $courseID;
     public string $courseName;
     public string $unitCode;
 
-    function __construct($courseId, $courseName, $unitCode) {
-        $this->courseId = $courseId;
+    function __construct($courseID, $courseName, $unitCode) {
+        $this->courseID = $courseID;
         $this->courseName = $courseName;
         $this->unitCode = $unitCode;
     }
@@ -17,9 +17,9 @@ class Course
     /**
      * @return int
      */
-    public function getCourseId(): int
+    public function getCourseID(): int
     {
-        return $this->courseId;
+        return $this->courseID;
     }
 
     /**

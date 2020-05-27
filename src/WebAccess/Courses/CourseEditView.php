@@ -9,6 +9,7 @@ session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     header("Location: ../index.php");
 }
+set_time_limit(0);
 ?>
 
 <!DOCTYPE HTML>
@@ -59,7 +60,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         <tr>
             <td></td>
             <td>
-                <button type="submit" onclick="doUpdate()" class="btn btn-primary">Update course</button>
+                <button type="submit" onclick="doEdit()" class="btn btn-primary">Update course</button>
                 <a href='CourseMasterView.php' class='btn btn-danger'>Back to Moodle courses</a>
             </td>
         </tr>
@@ -88,13 +89,15 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         });
     });
 
-    function doUpdate() {
-        var courseId = 'courseId=' + <?php echo(json_encode($course->getCourseId()))?> + '&';
+    function doEdit() {
+        var courseID = 'courseID=' + <?php echo(json_encode($course->getCourseID()))?> + '&';
         var courseName = 'courseName=' + document.getElementById("courseName").value + '&';
-        var unitCode = 'unitCode=' + document.getElementById('unitCode').value;
+        var unitCode = 'unitCode=' + document.getElementById('unitCode').value + '&';
+        var oldUnitCode = 'oldUnitCode=' + <?php echo(json_encode($course->getUnitCode()))?>;
+
 
         //send to php edit script
-        window.location.href = '../WebAPI/Courses/CourseUpdate.php?' + courseId + courseName + unitCode;
+        window.location.href = '../WebAPI/Courses/CourseEdit.php?' + courseID + courseName + unitCode + oldUnitCode;
     }
 </script>
 

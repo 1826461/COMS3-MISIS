@@ -5,6 +5,7 @@ namespace Helpers;
 
 use Objects\Enrollment;
 use PHPUnit\Util\Json;
+include("EnrollmentDatabaseHelper.php");
 
 class JSONHelper
 {
@@ -26,18 +27,38 @@ class JSONHelper
     }
 
     function getVirtusCourseJSON(string $unitCode) {
-
-        $url = 'http://wims-service-user:w\!im5-5erv1s-u5er@virtus.wits.ac.za:8180/wits-wims-services/wims/student/unitStudents/';
+        ini_set('default_socket_timeout', 900);
+        set_time_limit(0);
+        $url = 'http://wims-service-user:w!im5-5erv1s-u5er@virtus.wits.ac.za:8180/wits-wims-services/wims/student/unitStudents/';
         $url = $url . $unitCode .'/';
         return json_decode(file_get_contents($url), true);
     }
-    //TODO TEST WHEN GIVEN ACCESS
-    function updateCourseData(string $unitCode) {
-        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        $data = self::getVirtusCourseJSON($unitCode);
-        $enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
-        return self::parseEnrollmentJSON($data);
 
+    //refresh details of course
+    //TODO Virtus system not responding to URL
+    function updateCourseData(string $unitCode) {
+        //$enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        //$data = self::getVirtusCourseJSON($unitCode);
+        //$enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
+        //return self::parseEnrollmentJSON($data);
+    }
+
+    //edit details of course
+    //TODO TEST WHEN GIVEN ACCESS
+    function editCourseData(string $unitCode,string $oldUnitCode) {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($unitCode,$oldUnitCode);
+
+        //TODO Virtus system not responding to URL
+        //$data = self::getVirtusCourseJSON($unitCode);
+        //return self::parseEnrollmentJSON($data);
+    }
+
+    //enter new courses
+    function addCourseData(string $unitCode) {
+        //TODO Virtus system not responding to URL
+        //$data = self::getVirtusCourseJSON($unitCode);
+        //return self::parseEnrollmentJSON($data);
     }
 
 }

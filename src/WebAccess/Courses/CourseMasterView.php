@@ -3,6 +3,7 @@
 use Helpers\CourseDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
+include("..\..\Helpers\JSONHelper.php");
 include("..\..\Objects\Course.php");
 
 session_start();
@@ -80,6 +81,10 @@ if (isset($_POST["Logout"])) {
             echo "<div class='alert alert-success' id='message'>Course edited.</div>";
         }
 
+        if ($action == 'updated') {
+            echo "<div class='alert alert-success' id='message'>Course updated.</div>";
+        }
+
         echo "Filter by unit code: ";
         echo "<select id='CourseList' class='selectpicker list' name='CourseList' onChange='changeCourses()'>";
         echo"<option selected='selected' name='All'>All</option>";
@@ -111,7 +116,7 @@ if (isset($_POST["Logout"])) {
 
         //add create button
         //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
-        function console_log2($output, $with_script_tags = true) {
+        function console_log($output, $with_script_tags = true) {
             $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
                 ');';
             if ($with_script_tags) {
@@ -165,6 +170,8 @@ if (isset($_POST["Logout"])) {
                     // link for deleting this user
                     echo "<a onclick='showDelete({$deleteParams});' class='btn btn-danger  m-l-1em'>Delete</a>";
                 }
+
+                echo "<a onclick='refreshCourse({$deleteParams})' class='btn btn-primary  m-l-1em'>Refresh</a>";
 
                 echo "</td>";
                 echo "</tr>";
@@ -253,6 +260,9 @@ if (isset($_POST["Logout"])) {
         }
     }
 
+    function refreshCourse(unitCode) {
+        window.location.href = '../WebAPI/Courses/CourseUpdate.php?unitCode=' + unitCode;
+    }
 
     function showDelete(unitCode){
         //passing unit code works
@@ -316,17 +326,13 @@ if (isset($_POST["Logout"])) {
         var unitCode = document.getElementById("unitCode").value;
 
         //TODO improve input validation
-        if(isNaN(unitCode)){
-            document.getElementById("unitCode").focus();
-            return [true,"Please insert a valid unit code."];
-        }
 
         if(courseName === ""){document.getElementById("courseName").focus(); return [true,"Please insert a course name."];}
         if(unitCode === ""){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
 
         return [false,"none"];
     }
-    function createUser() {
+    function createCourse() {
         if (isBlank()[0]){
             var msg = isBlank()[1];
             alert(msg);

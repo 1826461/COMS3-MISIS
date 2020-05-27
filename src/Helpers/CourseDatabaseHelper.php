@@ -10,8 +10,8 @@ class CourseDatabaseHelper
 
     public static function insertCourse(Course $course) {
         $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("INSERT INTO courses (courseId, unitCode, courseName) VALUES (:courseId, :unitCode, :courseName) ");
-        $databaseHelper->bind(':courseId', $course->getCourseId());
+        $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName) VALUES (:courseID, :unitCode, :courseName) ");
+        $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseName', $course->getCourseName());
 
@@ -64,15 +64,15 @@ class CourseDatabaseHelper
         if ($databaseHelper->rowCount() === 0) {
             return 0;
         }
-        return new Course($course['courseId'], $course['courseName'], $course['unitCode']);
+        return new Course($course['courseID'], $course['courseName'], $course['unitCode']);
     }
 
     public static function updateCourse(Course $course) {
         $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("UPDATE courses SET  courseName = :couseName, unitCode = :unitCode WHERE (courseId = :courseId)");
+        $databaseHelper->query("UPDATE courses SET  courseName = :courseName, unitCode = :unitCode WHERE (courseID = :courseID)");
         $databaseHelper->bind(':courseName', $course->getCourseName());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
-        $databaseHelper->bind(':courseId', $course->getCourseId());
+        $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->execute();
     }
 }
