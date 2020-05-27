@@ -56,6 +56,10 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <td><?php echo htmlspecialchars($enrollment->getUnitCode(), ENT_QUOTES);  ?></td>
         </tr>
         <tr>
+            <td>Course ID</td>
+            <td><?php echo htmlspecialchars($enrollment->getCourseID(), ENT_QUOTES);  ?></td>
+        </tr>
+        <tr>
             <td>Session</td>
             <td><?php echo htmlspecialchars($enrollment->getSession(), ENT_QUOTES);  ?></td>
         </tr>

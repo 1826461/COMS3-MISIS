@@ -44,7 +44,7 @@ class JSONHelper
     //TODO TEST WHEN GIVEN ACCESS
     function editCourseData(string $unitCode,string $oldUnitCode) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($unitCode,$oldUnitCode);
+        //$enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($unitCode,$oldUnitCode);
 
         //TODO Virtus system not responding to URL
         //$data = self::getVirtusCourseJSON($unitCode);

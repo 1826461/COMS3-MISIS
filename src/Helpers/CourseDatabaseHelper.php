@@ -66,8 +66,6 @@ class CourseDatabaseHelper
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':courseName', $course->getCourseName());
-
-
         $databaseHelper->execute();
     }
 }

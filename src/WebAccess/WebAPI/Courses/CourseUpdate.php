@@ -2,7 +2,7 @@
 
 use Helpers\CourseDatabaseHelper;
 use Objects\Course;
-use Helpers\JSONHelper;
+use Helpers\EnrollmentDatabaseHelper;
 
 include("..\..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\..\Helpers\DatabaseHelper.php");
@@ -20,6 +20,8 @@ if ($_SESSION['admin'] == 1) {
     $course->setCourseName($courseName);
     $courseDatabaseHelper = new CourseDatabaseHelper();
     $courseDatabaseHelper->updateCourse($course);
+    $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
     header('Location: ../../Courses/CourseMasterView.php?action=edited');
 } else {
     header('Location: ../../Courses/CourseMasterView.php?action=deny');

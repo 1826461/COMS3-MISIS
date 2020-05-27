@@ -1,6 +1,6 @@
 <?php
 
-use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
 use Objects\Course;
 use Helpers\JSONHelper;
 

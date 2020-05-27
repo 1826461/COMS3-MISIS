@@ -101,9 +101,11 @@ class EnrollmentDatabaseHelper
         if ($databaseHelper->rowCount() === 0) {
             return 0;
         }
-        return new Enrollment($enrollment['id'], $enrollment['studentNo'], $enrollment['name'], $enrollment['surname'],
+        $enrollmentObject = new Enrollment($enrollment['id'], $enrollment['studentNo'], $enrollment['name'], $enrollment['surname'],
             $enrollment['subject'], $enrollment['unitCode'], $enrollment['session'], $enrollment['classSection'],
             $enrollment['expiryDate'], $enrollment['status']);
+        $enrollmentObject->setCourseID($enrollment['courseId']);
+        return $enrollmentObject;
     }
 
     public static function updateEnrollment(Enrollment $enrollment) {
@@ -125,11 +127,12 @@ class EnrollmentDatabaseHelper
         $databaseHelper->execute();
     }
 
-    public static function updateEnrollmentWhenCourseChange(string $unitCode,string $oldUnitCode) {
+    public static function updateEnrollmentWhenCourseChange(string $unitCode, int $courseID) {
         $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("UPDATE enrollments SET unitCode = :unitCode WHERE (unitCode = :oldUnitCode)");
+        $databaseHelper->query("UPDATE enrollments SET courseId = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $unitCode);
-        $databaseHelper->bind(':oldUnitCode', $oldUnitCode);
+        $databaseHelper->bind(':courseID', $courseID);
         $databaseHelper->execute();
     }
+
 }

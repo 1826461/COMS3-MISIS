@@ -137,6 +137,7 @@ if (isset($_POST["Logout"])) {
             echo "<th>Surname</th>";
             echo "<th>Subject</th>";
             echo "<th>Unit Code</th>";
+            echo "<th>Course ID</th>";
             echo "<th>Class Section</th>";
             echo "<th>Session</th>";
             echo "<th>Expiry Date</th>";
@@ -155,6 +156,7 @@ if (isset($_POST["Logout"])) {
                 echo "<td>{$enrollments[$index]['surname']}</td>";
                 echo "<td>{$enrollments[$index]['subject']}</td>";
                 echo "<td>{$enrollments[$index]['unitCode']}</td>";
+                echo "<td>{$enrollments[$index]['courseId']}</td>";
                 echo "<td>{$enrollments[$index]['classSection']}</td>";
                 echo "<td>{$enrollments[$index]['session']}</td>";
                 echo "<td>{$enrollments[$index]['expiryDate']}</td>";

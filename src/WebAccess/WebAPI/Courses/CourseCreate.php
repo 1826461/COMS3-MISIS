@@ -1,6 +1,7 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
 use Objects\Course;
 use Helpers\JSONHelper;
 
@@ -22,6 +23,8 @@ if ($_SESSION['admin'] == 1) {
     $courseDatabaseHelper->insertCourse($course);
     $JSONHelper = new JSONHelper();
     $JSONHelper->addCourseData($unitCode);
+    $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
     header('Location: ../../Courses/CourseMasterView.php?action=created');
 
 } else {
