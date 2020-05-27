@@ -29,11 +29,7 @@ class JSONHelper
 
         $url = 'http://wims-service-user:w\!im5-5erv1s-u5er@virtus.wits.ac.za:8180/wits-wims-services/wims/student/unitStudents/';
         $url = $url . $unitCode .'/';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($curl);
-        curl_close($curl);
-        return $result;
+        return json_decode(file_get_contents($url), true);
     }
     //TODO TEST WHEN GIVEN ACCESS
     function updateCourseData(string $unitCode) {
