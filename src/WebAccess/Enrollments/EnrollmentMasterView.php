@@ -99,11 +99,11 @@ if (isset($_POST["Logout"])) {
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
+            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button>";
             echo "<button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></div>
        </div> ";
         } else {
-            echo "</div>
-       </div> ";
+            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
         }
 
 
@@ -345,6 +345,10 @@ if (isset($_POST["Logout"])) {
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
         document.getElementById("cNum").focus();
+    }
+
+    function showCourses() {
+        window.location.href = '../Courses/CourseMasterView.php';
     }
 
     function isBlank(){

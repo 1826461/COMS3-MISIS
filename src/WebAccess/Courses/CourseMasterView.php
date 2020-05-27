@@ -38,7 +38,7 @@ if (isset($_POST["Logout"])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enrollment Master</title>
+    <title>Course Master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- custom css -->
     <link href="style.css" rel="stylesheet">
@@ -51,7 +51,7 @@ if (isset($_POST["Logout"])) {
     <!--Container-->
     <div class="container">
         <div class="page-header">
-            <h1>Enrollment Master</h1>
+            <h1>Course Master</h1>
         </div>
         <!--logout button-->
         <form class="logOut" method="post">
@@ -99,11 +99,11 @@ if (isset($_POST["Logout"])) {
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
-            echo "<button class='btn btn-success' onclick='showCreate()'>Create Course</button></div>
+            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button>";
+            echo "<button class='btn btn-success' onclick='showCreate()'>Create Course</button></div>   
        </div> ";
         } else {
-            echo "</div>
-       </div> ";
+            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></div></div>";
         }
 
 
@@ -111,7 +111,7 @@ if (isset($_POST["Logout"])) {
 
         //add create button
         //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
-        function console_log($output, $with_script_tags = true) {
+        function console_log2($output, $with_script_tags = true) {
             $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
                 ');';
             if ($with_script_tags) {
@@ -305,6 +305,10 @@ if (isset($_POST["Logout"])) {
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
         document.getElementById("cNum").focus();
+    }
+
+    function showEnrollments() {
+        window.location.href = '../Enrollments/EnrollmentMasterView.php';
     }
 
     function isBlank(){
