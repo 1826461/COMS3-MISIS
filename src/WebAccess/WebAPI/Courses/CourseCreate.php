@@ -18,7 +18,9 @@ $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Unit code
 
 if ($_SESSION['admin'] == 1) {
     $course = new Course($unitCode, $courseID);
-    $course->setCourseName($courseName);
+    if ($courseName !="") {
+        $course->setCourseName($courseName);
+    }
     $courseDatabaseHelper = new CourseDatabaseHelper();
     $courseDatabaseHelper->insertCourse($course);
     $JSONHelper = new JSONHelper();
