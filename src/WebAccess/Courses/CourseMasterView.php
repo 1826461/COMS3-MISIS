@@ -103,7 +103,7 @@ if (isset($_POST["Logout"])) {
 
         //search for user
         echo  "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
+       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findCourse()'>
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
