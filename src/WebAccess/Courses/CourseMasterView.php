@@ -87,31 +87,33 @@ if (isset($_POST["Logout"])) {
             echo "<div class='alert alert-success' id='message'>Course updated.</div>";
         }
 
-        echo "Filter by unit code: ";
-        echo "<select id='CourseList' class='selectpicker list' name='CourseList' onChange='changeCourses()'>";
-        echo"<option selected='selected' name='All'>All</option>";
-        $courseDatabaseHelper = new CourseDatabaseHelper();
-        $result = $courseDatabaseHelper->getCourseList();
-
-
-        for ($index = 0; $index < sizeof($result); $index++) {
-            $listItem = $result[$index]['unitCode'];
-            echo"<option name='$listItem' value=$listItem>$listItem</option>";
-        }
-        echo "</select>";
+//        echo "Filter by unit code: ";
+//        echo "<select id='CourseList' class='selectpicker list' name='CourseList' onChange='changeCourses()'>";
+//        echo"<option selected='selected' name='All'>All</option>";
+//        $courseDatabaseHelper = new CourseDatabaseHelper();
+//        $result = $courseDatabaseHelper->getCourseList();
+//
+//
+//        for ($index = 0; $index < sizeof($result); $index++) {
+//            $listItem = $result[$index]['unitCode'];
+//            echo"<option name='$listItem' value=$listItem>$listItem</option>";
+//        }
+//        echo "</select>";
         //end of select
 
         //search for user
         echo  "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findCourse()'>
+       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
-            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button>";
-            echo "<button class='btn btn-success' onclick='showCreate()'>Create Course</button></div>   
+            echo "<div class='viewButtons'>";
+            echo "<ul class='views'>";
+            echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to enrollment view</button></li>";
+            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
        </div> ";
         } else {
-            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></div></div>";
+            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
         }
 
 
@@ -134,7 +136,7 @@ if (isset($_POST["Logout"])) {
 
         if (sizeof($courses) > 0){
             //code to create database table
-            echo"<div class='scrollit'>";
+//            echo"<div class='scrollit'>";
             echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
             //start table
             //creating our table heading
@@ -188,7 +190,7 @@ if (isset($_POST["Logout"])) {
                 echo "</tr>";
             }
             echo "</table>";
-            echo "</div>";
+//            echo "</div>";
         }else{
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
@@ -376,6 +378,10 @@ if (isset($_POST["Logout"])) {
     setTimeout(function() {
         $('#message').fadeOut('fast');
     }, 5000); // <-- time in milliseconds
+
+    function showCourses () {
+            window.location.href="../Enrollments/EnrollmentMasterView.php";
+    }
 
 
 </script>

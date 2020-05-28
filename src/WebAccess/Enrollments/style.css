@@ -5,14 +5,18 @@
 .mt0{ margin-top:0; }
 .selectpicker list{ padding: 2px;width: 150px; margin-bottom: 10px;}
 body{
+    min-height: 1000px;
+    min-width:1000px;
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
 #tableData{
     background-color: white;
+    height: auto;
+    padding-top: 120px;
 }
 .logOut{
     position: absolute;
-    right: 14%;
+    right: 150px;
     top: 50px;
 }
 #exitButton{
@@ -60,14 +64,17 @@ ul.buttonGroup li{
     border: 1px solid #ddd; /* Add a grey border */
 }
 .topnav{
-    display:inline-block;
+    display:inline;
     list-style: none;
-    overflow: hidden;
+    right: 50px;
+    text-align: center;
     float: right;
+    padding-bottom: 10px;
+    position: relative;
 }
 .createHold{
     padding-top: 15px;
-    padding-left: 150px;
+    /*padding-left: 150px;*/
 }
 .create_pop{
     display: none;
@@ -99,10 +106,30 @@ ul.createList li{
 }
 .form-control{
     width: 300px;
+    right: 50px;
 }
 .input-group{
     width: 300px;
 }
 .selectList{
     list-style: none;
+}
+
+.detail{
+    width: auto;
+    height: 1100px;
+}
+.container{
+    width: auto;
+    position: relative;
+}
+.viewButtons{
+    right: -200px;
+}
+ul.views{
+    list-style-type:none ;
+    display: inline-block;
+}
+ul.views li{
+    padding-bottom: 10px;
 }
