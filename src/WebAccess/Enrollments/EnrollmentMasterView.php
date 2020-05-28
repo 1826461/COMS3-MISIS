@@ -99,8 +99,10 @@ if (isset($_POST["Logout"])) {
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
-            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button>";
-            echo "<button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></div>
+            echo "<div class='viewButtons'>";
+            echo "<ul class='views'>";
+            echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></li>";
+            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
        </div> ";
         } else {
             echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
@@ -125,7 +127,7 @@ if (isset($_POST["Logout"])) {
 
         if ($enrollments != 0){
             //code to create database table
-            echo"<div class='scrollit'>";
+//            echo"<div class='scrollit'>";
             echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
             //start table
             //creating our table heading
@@ -186,7 +188,7 @@ if (isset($_POST["Logout"])) {
                 echo "</tr>";
             }
             echo "</table>";
-            echo "</div>";
+//            echo "</div>";
         }else{
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
