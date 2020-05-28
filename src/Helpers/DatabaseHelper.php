@@ -13,8 +13,8 @@ class DatabaseHelper
     protected string $mySQLHost="localhost";
     protected int $mySQLPort=3306;
     protected string $mySQLSocket="";
-    protected string $mySQLUser="TestUser";
-    protected string $mySQLPassword="root";
+    protected string $mySQLUser="root";
+    protected string $mySQLPassword="";
     protected string $mySQLDbName="coms3-misis";
     public ?string $error = null;
 
