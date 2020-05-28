@@ -6,6 +6,7 @@ use Objects\Course;
 use Helpers\JSONHelper;
 
 include("..\..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\..\Helpers\DatabaseHelper.php");
 include("..\..\..\Objects\Course.php");
 include("..\..\..\Helpers\JSONHelper.php");

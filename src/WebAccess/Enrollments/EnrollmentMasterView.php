@@ -2,6 +2,8 @@
 
 use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+use Helpers\CourseDatabaseHelper;
+include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Objects\Enrollment.php");
 
@@ -218,8 +220,21 @@ if (isset($_POST["Logout"])) {
                 <li><input type="text" id="name" placeholder="Name"class="form-control"></li>
                 <li><input type="text" id="surname" placeholder="Surname"class="form-control"></li>
                 <li><input type="text" id="subject" placeholder="Subject"class="form-control"></li>
-                <li><input type="text" id="unitCode" placeholder="Unit Code"class="form-control"></li>
+                <li>Select a code:</li>
+                <li><select class="selectpicker" type="text" id="unitCode">
+                        <?php
+                            echo"<option selected='selected' name='All'></option>";
+                            $courseDatabaseHelper = new CourseDatabaseHelper();
+                            $result = $courseDatabaseHelper->getCourseList();
 
+                            for ($index = 0; $index < sizeof($result); $index++) {
+                                $listItem = $result[$index]['unitCode'];
+                                echo"<option name='$listItem' value=$listItem>$listItem</option>";
+                            }
+                            echo "</select>";
+                        ?>
+                    </select>
+                </li>
                 <li>Select a class section:</li>
                 <li><select class="selectpicker" type="text" id="classSection">
                         <option value="A">A</option>
@@ -233,7 +248,6 @@ if (isset($_POST["Logout"])) {
                         <option value="SM1">SM1</option>
                         <option value="SM2">SM2</option>
                     </select></li>
-
                 <li>Expiry Date:</li>
                 <li><div class='input-group date' id='datetimepicker1'>
                         <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date" />
@@ -360,7 +374,7 @@ if (isset($_POST["Logout"])) {
         var name = document.getElementById("name").value;
         var surname =  document.getElementById("surname").value;
         var subject = document.getElementById("subject").value ;
-        var unitCode = document.getElementById("unitCode").value ;
+        var unitCode =  document.getElementById("unitCode").value;
 
         //TODO improve input validation
         if(isNaN(studentNo)){
@@ -372,7 +386,7 @@ if (isset($_POST["Logout"])) {
         if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
         if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
         if(subject === ""){document.getElementById("subject").focus(); return[true,"Please insert a subject."];}
-        if(unitCode === ""){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
+        if(unitCode === "" || unitCode === null){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
 
         return [false,"none"];
     }

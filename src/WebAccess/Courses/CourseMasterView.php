@@ -110,7 +110,7 @@ if (isset($_POST["Logout"])) {
             echo "<div class='viewButtons'>";
             echo "<ul class='views'>";
             echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to enrollment view</button></li>";
-            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
+            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Course</button></li></ul></div></div>
        </div> ";
         } else {
             echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
