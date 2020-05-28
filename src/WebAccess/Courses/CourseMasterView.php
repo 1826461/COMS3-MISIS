@@ -3,7 +3,7 @@
 use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
-//include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\JSONHelper.php");
 include("..\..\Objects\Course.php");

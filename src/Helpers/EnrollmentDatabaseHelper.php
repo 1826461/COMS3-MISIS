@@ -47,7 +47,7 @@ class EnrollmentDatabaseHelper
 
     public static function getCourseList() {
         $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments");
+        $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() == 0) {
             return 0;

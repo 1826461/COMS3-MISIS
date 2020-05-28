@@ -123,7 +123,7 @@ if (isset($_POST["Logout"])) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollments = $enrollmentDatabaseHelper->getAllEnrollments();
 
-        if (sizeof($enrollments) > 0){
+        if ($enrollments != 0){
             //code to create database table
             echo"<div class='scrollit'>";
             echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
