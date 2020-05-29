@@ -12,7 +12,7 @@ body{
 #tableData{
     background-color: white;
     height: auto;
-    padding-top: 120px;
+    padding-top: 500px;
 }
 .logOut{
     position: absolute;
@@ -106,7 +106,7 @@ ul.createList li{
 }
 .form-control{
     width: 300px;
-    right: 0px;
+    right: 50px;
 }
 .input-group{
     width: 300px;

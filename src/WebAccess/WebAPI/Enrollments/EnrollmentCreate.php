@@ -1,11 +1,15 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\CourseDatabaseHelper;
 use Objects\Enrollment;
+use Objects\Course;
 
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\..\Helpers\DatabaseHelper.php");
 include("..\..\..\Objects\Enrollment.php");
+include("..\..\..\Objects\Course.php");
 
 session_start();
 
@@ -19,11 +23,18 @@ $session = isset($_GET['session']) ? $_GET['session'] : die('Error: Session not 
 $classSection = isset($_GET['classSection']) ? $_GET['classSection'] : die('Error: Class Section not found.');
 $expiryDate = isset($_GET['expiryDate']) ? $_GET['expiryDate'] : die('Error: Expiry date not found.');
 $status = "ENROLLED";
-$enrollment = new Enrollment($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status);
-$enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 
 if ($_SESSION['admin'] == 1) {
+    $course = new Course($unitCode, 0);
+    $enrollment = new Enrollment($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status);
+    $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $courseDatabaseHelper = new CourseDatabaseHelper();
     $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+    $course = $courseDatabaseHelper->getCourse($unitCode);
+    if ($course != 0) {
+        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
+    }
+
     header('Location: ../../Enrollments/EnrollmentMasterView.php?action=created');
 
 } else {

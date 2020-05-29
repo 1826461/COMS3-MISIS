@@ -8,7 +8,7 @@ services:
     - mysql
 
 before_install:
-    - mysql -u root --password="" < db_backups/Dump20200524.sql
+    - mysql -u root --password="" < db_backups/Dump20200528.sql
 
 before_script:
     - travis_retry composer self-update

@@ -66,4 +66,26 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(0, $databaseHelper->rowCount(), "Enrollments removed from database table");
     }
 
+    public function testGetAllEnrollments() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $counterBeforeInsert = sizeof($enrollmentDatabaseHelper->getAllEnrollments());
+        $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS4000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+        $counterAfterInsert = sizeof($enrollmentDatabaseHelper->getAllEnrollments());
+        assertEquals($counterAfterInsert, $counterBeforeInsert + 1, "Enrollments count increased by one");
+        $enrollmentDatabaseHelper->deleteEnrollment(1826461, "COMS4000A");
+    }
+
+    public function testGetCourseList() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $counterBeforeInsert = sizeof($enrollmentDatabaseHelper->getCourseList());
+        $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "TEST",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+        $counterAfterInsert = sizeof($enrollmentDatabaseHelper->getCourseList());
+        assertEquals($counterAfterInsert, $counterBeforeInsert + 1, "Course count increased by one");
+        $enrollmentDatabaseHelper->deleteEnrollment(1826461, "TEST");
+    }
+
 }

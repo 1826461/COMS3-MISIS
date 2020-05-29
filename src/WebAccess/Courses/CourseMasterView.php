@@ -1,11 +1,12 @@
 <?php
 
-use Helpers\EnrollmentDatabaseHelper;
-include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
-include("..\..\Objects\Enrollment.php");
+include("..\..\Helpers\JSONHelper.php");
+include("..\..\Objects\Course.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
@@ -40,7 +41,7 @@ if (isset($_POST["Logout"])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enrollment Master</title>
+    <title>Course Master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <!-- custom css -->
     <link href="style.css" rel="stylesheet">
@@ -53,7 +54,7 @@ if (isset($_POST["Logout"])) {
     <!--Container-->
     <div class="container">
         <div class="page-header">
-            <h1>Enrollment Master</h1>
+            <h1>Course Master</h1>
         </div>
         <!--logout button-->
         <form class="logOut" method="post">
@@ -65,7 +66,7 @@ if (isset($_POST["Logout"])) {
         $action = isset($_GET['action']) ? $_GET['action'] : "";
         // if it was redirected from EnrollmentDelete.php
         if ($action == 'deleted') {
-            echo "<div class='alert alert-success' id='message'>Enrollment deleted.</div>";
+            echo "<div class='alert alert-success' id='message'>Course deleted.</div>";
         }
 
         if ($action == 'deny') {
@@ -74,37 +75,42 @@ if (isset($_POST["Logout"])) {
 
 
         if ($action == 'created') {
-            echo "<div class='alert alert-success' id='message'>Enrollment created.</div>";
+            echo "<div class='alert alert-success' id='message'>Course created.</div>";
         }
 
 
         if ($action == 'edited') {
-            echo "<div class='alert alert-success' id='message'>Enrollment edited.</div>";
+            echo "<div class='alert alert-success' id='message'>Course edited.</div>";
         }
 
-        echo "Filter by unit code: ";
-        echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
-        echo"<option selected='selected' name='All'>All</option>";
-        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        $result = $enrollmentDatabaseHelper->getCourseList();
-
-        for ($index = 0; $index < sizeof($result); $index++) {
-            $listItem = $result[$index]['unitCode'];
-            echo"<option name='$listItem' value=$listItem>$listItem</option>";
+        if ($action == 'updated') {
+            echo "<div class='alert alert-success' id='message'>Course updated.</div>";
         }
-        echo "</select>";
+
+//        echo "Filter by unit code: ";
+//        echo "<select id='CourseList' class='selectpicker list' name='CourseList' onChange='changeCourses()'>";
+//        echo"<option selected='selected' name='All'>All</option>";
+//        $courseDatabaseHelper = new CourseDatabaseHelper();
+//        $result = $courseDatabaseHelper->getCourseList();
+//
+//
+//        for ($index = 0; $index < sizeof($result); $index++) {
+//            $listItem = $result[$index]['unitCode'];
+//            echo"<option name='$listItem' value=$listItem>$listItem</option>";
+//        }
+//        echo "</select>";
         //end of select
 
         //search for user
         echo  "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
+       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findCourse()'>
        <div class='createHold'>";
 
         if ($_SESSION['admin']==1) {
             echo "<div class='viewButtons'>";
             echo "<ul class='views'>";
-            echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></li>";
-            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
+            echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to enrollment view</button></li>";
+            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Course</button></li></ul></div></div>
        </div> ";
         } else {
             echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
@@ -124,10 +130,11 @@ if (isset($_POST["Logout"])) {
             echo $js_code;
         }
 
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        $courses = $courseDatabaseHelper->getAllCourses();
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        $enrollments = $enrollmentDatabaseHelper->getAllEnrollments();
 
-        if ($enrollments != 0){
+        if (sizeof($courses) > 0){
             //code to create database table
 //            echo"<div class='scrollit'>";
             echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
@@ -136,55 +143,48 @@ if (isset($_POST["Logout"])) {
 
             echo "<tr>";
             //add echos for table fields from database
-            echo "<th>Student Number</th>";
-            echo "<th>Name</th>";
-            echo "<th>Surname</th>";
-            echo "<th>Subject</th>";
             echo "<th>Unit Code</th>";
             echo "<th>Course ID</th>";
-            echo "<th>Class Section</th>";
-            echo "<th>Session</th>";
-            echo "<th>Expiry Date</th>";
+            echo "<th>Course Name</th>";
+            echo "<th>Enrollment Count</th>";
             echo "<th>Actions</th>";
             echo "</tr>";
 
 
             //add table contents
-            for ($index = 0; $index < sizeof($enrollments); $index++) {
+            for ($index = 0; $index < sizeof($courses); $index++) {
                 //while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                 //extract($row);
                 //create new table row per record
-                echo "<tr>";
-                echo "<td>{$enrollments[$index]['studentNo']}</td>";
-                echo "<td>{$enrollments[$index]['name']}</td>";
-                echo "<td>{$enrollments[$index]['surname']}</td>";
-                echo "<td>{$enrollments[$index]['subject']}</td>";
-                echo "<td>{$enrollments[$index]['unitCode']}</td>";
-                echo "<td>{$enrollments[$index]['courseId']}</td>";
-                echo "<td>{$enrollments[$index]['classSection']}</td>";
-                echo "<td>{$enrollments[$index]['session']}</td>";
-                echo "<td>{$enrollments[$index]['expiryDate']}</td>";
 
-                $user = $enrollments[$index]['studentNo'];
-                $sub = $enrollments[$index]['subject'];
-                $code = $enrollments[$index]['unitCode'];
-                $arr = array($enrollments[$index]['studentNo'],$enrollments[$index]['subject']);
-                $deleteParams = json_encode(array($enrollments[$index]['studentNo'],$enrollments[$index]['unitCode']));
+
+                echo "<tr>";
+
+                echo "<td>{$courses[$index]['unitCode']}</td>";
+                echo "<td>{$courses[$index]['courseID']}</td>";
+                echo "<td>{$courses[$index]['courseName']}</td>";
+                echo "<td>{$enrollmentDatabaseHelper->getCourseEnrollmentsCount($courses[$index]['unitCode'])}</td>";
+                $name = $courses[$index]['courseName'];
+                $code = $courses[$index]['unitCode'];
+                $arr = array($courses[$index]['courseName'],$courses[$index]['unitCode']);
+                $deleteParams = json_encode($courses[$index]['unitCode']);
 
                 //issue in returning 2 variables to javascript
 
                 //add more columns for td
                 echo "<td>";
                 // read one record for this user
-                echo "<a href='EnrollmentDetailView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
+                echo "<a href='CourseDetailView.php?unitCode={$courses[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
                 //edit user
                 if ($_SESSION['admin']==1) {
-                    echo "<a class='btn btn-warning' href='EnrollmentEditView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}'>Edit</a>";
+                    echo "<a class='btn btn-warning' href='CourseEditView.php?courseName={$courses[$index]['courseName']}&unitCode={$courses[$index]['unitCode']}'>Edit</a>";
                     //href='editUser.php?studentNo={$row['studentNo']}'
 
                     // link for deleting this user
                     echo "<a onclick='showDelete({$deleteParams});' class='btn btn-danger  m-l-1em'>Delete</a>";
                 }
+
+                echo "<a onclick='refreshCourse({$deleteParams})' class='btn btn-primary  m-l-1em'>Refresh</a>";
 
                 echo "</td>";
                 echo "</tr>";
@@ -204,8 +204,8 @@ if (isset($_POST["Logout"])) {
 <div class="form-popup" id="deleteForm" method="post">
     <div class="form-container">
         <ul class="buttonGroup">
-            <li><b>Are you sure you want to delete this enrollment?</b></li>
-            <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
+            <li><b>Are you sure you want to delete this course?</b></li>
+            <li><button type="submit" class='btn btn-danger' onclick="deleteCourse()">Delete</button></li>
             <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
         </ul>
     </div>
@@ -213,49 +213,15 @@ if (isset($_POST["Logout"])) {
 
 <div class="create_pop" id="create">
     <div class="create-container">
-        <h2>Add Enrollment:</h2>
+        <h2>Add Course:</h2>
         <div class="ulDiv">
             <ul class="createList">
-                <li><input type="text" id="studentNo" placeholder="Student Number"class="form-control"></li>
-                <li><input type="text" id="name" placeholder="Name"class="form-control"></li>
-                <li><input type="text" id="surname" placeholder="Surname"class="form-control"></li>
-                <li><input type="text" id="subject" placeholder="Subject"class="form-control"></li>
-                <li>Select a code:</li>
-                <li><select class="selectpicker" type="text" id="unitCode">
-                        <?php
-                            echo"<option selected='selected' name='All'></option>";
-                            $courseDatabaseHelper = new CourseDatabaseHelper();
-                            $result = $courseDatabaseHelper->getCourseList();
+                <li><input type="text" id="unitCode" placeholder="Unit Code"class="form-control"></li>
+                <li><input type="text" id="courseID" placeholder="Course ID"class="form-control"></li>
+                <li><input type="text" id="courseName" placeholder="Course Name"class="form-control"></li>
 
-                            for ($index = 0; $index < sizeof($result); $index++) {
-                                $listItem = $result[$index]['unitCode'];
-                                echo"<option name='$listItem' value=$listItem>$listItem</option>";
-                            }
-                            echo "</select>";
-                        ?>
-                    </select>
-                </li>
-                <li>Select a class section:</li>
-                <li><select class="selectpicker" type="text" id="classSection">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                    </select></li>
-                <li>Select a session:</li>
-                <li><select class="selectpicker" type="text" id="session">
-                        <option value="SM1">SM1</option>
-                        <option value="SM2">SM2</option>
-                    </select></li>
-                <li>Expiry Date:</li>
-                <li><div class='input-group date' id='datetimepicker1'>
-                        <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date" />
-                        <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div></li>
-                <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
+
+                <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createCourse()">Create New Course</button></li>
                     <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
             </ul>
         </div>
@@ -282,10 +248,10 @@ if (isset($_POST["Logout"])) {
 
 <script>
     //hide records that dont have class value
-    var deleteStudentNumber;
+    //var deleteStudentNumber;
     var deleteUnitCode;
 
-    function changeClasses() {
+    function changeCourses() {
         var element = document.getElementById("ClassList").value;
         var table = document.getElementById("tableData");
         var tr = table.getElementsByTagName("tr");
@@ -309,22 +275,23 @@ if (isset($_POST["Logout"])) {
         }
     }
 
+    function refreshCourse(unitCode) {
+        window.location.href = '../WebAPI/Courses/CourseRefresh.php?unitCode=' + unitCode;
+    }
 
-    function showDelete(studentNumber){
-        //passing student number works
+    function showDelete(unitCode){
+        //passing unit code works
         //show delete popup menu
         var delForm = document.getElementById("deleteForm");
         delForm.style.display="block";
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
-        deleteStudentNumber = studentNumber[0];
-        deleteUnitCode = studentNumber[1];
+        deleteUnitCode = unitCode;
     }
 
-    function deleteUser() {
-        var student= deleteStudentNumber;
+    function deleteCourse() {
         var unit = deleteUnitCode;
-        window.location.href = '../WebAPI/Enrollments/EnrollmentDelete.php?studentNo=' + student + '&unitCode='+ unit;
+        window.location.href = '../WebAPI/Courses/CourseDelete.php?unitCode=' + unit;
     }
 
     function closeForm(){
@@ -337,7 +304,7 @@ if (isset($_POST["Logout"])) {
         document.getElementById("mainView").style.webkitFilter="";
     }
 
-    function findUser() {
+    function findCourse() {
         var element = document.getElementById("searchBar").value.toUpperCase();
         var table = document.getElementById("tableData");
         var tr = table.getElementsByTagName("tr");
@@ -365,47 +332,37 @@ if (isset($_POST["Logout"])) {
         document.getElementById("cNum").focus();
     }
 
-    function showCourses() {
-        window.location.href = '../Courses/CourseMasterView.php';
+    function showEnrollments() {
+        window.location.href = '../Enrollments/EnrollmentMasterView.php';
     }
 
     function isBlank(){
-        var studentNo = document.getElementById("studentNo").value;
-        var name = document.getElementById("name").value;
-        var surname =  document.getElementById("surname").value;
-        var subject = document.getElementById("subject").value ;
-        var unitCode =  document.getElementById("unitCode").value;
+        var courseID = document.getElementById("courseID").value;
+        var courseName = document.getElementById("courseName").value;
+        var unitCode = document.getElementById("unitCode").value;
 
         //TODO improve input validation
-        if(isNaN(studentNo)){
-            document.getElementById("studentNo").focus();
-            return [true,"Please insert a valid student number."];
-        }
 
-        if(studentNo === ""){document.getElementById("studentNo").focus(); return [true,"Please insert a student number."];}
-        if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
-        if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
-        if(subject === ""){document.getElementById("subject").focus(); return[true,"Please insert a subject."];}
-        if(unitCode === "" || unitCode === null){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
+        if(courseName === ""){
+            courseName = unitCode;
+        }
+        if(unitCode === ""){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
+        if(courseID === ""){document.getElementById("courseID").focus(); return[true,"Please insert a course ID."];}
 
         return [false,"none"];
     }
-    function createUser() {
+    function createCourse() {
         if (isBlank()[0]){
             var msg = isBlank()[1];
             alert(msg);
         }else{
-            var student = 'studentNo=' + document.getElementById("studentNo").value + '&';
-            var name = 'name=' + document.getElementById("name").value + '&';
-            var surname = 'surname=' + document.getElementById("surname").value + '&';
-            var subject = 'subject=' + document.getElementById("subject").value + '&';
+            var courseID = 'courseID=' + document.getElementById("courseID").value + '&';
             var unitCode = 'unitCode=' + document.getElementById("unitCode").value + '&';
-            var session = 'session=' + document.getElementById("session").value + '&';
-            var classSection = 'classSection=' + document.getElementById("classSection").value + '&';
-            var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value;
+            var courseName = 'courseName=' + document.getElementById("courseName").value;
+
 
             //send to php create script
-            var statement = '../WebAPI/Enrollments/EnrollmentCreate.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
+            var statement = '../WebAPI/Courses/CourseCreate.php?'+ courseID + unitCode + courseName;
             window.location.href = statement;
         }
     }
@@ -421,6 +378,10 @@ if (isset($_POST["Logout"])) {
     setTimeout(function() {
         $('#message').fadeOut('fast');
     }, 5000); // <-- time in milliseconds
+
+    function showCourses () {
+            window.location.href="../Enrollments/EnrollmentMasterView.php";
+    }
 
 
 </script>

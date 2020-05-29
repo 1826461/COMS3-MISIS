@@ -14,6 +14,7 @@ class Enrollment
     public string $classSection;
     public string $expiryDate;
     public string $status;
+    public int $courseID;
 
     function __construct($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status) {
         $this->id = $id;
@@ -186,6 +187,22 @@ class Enrollment
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCourseID(): int
+    {
+        return $this->courseID;
+    }
+
+    /**
+     * @param int $courseID
+     */
+    public function setCourseID(int $courseID): void
+    {
+        $this->courseID = $courseID;
     }
 
 
