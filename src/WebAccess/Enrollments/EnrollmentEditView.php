@@ -131,7 +131,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <td>Expiry Date</td>
             <td><div class='input-group date' id='datetimepicker1'>
                     <input type='text' id="expiryDate" class="form-control" value="<?php echo htmlspecialchars($enrollment->
-                    getExpiryDate(), ENT_QUOTES);  ?>" />
+                    getExpiryDate(), ENT_QUOTES);  ?>" readonly/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -187,25 +187,56 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $('#datetimepicker1').datetimepicker({
             defaultDate: new Date(),
             format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true
+            sideBySide: true,
+            ignoreReadonly: true
         });
     });
 
     function doUpdate() {
-        var id = 'id=' + <?php echo(json_encode($enrollment->getId()))?> + '&';
-        var studentNo = 'studentNo=' + <?php echo(json_encode($enrollment->getStudentNo()))?> + '&';
-        var name = 'name=' + document.getElementById("name").value + '&';
-        var surname = 'surname=' + document.getElementById("surname").value + '&';
-        var subject = 'subject=' + <?php echo(json_encode($enrollment->getSubject()))?> + '&';
-        var unitCode = 'unitCode=' + <?php echo(json_encode($enrollment->getUnitCode()))?> + '&';
-        var session = 'session=' + document.getElementById("session").value + '&';
-        var classSection = 'classSection=' + document.getElementById("classSection").value + '&';
-        var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value +'&';
-        var status = 'status=' + document.getElementById('status').value;
+        if (isBlank()[0]) {
+            var msg = isBlank()[1];
+            alert(msg);
+        } else {
+            var id = 'id=' + <?php echo(json_encode($enrollment->getId()))?> +'&';
+            var studentNo = 'studentNo=' + <?php echo(json_encode($enrollment->getStudentNo()))?> +'&';
+            var name = 'name=' + document.getElementById("name").value + '&';
+            var surname = 'surname=' + document.getElementById("surname").value + '&';
+            var subject = 'subject=' + <?php echo(json_encode($enrollment->getSubject()))?> +'&';
+            var unitCode = 'unitCode=' + <?php echo(json_encode($enrollment->getUnitCode()))?> +'&';
+            var session = 'session=' + document.getElementById("session").value + '&';
+            var classSection = 'classSection=' + document.getElementById("classSection").value + '&';
+            var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value + '&';
+            var status = 'status=' + document.getElementById('status').value;
 
-        //send to php edit script
-        window.location.href = '../WebAPI/Enrollments/EnrollmentUpdate.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
+            //send to php edit script
+            window.location.href = '../WebAPI/Enrollments/EnrollmentUpdate.php?' + id + studentNo + name + surname + subject + unitCode + session + classSection + expiryDate + status;
+        }
     }
+    function isBlank(){
+        var name = document.getElementById("name").value;
+        var surname =  document.getElementById("surname").value;
+
+        //null checks
+        if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
+        if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
+
+        //TODO improve input validation
+        //checking valid name and surname with certain special characters
+        var format = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+
+        if (format.test(name)||name.length<3){
+            document.getElementById("name").focus();
+            return[true,"Please insert a valid name."]
+        }
+        //surnames can have spaces
+        var format2 = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+        if (format2.test(surname)||surname.length<3){
+            document.getElementById("surname").focus();
+            return[true,"Please insert a valid surname."]
+        }
+        return [false,"none"];
+    }
+
 </script>
 
 </body>

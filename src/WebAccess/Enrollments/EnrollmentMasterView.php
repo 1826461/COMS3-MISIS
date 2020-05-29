@@ -254,7 +254,7 @@ if (isset($_POST["Logout"])) {
                 <li>Expiry Date:</li>
                 <li>
                     <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date"/>
+                        <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date" readonly/>
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -367,18 +367,44 @@ if (isset($_POST["Logout"])) {
         var subject = document.getElementById("subject").value ;
         var unitCode = document.getElementById("unitCode").value ;
 
-        //TODO improve input validation
-        if(isNaN(studentNo)){
-            document.getElementById("studentNo").focus();
-            return [true,"Please insert a valid student number."];
-        }
-
+        //null checks
         if(studentNo === ""){document.getElementById("studentNo").focus(); return [true,"Please insert a student number."];}
         if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
         if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
         if(subject === ""){document.getElementById("subject").focus(); return[true,"Please insert a subject."];}
         if(unitCode === ""){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
 
+
+        //TODO improve input validation
+        //checking valid student number
+        if(isNaN(studentNo)||studentNo.length<2){
+            document.getElementById("studentNo").focus();
+            return [true,"Please insert a valid student number."];
+        }
+        //checking valid name and surname with certain special characters
+        var format = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+
+        if (format.test(name)||name.length<3){
+            document.getElementById("name").focus();
+            return[true,"Please insert a valid name."]
+        }
+        //surnames can have spaces
+        var format2 = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+        if (format2.test(surname)||surname.length<3){
+            document.getElementById("surname").focus();
+            return[true,"Please insert a valid surname."]
+        }
+        //subjects are only strings
+        if (format.test(subject)||subject.length<4){
+            document.getElementById("subject").focus();
+            return[true,"Please insert a valid subject."]
+        }
+        //checking valid unitCode
+        var unitCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if(unitCheck.test(unitCode)||unitCode.length<8){
+            document.getElementById("unitCode").focus();
+            return[true,"Please insert a valid unit code."]
+        }
         return [false,"none"];
     }
     function createUser() {
@@ -405,7 +431,8 @@ if (isset($_POST["Logout"])) {
         $('#datetimepicker1').datetimepicker({
             defaultDate: new Date(),
             format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true
+            sideBySide: true,
+            ignoreReadonly: true
         });
     });
 
