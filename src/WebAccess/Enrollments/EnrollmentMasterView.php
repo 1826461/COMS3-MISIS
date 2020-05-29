@@ -42,9 +42,26 @@ if (isset($_POST["Logout"])) {
     <meta charset="UTF-8">
     <title>Enrollment Master</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <!--javascript code -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <!---->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
     <!-- custom css -->
     <link href="style.css" rel="stylesheet">
 </head>
+
 
 <body>
 <!--main form-->
@@ -249,12 +266,15 @@ if (isset($_POST["Logout"])) {
                         <option value="SM2">SM2</option>
                     </select></li>
                 <li>Expiry Date:</li>
-                <li><div class='input-group date' id='datetimepicker1'>
-                        <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date" />
+                <li>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' id="expiryDate" class="form-control" placeholder="Expiry Date" readonly/>
                         <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
+                            <span class="glyphicon glyphicon-calendar"></span>
                         </span>
-                    </div></li>
+                    </div>
+                </li>
+
                 <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
                     <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
             </ul>
@@ -264,21 +284,6 @@ if (isset($_POST["Logout"])) {
 
 
 </body>
-
-<!--javascript code -->
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<!-- Latest compiled and minified Bootstrap JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-<!---->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
 <script>
     //hide records that dont have class value
@@ -376,18 +381,44 @@ if (isset($_POST["Logout"])) {
         var subject = document.getElementById("subject").value ;
         var unitCode =  document.getElementById("unitCode").value;
 
-        //TODO improve input validation
-        if(isNaN(studentNo)){
-            document.getElementById("studentNo").focus();
-            return [true,"Please insert a valid student number."];
-        }
-
+        //null checks
         if(studentNo === ""){document.getElementById("studentNo").focus(); return [true,"Please insert a student number."];}
         if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
         if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
         if(subject === ""){document.getElementById("subject").focus(); return[true,"Please insert a subject."];}
         if(unitCode === "" || unitCode === null){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
 
+
+        //TODO improve input validation
+        //checking valid student number
+        if(isNaN(studentNo)||studentNo.length<2){
+            document.getElementById("studentNo").focus();
+            return [true,"Please insert a valid student number."];
+        }
+        //checking valid name and surname with certain special characters
+        var format = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+
+        if (format.test(name)||name.length<3){
+            document.getElementById("name").focus();
+            return[true,"Please insert a valid name."]
+        }
+        //surnames can have spaces
+        var format2 = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
+        if (format2.test(surname)||surname.length<3){
+            document.getElementById("surname").focus();
+            return[true,"Please insert a valid surname."]
+        }
+        //subjects are only strings
+        if (format.test(subject)||subject.length<4){
+            document.getElementById("subject").focus();
+            return[true,"Please insert a valid subject."]
+        }
+        //checking valid unitCode
+        var unitCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if(unitCheck.test(unitCode)||unitCode.length<8){
+            document.getElementById("unitCode").focus();
+            return[true,"Please insert a valid unit code."]
+        }
         return [false,"none"];
     }
     function createUser() {
@@ -414,7 +445,8 @@ if (isset($_POST["Logout"])) {
         $('#datetimepicker1').datetimepicker({
             defaultDate: new Date(),
             format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true
+            sideBySide: true,
+            ignoreReadonly: true
         });
     });
 

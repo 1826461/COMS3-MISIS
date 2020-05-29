@@ -79,15 +79,14 @@ set_time_limit(0);
 </style>
 
 <script>
-
-
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            defaultDate: new Date(),
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true
-        });
-    });
+//    $(function () {
+//        $('#datetimepicker1').datetimepicker({
+//            defaultDate: new Date(),
+//            format: 'YYYY-MM-DD HH:mm:ss',
+//            sideBySide: true,
+//            ignoreReadonly:true
+//        });
+//    });
 
     function doEdit() {
         var courseID = 'courseID=' + document.getElementById("courseID").value + '&';
