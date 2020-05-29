@@ -9,6 +9,7 @@ include("..\..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\..\Helpers\DatabaseHelper.php");
 include("..\..\..\Objects\Course.php");
+include("..\..\..\Objects\Enrollment.php");
 include("..\..\..\Helpers\JSONHelper.php");
 
 session_start();
@@ -25,11 +26,12 @@ if ($_SESSION['admin'] == 1) {
     $courseDatabaseHelper = new CourseDatabaseHelper();
     $courseDatabaseHelper->insertCourse($course);
     $JSONHelper = new JSONHelper();
-    $JSONHelper->addCourseData($unitCode);
+    $work = $JSONHelper->addCourseData($unitCode);
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
-    header('Location: ../../Courses/CourseMasterView.php?action=created');
-
+    if($work === true){
+        header('Location: ../../Courses/CourseMasterView.php?action=created');
+    }
 } else {
     header('Location: ../../Courses/CourseMasterView.php?action=deny');
 }
