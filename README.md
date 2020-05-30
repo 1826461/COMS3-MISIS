@@ -3,7 +3,7 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
 
 **Features**:
   - Secure password protected interface
-  - Different user models for controlled access
+  - Different user access models for controlled access
   - Automatically add users to Moodle courses from Virtus system
   - Manually add, edit or remove users from Moodle
   - Create new Moodle courses automatically
@@ -17,7 +17,7 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
   
  **Dependancies**
   - Doctrine
-  - Deep Copy
+  - DeepCopy
   - phar-io
   - PHPUnit
   - Symfony
