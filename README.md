@@ -9,7 +9,7 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
   - Create new Moodle courses automatically
   - Track number of users currently enrolled in each course
   - Filter enrollments by course code
-  - Search enrollment table by name, surname or student number
+  - Search enrollments by name, surname or student number
 
 **Requirements:**
   - PHP 7.4
