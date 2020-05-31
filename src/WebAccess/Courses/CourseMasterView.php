@@ -182,9 +182,11 @@ if (isset($_POST["Logout"])) {
 
                     // link for deleting this user
                     echo "<a onclick='showDelete({$deleteParams});' class='btn btn-danger  m-l-1em'>Delete</a>";
+
+                    echo "<a onclick='refreshCourse({$deleteParams})' class='btn btn-primary  m-l-1em'>Refresh</a>";
                 }
 
-                echo "<a onclick='refreshCourse({$deleteParams})' class='btn btn-primary  m-l-1em'>Refresh</a>";
+
 
                 echo "</td>";
                 echo "</tr>";
