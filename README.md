@@ -1,7 +1,7 @@
 # COMS3-MISIS [![Build Status](https://travis-ci.org/1826461/COMS3-MISIS.svg?branch=master)](https://travis-ci.org/1826461/COMS3-MISIS) [![codecov.io](https://codecov.io/gh/1826461/COMS3-MISIS/coverage.svg?branch=master)](https://codecov.io/gh/1826461/COMS3-MISIS)
 Wits Moodle Integration with Student Information System written in PHP and JavaScript with JQuery and Bootstrap designed to provide a front-end interface to the external enrollment Moodle plug-in. 
 
-**Features**:
+**Features:**
   - Secure password protected interface
   - Different user access models for controlled access
   - Automatically add users to Moodle courses from Virtus system
@@ -11,20 +11,20 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
   - Filter enrollments by course code
   - Search enrollment table by name, surname or student number
 
-**Requirements**:
+**Requirements:**
   - PHP 7.4
   - MySQL 8.0.20
   
-**Installation Instructions**
+**Installation Instructions:**
   - Create MySQL tables using scripts provided
   - Copy src directory contents to hosting root directory
   - Edit database credentials and path in src/Helpers/DatabaseHelper.php
   - Enable Moodle external database enrollment plug-in and configure using the MySQL tables
   
-**How it works**
+**How it works:**
   - When a new course is created, the COMS3-MISIS system uses the Wits SIMS API to obtain all students registered for that specific course and adds them to the enrollments table. When a user logs into Moodle, he/she is automatically enrolled in each of the courses with entries in the enrollments database based on their enrollment status and expiry date. 
 
-**Contributors**
+**Contributors:**
 <a href="https://github.com/1826461/COMS3-MISIS/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=1826461/COMS3-MISIS" />
 </a>
