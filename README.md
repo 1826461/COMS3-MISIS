@@ -29,4 +29,3 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
 <a href="https://github.com/1826461/COMS3-MISIS/graphs/contributors">
   <img src="https://contributors-img.web.app/image?repo=1826461/COMS3-MISIS" />
 </a>
-
