@@ -31,7 +31,11 @@ class DatabaseHelper
     }
 
     public function query($query){
-        $this->statement = $this->databaseHelper->prepare($query);
+        try {
+            $this->statement = $this->databaseHelper->prepare($query);
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+        }
     }
 
     public function bind($param, $value, $type = null){
@@ -50,7 +54,12 @@ class DatabaseHelper
                     $type = PDO::PARAM_STR;
             }
         }
-        $this->statement->bindValue($param, $value, $type);
+
+        try {
+            $this->statement->bindValue($param, $value, $type);
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+        }
     }
 
     public function execute(){
