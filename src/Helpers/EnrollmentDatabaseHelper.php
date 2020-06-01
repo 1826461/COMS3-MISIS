@@ -28,15 +28,13 @@ class EnrollmentDatabaseHelper
             $previousInsertId = $databaseHelper->lastInsertId();
             $databaseHelper->execute();
 
-            if ($previousInsertId == $databaseHelper->lastInsertId()) {
-                return 0;
-            } else {
+            if ($previousInsertId != $databaseHelper->lastInsertId()) {
                 return 1;
             }
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 
     public static function getAllEnrollments() {
@@ -46,15 +44,13 @@ class EnrollmentDatabaseHelper
             $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
             $result = $databaseHelper->resultSet();
 
-            if ($databaseHelper->rowCount() == 0) {
-                return 0;
-            } else {
+            if ($databaseHelper->rowCount() != 0) {
                 return $result;
             }
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 
     public static function getCourseList() {
@@ -63,15 +59,13 @@ class EnrollmentDatabaseHelper
         try{
             $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
             $result = $databaseHelper->resultSet();
-            if ($databaseHelper->rowCount() == 0) {
-                return 0;
-            } else {
+            if ($databaseHelper->rowCount() != 0) {
                 return $result;
             }
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 
     public static function deleteEnrollment($studentNo, $unitCode) {
@@ -107,14 +101,13 @@ class EnrollmentDatabaseHelper
             $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
             $databaseHelper->bind(':unitCode', $unitCode);
             $enrollments = $databaseHelper->resultSet();
-            if ($databaseHelper->rowCount() === 0) {
-                return 0;
+            if ($databaseHelper->rowCount() !== 0) {
+                return $enrollments;
             }
-            return $enrollments;
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 
     public static function getCourseEnrollmentsCount($unitCode) {
@@ -147,7 +140,7 @@ class EnrollmentDatabaseHelper
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 
     public static function updateEnrollment(Enrollment $enrollment) {
