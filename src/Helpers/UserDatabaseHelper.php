@@ -23,6 +23,6 @@ class UserDatabaseHelper
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return null;
+        return 0;
     }
 }
