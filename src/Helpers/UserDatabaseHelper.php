@@ -19,9 +19,10 @@ class UserDatabaseHelper
             if ($databaseHelper->rowCount() === 0) {
                 return 0;
             }
+            return new User($user['userID'], $user['password'], $user['role']);
         } catch (PDOException $e) {
             $databaseHelper->error = $e->getMessage();
         }
-        return new User($user['userID'], $user['password'], $user['role']);
+        return null;
     }
 }
