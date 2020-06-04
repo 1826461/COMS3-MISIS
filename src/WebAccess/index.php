@@ -7,8 +7,7 @@ include ("..\Objects\User.php");
 
 //TODO REMOVE console_log function and uses
 function console_log($output, $with_script_tags = true) {
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-        ');';
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
     if ($with_script_tags) {
         $js_code = '<script>' . $js_code . '</script>';
     }
@@ -49,6 +48,7 @@ if(isset($_POST["login"])) {
                 <div class="card-wrapper">
                     <div class="brand">
                     </div>
+                    <br><br>
                     <div class="text-center">
                         <h1 class="card-title" style="color:#000000"><?php echo "COMS3-MISIS"?></h1>
                     </div>
