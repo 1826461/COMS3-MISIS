@@ -1,6 +1,7 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\CourseDatabaseHelper;
 use Objects\Course;
 use Helpers\JSONHelper;
 
@@ -17,6 +18,10 @@ $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Unit code
 
 $JSONHelper = new JSONHelper();
 $work = $JSONHelper->updateCourseData($unitCode);
+$courseDatabaseHelper = new CourseDatabaseHelper();
+$course = $courseDatabaseHelper->getCourse($unitCode);
+$enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+$enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
 if($work === true){
     header('Location: ../../Courses/CourseMasterView.php?action=updated');
 }
