@@ -16,7 +16,8 @@ class Enrollment
     public string $status;
     public int $courseID;
 
-    function __construct($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status) {
+    function __construct($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status)
+    {
         $this->id = $id;
         $this->studentNo = $studentNo;
         $this->name = $name;
@@ -38,131 +39,19 @@ class Enrollment
     }
 
     /**
+     * @param string $classSection
+     */
+    public function setClassSection(string $classSection): void
+    {
+        $this->classSection = $classSection;
+    }
+
+    /**
      * @return string
      */
     public function getExpiryDate(): string
     {
         return $this->expiryDate;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSession(): string
-    {
-        return $this->session;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStudentNo(): int
-    {
-        return $this->studentNo;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubject(): string
-    {
-        return $this->subject;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSurname(): string
-    {
-        return $this->surname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUnitCode(): string
-    {
-        return $this->unitCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string $unitCode
-     */
-    public function setUnitCode(string $unitCode): void
-    {
-        $this->unitCode = $unitCode;
-    }
-
-    /**
-     * @param string $surname
-     */
-    public function setSurname(string $surname): void
-    {
-        $this->surname = $surname;
-    }
-
-    /**
-     * @param string $subject
-     */
-    public function setSubject(string $subject): void
-    {
-        $this->subject = $subject;
-    }
-
-    /**
-     * @param int $studentNo
-     */
-    public function setStudentNo(int $studentNo): void
-    {
-        $this->studentNo = $studentNo;
-    }
-
-    /**
-     * @param string $session
-     */
-    public function setSession(string $session): void
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**
@@ -174,11 +63,123 @@ class Enrollment
     }
 
     /**
-     * @param string $classSection
+     * @return int
      */
-    public function setClassSection(string $classSection): void
+    public function getId(): int
     {
-        $this->classSection = $classSection;
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSession(): string
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param string $session
+     */
+    public function setSession(string $session): void
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStudentNo(): int
+    {
+        return $this->studentNo;
+    }
+
+    /**
+     * @param int $studentNo
+     */
+    public function setStudentNo(int $studentNo): void
+    {
+        $this->studentNo = $studentNo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject(): string
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setSubject(string $subject): void
+    {
+        $this->subject = $subject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname(): string
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param string $surname
+     */
+    public function setSurname(string $surname): void
+    {
+        $this->surname = $surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnitCode(): string
+    {
+        return $this->unitCode;
+    }
+
+    /**
+     * @param string $unitCode
+     */
+    public function setUnitCode(string $unitCode): void
+    {
+        $this->unitCode = $unitCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
     }
 
     /**

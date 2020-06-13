@@ -2,6 +2,7 @@
 
 use Helpers\EnrollmentDatabaseHelper;
 use Objects\Enrollment;
+
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\..\Helpers\DatabaseHelper.php");
 include("..\..\..\Objects\Enrollment.php");
@@ -25,10 +26,10 @@ $enrollment = new Enrollment($id, $studentNo, $name, $surname, $subject, $unitCo
 $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 $enrollmentDatabaseHelper->updateEnrollment($enrollment);
 
-    if ($_SESSION['admin'] == 1) {
-        header('Location: ../../Enrollments/EnrollmentMasterView.php?action=edited');
+if ($_SESSION['admin'] == 1) {
+    header('Location: ../../Enrollments/EnrollmentMasterView.php?action=edited');
 
-    } else {
-        header('Location: ../../Enrollments/EnrollmentMasterView.php?action=deny');
-    }
+} else {
+    header('Location: ../../Enrollments/EnrollmentMasterView.php?action=deny');
+}
 

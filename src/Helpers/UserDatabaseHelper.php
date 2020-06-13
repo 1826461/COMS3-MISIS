@@ -9,7 +9,8 @@ use PDOException;
 class UserDatabaseHelper
 {
 
-    public static function getUser($username) {
+    public static function getUser($username)
+    {
         $databaseHelper = new DatabaseHelper();
 
         try {

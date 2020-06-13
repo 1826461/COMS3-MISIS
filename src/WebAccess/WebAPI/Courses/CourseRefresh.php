@@ -1,8 +1,7 @@
 <?php
 
-use Helpers\EnrollmentDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
-use Objects\Course;
+use Helpers\EnrollmentDatabaseHelper;
 use Helpers\JSONHelper;
 
 include("..\..\..\Helpers\CourseDatabaseHelper.php");
@@ -22,7 +21,7 @@ $courseDatabaseHelper = new CourseDatabaseHelper();
 $course = $courseDatabaseHelper->getCourse($unitCode);
 $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
-if($work === true){
+if ($work === true) {
     header('Location: ../../Courses/CourseMasterView.php?action=updated');
 }
 

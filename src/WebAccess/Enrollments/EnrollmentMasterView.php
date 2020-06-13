@@ -1,26 +1,27 @@
 <?php
 
-use Helpers\EnrollmentDatabaseHelper;
-include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
+
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Objects\Enrollment.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header ("Location: ../index.php");
+    header("Location: ../index.php");
 }
 $timeout = 3600; // Number of seconds until it times out.
 
 // Check if the timeout field exists.
-if(isset($_SESSION['timeout'])) {
+if (isset($_SESSION['timeout'])) {
     // See if the number of seconds since the last
     // visit is larger than the timeout period.
     $duration = time() - (int)$_SESSION['timeout'];
-    if($duration > $timeout) {
+    if ($duration > $timeout) {
         // Destroy the session and restart it.
-        $_SESSION =array();
+        $_SESSION = array();
         session_destroy();
         session_start();
     }
@@ -41,19 +42,21 @@ if (isset($_POST["Logout"])) {
 <head>
     <meta charset="UTF-8">
     <title>Enrollment Master</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
     <!--javascript code -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Latest compiled and minified Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <!---->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
@@ -74,7 +77,9 @@ if (isset($_POST["Logout"])) {
         </div>
         <!--logout button-->
         <form class="logOut" method="post">
-            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span class="glyphicon glyphicon-log-out"></span>Log out</button>
+            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
+                        class="glyphicon glyphicon-log-out"></span>Log out
+            </button>
         </form>
         <!-- PHP code for read records here-->
         <?php
@@ -101,23 +106,23 @@ if (isset($_POST["Logout"])) {
 
         echo "Filter by unit code: ";
         echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
-        echo"<option selected='selected' name='All'>All</option>";
+        echo "<option selected='selected' name='All'>All</option>";
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $result = $enrollmentDatabaseHelper->getCourseList();
 
         for ($index = 0; $index < sizeof($result); $index++) {
             $listItem = $result[$index]['unitCode'];
-            echo"<option name='$listItem' value=$listItem>$listItem</option>";
+            echo "<option name='$listItem' value=$listItem>$listItem</option>";
         }
         echo "</select>";
         //end of select
 
         //search for user
-        echo  "<div class='topnav'>
+        echo "<div class='topnav'>
        <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
        <div class='createHold'>";
 
-        if ($_SESSION['admin']==1) {
+        if ($_SESSION['admin'] == 1) {
             echo "<div class='viewButtons'>";
             echo "<ul class='views'>";
             echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></li>";
@@ -128,11 +133,10 @@ if (isset($_POST["Logout"])) {
         }
 
 
-
-
         //add create button
         //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
-        function console_log($output, $with_script_tags = true) {
+        function console_log($output, $with_script_tags = true)
+        {
             $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
                 ');';
             if ($with_script_tags) {
@@ -144,7 +148,7 @@ if (isset($_POST["Logout"])) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollments = $enrollmentDatabaseHelper->getAllEnrollments();
 
-        if ($enrollments != 0){
+        if ($enrollments != 0) {
             //code to create database table
 //            echo"<div class='scrollit'>";
             echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
@@ -185,8 +189,8 @@ if (isset($_POST["Logout"])) {
                 $user = $enrollments[$index]['studentNo'];
                 $sub = $enrollments[$index]['subject'];
                 $code = $enrollments[$index]['unitCode'];
-                $arr = array($enrollments[$index]['studentNo'],$enrollments[$index]['subject']);
-                $deleteParams = json_encode(array($enrollments[$index]['studentNo'],$enrollments[$index]['unitCode']));
+                $arr = array($enrollments[$index]['studentNo'], $enrollments[$index]['subject']);
+                $deleteParams = json_encode(array($enrollments[$index]['studentNo'], $enrollments[$index]['unitCode']));
 
                 //issue in returning 2 variables to javascript
 
@@ -195,12 +199,12 @@ if (isset($_POST["Logout"])) {
                 // read one record for this user
                 echo "<a href='EnrollmentDetailView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
                 //edit user
-                if ($_SESSION['admin']==1) {
+                if ($_SESSION['admin'] == 1) {
                     echo "<a class='btn btn-warning' href='EnrollmentEditView.php?studentNo={$enrollments[$index]['studentNo']}&unitCode={$enrollments[$index]['unitCode']}'>Edit</a>";
                     //href='editUser.php?studentNo={$row['studentNo']}'
 
                     // link for deleting this user
-                    echo "<a onclick='showDelete({$deleteParams});' class='btn btn-danger  m-l-1em'>Delete</a>";
+                    echo "<a onclick='showDelete({$deleteParams})' class='btn btn-danger  m-l-1em'>Delete</a>";
                 }
 
                 echo "</td>";
@@ -208,7 +212,7 @@ if (isset($_POST["Logout"])) {
             }
             echo "</table>";
 //            echo "</div>";
-        }else{
+        } else {
             echo "<div class='alert alert-danger'>No records found.</div>";
         }
         ?>
@@ -222,8 +226,12 @@ if (isset($_POST["Logout"])) {
     <div class="form-container">
         <ul class="buttonGroup">
             <li><b>Are you sure you want to delete this enrollment?</b></li>
-            <li><button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button></li>
-            <li><button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button></li>
+            <li>
+                <button type="submit" class='btn btn-danger' onclick="deleteUser()">Delete</button>
+            </li>
+            <li>
+                <button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button>
+            </li>
         </ul>
     </div>
 </div>
@@ -233,22 +241,22 @@ if (isset($_POST["Logout"])) {
         <h2>Add Enrollment:</h2>
         <div class="ulDiv">
             <ul class="createList">
-                <li><input type="text" id="studentNo" placeholder="Student Number"class="form-control"></li>
-                <li><input type="text" id="name" placeholder="Name"class="form-control"></li>
-                <li><input type="text" id="surname" placeholder="Surname"class="form-control"></li>
-                <li><input type="text" id="subject" placeholder="Subject"class="form-control"></li>
+                <li><input type="text" id="studentNo" placeholder="Student Number" class="form-control"></li>
+                <li><input type="text" id="name" placeholder="Name" class="form-control"></li>
+                <li><input type="text" id="surname" placeholder="Surname" class="form-control"></li>
+                <li><input type="text" id="subject" placeholder="Subject" class="form-control"></li>
                 <li>Select a code:</li>
                 <li><select class="selectpicker" type="text" id="unitCode">
                         <?php
-                            echo"<option selected='selected' name='All'></option>";
-                            $courseDatabaseHelper = new CourseDatabaseHelper();
-                            $result = $courseDatabaseHelper->getCourseList();
+                        echo "<option selected='selected' name='All'></option>";
+                        $courseDatabaseHelper = new CourseDatabaseHelper();
+                        $result = $courseDatabaseHelper->getCourseList();
 
-                            for ($index = 0; $index < sizeof($result); $index++) {
-                                $listItem = $result[$index]['unitCode'];
-                                echo"<option name='$listItem' value=$listItem>$listItem</option>";
-                            }
-                            echo "</select>";
+                        for ($index = 0; $index < sizeof($result); $index++) {
+                            $listItem = $result[$index]['unitCode'];
+                            echo "<option name='$listItem' value=$listItem>$listItem</option>";
+                        }
+                        echo "</select>";
                         ?>
                     </select>
                 </li>
@@ -275,8 +283,14 @@ if (isset($_POST["Logout"])) {
                     </div>
                 </li>
 
-                <div class="createButtons"><li><button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button></li>
-                    <li><button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button></li></div>
+                <div class="createButtons">
+                    <li>
+                        <button type="submit" class='btn btn-success' onclick="createUser()">Create New User</button>
+                    </li>
+                    <li>
+                        <button type="submit" id="close" class='btn btn-info' onclick="closeCreate()">Cancel</button>
+                    </li>
+                </div>
             </ul>
         </div>
     </div>
@@ -294,20 +308,20 @@ if (isset($_POST["Logout"])) {
         var element = document.getElementById("ClassList").value;
         var table = document.getElementById("tableData");
         var tr = table.getElementsByTagName("tr");
-        if (element=='All'){
-            for (var i =0;i<tr.length;i++){
-                tr[i].style.display="";
+        if (element == 'All') {
+            for (var i = 0; i < tr.length; i++) {
+                tr[i].style.display = "";
             }
-        }else{
-            for (var i =0;i<tr.length;i++){
+        } else {
+            for (var i = 0; i < tr.length; i++) {
                 var td = tr[i].getElementsByTagName("td")[4]; //gets unit code
-                if (td){
-                    var txtVal = td.textContent||td.innerText;
+                if (td) {
+                    var txtVal = td.textContent || td.innerText;
                     // window.alert(txtVal);
-                    if (txtVal==element){
+                    if (txtVal == element) {
                         tr[i].style.display = "";
-                    }else{
-                        tr[i].style.display="none";
+                    } else {
+                        tr[i].style.display = "none";
                     }
                 }
             }
@@ -315,31 +329,31 @@ if (isset($_POST["Logout"])) {
     }
 
 
-    function showDelete(studentNumber){
+    function showDelete(studentNumber) {
         //passing student number works
         //show delete popup menu
         var delForm = document.getElementById("deleteForm");
-        delForm.style.display="block";
+        delForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
         deleteStudentNumber = studentNumber[0];
         deleteUnitCode = studentNumber[1];
     }
 
     function deleteUser() {
-        var student= deleteStudentNumber;
+        var student = deleteStudentNumber;
         var unit = deleteUnitCode;
-        window.location.href = '../WebAPI/Enrollments/EnrollmentDelete.php?studentNo=' + student + '&unitCode='+ unit;
+        window.location.href = '../WebAPI/Enrollments/EnrollmentDelete.php?studentNo=' + student + '&unitCode=' + unit;
     }
 
-    function closeForm(){
-        document.getElementById("deleteForm").style.display="none";
-        document.getElementById("mainView").style.webkitFilter="";
+    function closeForm() {
+        document.getElementById("deleteForm").style.display = "none";
+        document.getElementById("mainView").style.webkitFilter = "";
     }
 
-    function closeCreate(){
-        document.getElementById("create").style.display="none";
-        document.getElementById("mainView").style.webkitFilter="";
+    function closeCreate() {
+        document.getElementById("create").style.display = "none";
+        document.getElementById("mainView").style.webkitFilter = "";
     }
 
     function findUser() {
@@ -349,12 +363,12 @@ if (isset($_POST["Logout"])) {
 
         for (i = 1; i < tr.length; i++) {
             a = tr[i].getElementsByTagName("td")[0];
-            b  = tr[i].getElementsByTagName("td")[1];
+            b = tr[i].getElementsByTagName("td")[1];
             c = tr[i].getElementsByTagName("td")[2];
             txtValue1 = a.textContent || a.innerText;
             txtValue2 = b.textContent || b.innerText;
             txtValue3 = c.textContent || c.innerText;
-            if (txtValue1.indexOf(element) > -1||txtValue2.toUpperCase().indexOf(element) > -1||txtValue3.toUpperCase().indexOf(element) > -1) {
+            if (txtValue1.indexOf(element) > -1 || txtValue2.toUpperCase().indexOf(element) > -1 || txtValue3.toUpperCase().indexOf(element) > -1) {
                 tr[i].style.display = "";
             } else {
                 tr[i].style.display = "none";
@@ -364,9 +378,9 @@ if (isset($_POST["Logout"])) {
 
     function showCreate() {
         var createForm = document.getElementById("create");
-        createForm.style.display="block";
+        createForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter="brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
         document.getElementById("cNum").focus();
     }
 
@@ -374,58 +388,74 @@ if (isset($_POST["Logout"])) {
         window.location.href = '../Courses/CourseMasterView.php';
     }
 
-    function isBlank(){
+    function isBlank() {
         var studentNo = document.getElementById("studentNo").value;
         var name = document.getElementById("name").value;
-        var surname =  document.getElementById("surname").value;
-        var subject = document.getElementById("subject").value ;
-        var unitCode =  document.getElementById("unitCode").value;
+        var surname = document.getElementById("surname").value;
+        var subject = document.getElementById("subject").value;
+        var unitCode = document.getElementById("unitCode").value;
 
         //null checks
-        if(studentNo === ""){document.getElementById("studentNo").focus(); return [true,"Please insert a student number."];}
-        if(name === ""){document.getElementById("name").focus(); return[true,"Please insert a name."];}
-        if(surname === ""){document.getElementById("surname").focus(); return[true,"Please insert a surname."];}
-        if(subject === ""){document.getElementById("subject").focus(); return[true,"Please insert a subject."];}
-        if(unitCode === "" || unitCode === null){document.getElementById("unitCode").focus(); return[true,"Please insert a unit code."];}
+        if (studentNo === "") {
+            document.getElementById("studentNo").focus();
+            return [true, "Please insert a student number."];
+        }
+        if (name === "") {
+            document.getElementById("name").focus();
+            return [true, "Please insert a name."];
+        }
+        if (surname === "") {
+            document.getElementById("surname").focus();
+            return [true, "Please insert a surname."];
+        }
+        if (subject === "") {
+            document.getElementById("subject").focus();
+            return [true, "Please insert a subject."];
+        }
+        if (unitCode === "" || unitCode === null) {
+            document.getElementById("unitCode").focus();
+            return [true, "Please insert a unit code."];
+        }
 
 
         //TODO improve input validation
         //checking valid student number
-        if(isNaN(studentNo)||studentNo.length<2){
+        if (isNaN(studentNo) || studentNo.length < 2) {
             document.getElementById("studentNo").focus();
-            return [true,"Please insert a valid student number."];
+            return [true, "Please insert a valid student number."];
         }
         //checking valid name and surname with certain special characters
         var format = /[ `!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
 
-        if (format.test(name)||name.length<3){
+        if (format.test(name) || name.length < 3) {
             document.getElementById("name").focus();
-            return[true,"Please insert a valid name."]
+            return [true, "Please insert a valid name."]
         }
         //surnames can have spaces
         var format2 = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
-        if (format2.test(surname)||surname.length<3){
+        if (format2.test(surname) || surname.length < 3) {
             document.getElementById("surname").focus();
-            return[true,"Please insert a valid surname."]
+            return [true, "Please insert a valid surname."]
         }
         //subjects are only strings
-        if (format.test(subject)||subject.length<4){
+        if (format.test(subject) || subject.length < 4) {
             document.getElementById("subject").focus();
-            return[true,"Please insert a valid subject."]
+            return [true, "Please insert a valid subject."]
         }
         //checking valid unitCode
         var unitCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if(unitCheck.test(unitCode)||unitCode.length<8){
+        if (unitCheck.test(unitCode) || unitCode.length < 8) {
             document.getElementById("unitCode").focus();
-            return[true,"Please insert a valid unit code."]
+            return [true, "Please insert a valid unit code."]
         }
-        return [false,"none"];
+        return [false, "none"];
     }
+
     function createUser() {
-        if (isBlank()[0]){
+        if (isBlank()[0]) {
             var msg = isBlank()[1];
             alert(msg);
-        }else{
+        } else {
             var student = 'studentNo=' + document.getElementById("studentNo").value + '&';
             var name = 'name=' + document.getElementById("name").value + '&';
             var surname = 'surname=' + document.getElementById("surname").value + '&';
@@ -436,7 +466,7 @@ if (isset($_POST["Logout"])) {
             var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value;
 
             //send to php create script
-            var statement = '../WebAPI/Enrollments/EnrollmentCreate.php?'+ student + name + surname + subject + unitCode + session + classSection + expiryDate;
+            var statement = '../WebAPI/Enrollments/EnrollmentCreate.php?' + student + name + surname + subject + unitCode + session + classSection + expiryDate;
             window.location.href = statement;
         }
     }
@@ -450,7 +480,7 @@ if (isset($_POST["Logout"])) {
         });
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
         $('#message').fadeOut('fast');
     }, 5000); // <-- time in milliseconds
 

@@ -8,7 +8,8 @@ use Objects\Course;
 class CourseDatabaseHelper
 {
 
-    public static function insertCourse(Course $course) {
+    public static function insertCourse(Course $course)
+    {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName) VALUES (:courseID, :unitCode, :courseName) ");
         $databaseHelper->bind(':courseID', $course->getCourseID());
@@ -17,7 +18,8 @@ class CourseDatabaseHelper
         $databaseHelper->execute();
     }
 
-    public static function getAllCourses() {
+    public static function getAllCourses()
+    {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT DISTINCT * FROM courses ORDER BY unitCode, courseName");
         $result = $databaseHelper->resultSet();
@@ -28,7 +30,8 @@ class CourseDatabaseHelper
         }
     }
 
-    public static function getCourseList() {
+    public static function getCourseList()
+    {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT DISTINCT unitCode FROM courses");
         $result = $databaseHelper->resultSet();
@@ -47,7 +50,8 @@ class CourseDatabaseHelper
         $databaseHelper->execute();
     }
 
-    public static function getCourse($unitCode) {
+    public static function getCourse($unitCode)
+    {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT * FROM courses WHERE unitCode = :unitCode LIMIT 0,1");
         $databaseHelper->bind(':unitCode', $unitCode);
@@ -60,7 +64,8 @@ class CourseDatabaseHelper
         return $newCourse;
     }
 
-    public static function updateCourse(Course $course) {
+    public static function updateCourse(Course $course)
+    {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $course->getUnitCode());

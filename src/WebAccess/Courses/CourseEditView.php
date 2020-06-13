@@ -2,10 +2,11 @@
 
 use Helpers\CourseDatabaseHelper;
 use Helpers\TextHelper;
-include ("..\..\Helpers\CourseDatabaseHelper.php");
-include ("..\..\Helpers\DatabaseHelper.php");
-include ("..\..\Helpers\TextHelper.php");
-include ("..\..\Objects\Course.php");
+
+include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\DatabaseHelper.php");
+include("..\..\Helpers\TextHelper.php");
+include("..\..\Objects\Course.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
@@ -19,17 +20,19 @@ set_time_limit(0);
 <head>
     <title>Course Edit</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Latest compiled and minified Bootstrap JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <!---->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
@@ -53,12 +56,12 @@ set_time_limit(0);
         <tr>
             <td>Course ID</td>
             <td><input id="courseID" class="form-control" type="text"
-                       value="<?php echo $textHelper->getSpecialChars($course->getCourseID());  ?>"/></td>
+                       value="<?php echo $textHelper->getSpecialChars($course->getCourseID()); ?>"/></td>
         </tr>
         <tr>
             <td>Course Name</td>
             <td><input id="courseName" class="form-control" type="text"
-                       value="<?php echo $textHelper->getSpecialChars($course->getCourseName());  ?>"/></td>
+                       value="<?php echo $textHelper->getSpecialChars($course->getCourseName()); ?>"/></td>
         </tr>
 
 
@@ -75,23 +78,24 @@ set_time_limit(0);
 </div> <!-- end .container -->
 
 <style>
-    body{
+    body {
         background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     }
-    #table{
+
+    #table {
         background-color: white;
     }
 </style>
 
 <script>
-//    $(function () {
-//        $('#datetimepicker1').datetimepicker({
-//            defaultDate: new Date(),
-//            format: 'YYYY-MM-DD HH:mm:ss',
-//            sideBySide: true,
-//            ignoreReadonly:true
-//        });
-//    });
+    //    $(function () {
+    //        $('#datetimepicker1').datetimepicker({
+    //            defaultDate: new Date(),
+    //            format: 'YYYY-MM-DD HH:mm:ss',
+    //            sideBySide: true,
+    //            ignoreReadonly:true
+    //        });
+    //    });
 
     function doEdit() {
         var courseID = 'courseID=' + document.getElementById("courseID").value + '&';

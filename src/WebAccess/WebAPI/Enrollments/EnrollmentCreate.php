@@ -1,9 +1,9 @@
 <?php
 
-use Helpers\EnrollmentDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
-use Objects\Enrollment;
+use Helpers\EnrollmentDatabaseHelper;
 use Objects\Course;
+use Objects\Enrollment;
 
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\..\Helpers\CourseDatabaseHelper.php");

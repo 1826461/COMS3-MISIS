@@ -2,8 +2,8 @@
 
 use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
-use Objects\Course;
 use Helpers\JSONHelper;
+use Objects\Course;
 
 include("..\..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
@@ -20,7 +20,7 @@ $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Unit code
 
 if ($_SESSION['admin'] == 1) {
     $course = new Course($unitCode, $courseID);
-    if ($courseName !="") {
+    if ($courseName != "") {
         $course->setCourseName($courseName);
     }
     $courseDatabaseHelper = new CourseDatabaseHelper();
@@ -29,7 +29,7 @@ if ($_SESSION['admin'] == 1) {
     $work = $JSONHelper->addCourseData($unitCode);
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
-    if($work === true){
+    if ($work === true) {
         header('Location: ../../Courses/CourseMasterView.php?action=created');
     }
 } else {
