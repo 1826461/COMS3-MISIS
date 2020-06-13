@@ -387,7 +387,7 @@ if (isset($_POST["Logout"])) {
         createForm.style.display = "block";
         //hide table and make it un-editable
         document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
-        document.getElementById("cNum").focus();
+        document.getElementById("studentNo").focus();
     }
 
     function showCourses() {

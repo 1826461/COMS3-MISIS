@@ -112,11 +112,11 @@ if (isset($_POST["Logout"])) {
         if ($_SESSION['admin'] == 1) {
             echo "<div class='viewButtons'>";
             echo "<ul class='views'>";
-            echo "<li><button class='btn btn-success' onclick='showCourses()'>Switch to enrollment view</button></li>";
+            echo "<li><button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></li>";
             echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Course</button></li></ul></div></div>
        </div> ";
         } else {
-            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
+            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></div></div>";
         }
 
 
@@ -227,7 +227,7 @@ if (isset($_POST["Logout"])) {
             <ul class="createList">
                 <li><input type="text" id="unitCode" placeholder="Unit Code" class="form-control"></li>
                 <li><input type="text" id="courseID" placeholder="Course ID" class="form-control"></li>
-                <li><input type="text" id="courseName" placeholder="Course Name" class="form-control"></li>
+                <li><input type="text" id="courseName" placeholder="Course Name (optional)" class="form-control"></li>
 
 
                 <div class="createButtons">
@@ -345,12 +345,8 @@ if (isset($_POST["Logout"])) {
         var createForm = document.getElementById("create");
         createForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
-        document.getElementById("cNum").focus();
-    }
-
-    function showEnrollments() {
-        window.location.href = '../Enrollments/EnrollmentMasterView.php';
+        document.getElementById("mainView").style.filter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("unitCode").focus();
     }
 
     function isBlank() {
@@ -403,7 +399,7 @@ if (isset($_POST["Logout"])) {
         $('#message').fadeOut('fast');
     }, 5000); // <-- time in milliseconds
 
-    function showCourses() {
+    function showEnrollments() {
         window.location.href = "../Enrollments/EnrollmentMasterView.php";
     }
 
