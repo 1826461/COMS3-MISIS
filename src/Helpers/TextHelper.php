@@ -4,9 +4,9 @@
 namespace Helpers;
 
 
-class TextHelpers
+class TextHelper
 {
-    static function returnSpecialChars($text)
+    static function getSpecialChars($text)
     {
         return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
     }

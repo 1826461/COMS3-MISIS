@@ -5,6 +5,7 @@ use Helpers\DatabaseHelper;
 use Objects\Course;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertGreaterThan;
 
 class CourseDatabaseHelperTest extends TestCase
 {
@@ -44,11 +45,18 @@ class CourseDatabaseHelperTest extends TestCase
 
     public function testGetAllCourses() {
         $courseDatabaseHelper = new CourseDatabaseHelper();
+        $course = new Course("TEST100A", 1);
+        $courseDatabaseHelper->insertCourse($course);
         $courseCount = sizeof($courseDatabaseHelper->getAllCourses());
         $course = new Course("TEST200A", 3);
         $courseDatabaseHelper->insertCourse($course);
         assertEquals(sizeof($courseDatabaseHelper->getAllCourses()), $courseCount + 1, "returns correct course count");
-        $courseDatabaseHelper->deleteCourse("TEST200A");
+    }
 
+    public function testGetCourseList() {
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        assertGreaterThan(0, sizeof($courseDatabaseHelper->getCourseList()), "returns correct course list");
+        $courseDatabaseHelper->deleteCourse("TEST200A");
+        $courseDatabaseHelper->deleteCourse("TEST100A");
     }
 }

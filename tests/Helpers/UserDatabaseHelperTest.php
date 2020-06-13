@@ -14,4 +14,9 @@ class UserDatabaseHelperTest extends TestCase
         assertEquals($userDatabaseHelper->getUser("test")->getRole(),"test", "returns correct role");
     }
 
+    public function testGetUserNotExist() {
+        $userDatabaseHelper = new UserDatabaseHelper();
+        assertEquals($userDatabaseHelper->getUser("test2"),0, "returns correct user ID");
+    }
+
 }

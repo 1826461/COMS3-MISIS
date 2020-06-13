@@ -12,10 +12,11 @@
             <file>./tests/Helpers/EnrollmentDatabaseHelperTest.php</file>
             <file>./tests/Helpers/CourseDatabaseHelperTest.php</file>
             <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/TextHelperTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="false">
             <file>./tests/Objects/CourseTest.php</file>
             <file>./tests/Objects/UserTest.php</file>
             <file>./tests/Objects/EnrollmentTest.php</file>
@@ -23,6 +24,7 @@
             <file>./tests/Helpers/EnrollmentDatabaseHelperTest.php</file>
             <file>./tests/Helpers/CourseDatabaseHelperTest.php</file>
             <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/TextHelperTest.php</file>
         </whitelist>
     </filter>
 </phpunit>

@@ -1,8 +1,10 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
+use Helpers\TextHelper;
 include ("..\..\Helpers\CourseDatabaseHelper.php");
 include ("..\..\Helpers\DatabaseHelper.php");
+include ("..\..\Helpers\TextHelper.php");
 include ("..\..\Objects\Course.php");
 
 session_start();
@@ -40,6 +42,7 @@ set_time_limit(0);
         <?php
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Course not found.');
         $courseDatabaseHelper = new CourseDatabaseHelper();
+        $textHelper = new TextHelper();
         $course = $courseDatabaseHelper->getCourse($unitCode);
         echo "<h1>Course Edit: {$course->getUnitCode()}</h1>" ?>
     </div>
@@ -49,11 +52,13 @@ set_time_limit(0);
     <table id="table" class='table table-hover table-responsive '>
         <tr>
             <td>Course ID</td>
-            <td><input id="courseID" class="form-control" type="text" value="<?php echo htmlspecialchars($course->getCourseID(), ENT_QUOTES);  ?>"></input></td>
+            <td><input id="courseID" class="form-control" type="text"
+                       value="<?php echo $textHelper->getSpecialChars($course->getCourseID());  ?>"/></td>
         </tr>
         <tr>
             <td>Course Name</td>
-            <td><input id="courseName" class="form-control" type="text" value="<?php echo htmlspecialchars($course->getCourseName(), ENT_QUOTES);  ?>"></input></td>
+            <td><input id="courseName" class="form-control" type="text"
+                       value="<?php echo $textHelper->getSpecialChars($course->getCourseName());  ?>"/></td>
         </tr>
 
 
