@@ -1,8 +1,10 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
+use Helpers\TextHelper;
 use Helpers\EnrollmentDatabaseHelper;
 include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\TextHelper.php");
 include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Objects\Course.php");
@@ -29,6 +31,8 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $course = $courseDatabaseHelper->getCourse($unitCode);
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $textHelper = new TextHelper();
+
         if ($enrollmentDatabaseHelper->getAllCourseEnrollments($unitCode) === 0) {
             $enrollmentCount = 0;
         } else {
@@ -43,19 +47,19 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     <table id="table" class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>Unit Code</td>
-            <td><?php echo htmlspecialchars($course->getUnitCode(), ENT_QUOTES);  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getUnitCode());  ?></td>
         </tr>
         <tr>
             <td>Course ID</td>
-            <td><?php echo htmlspecialchars($course->getCourseID(), ENT_QUOTES);  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getCourseID());  ?></td>
         </tr>
         <tr>
             <td>Course Name</td>
-            <td><?php echo htmlspecialchars($course->getCourseName(), ENT_QUOTES);  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getCourseName());  ?></td>
         </tr>
         <tr>
             <td>Enrollment Count</td>
-            <td><?php echo htmlspecialchars($enrollmentCount, ENT_QUOTES);  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($enrollmentCount);  ?></td>
         </tr>
 
 

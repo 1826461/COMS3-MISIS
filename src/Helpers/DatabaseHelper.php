@@ -84,19 +84,4 @@ class DatabaseHelper
         return $this->databaseHelper->lastInsertId();
     }
 
-    public function beginTransaction(){
-        return $this->databaseHelper->beginTransaction();
-    }
-
-    public function endTransaction(){
-        return $this->databaseHelper->commit();
-    }
-
-    public function cancelTransaction(){
-        return $this->databaseHelper->rollBack();
-    }
-
-    public function debugDumpParams(){
-        return $this->statement->debugDumpParams();
-    }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\TextHelper;
 include ("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include ("..\..\Helpers\TextHelper.php");
 include ("..\..\Helpers\DatabaseHelper.php");
 include ("..\..\Objects\Enrollment.php");
 
@@ -41,6 +43,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode']: die('Error: Unit code not found.');
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = $enrollmentDatabaseHelper->getEnrollment($studentNo, $unitCode);
+        $textHelper = new TextHelper();
         echo "<h1>Enrollment Edit: {$enrollment->getStudentNo()} - {$enrollment->getUnitCode()}</h1>" ?>
     </div>
 
@@ -49,11 +52,13 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     <table id="table" class='table table-hover table-responsive '>
         <tr>
             <td>Name</td>
-            <td><input id="name" class="form-control" type="text" value="<?php echo htmlspecialchars($enrollment->getName(), ENT_QUOTES);  ?>"></input></td>
+            <td><input id="name" class="form-control" type="text"
+                       value="<?php echo $textHelper->getSpecialChars($enrollment->getName())  ?>"/></td>
         </tr>
         <tr>
             <td>Surname</td>
-            <td><input id="surname" class="form-control" type="text" value="<?php echo htmlspecialchars($enrollment->getSurname(), ENT_QUOTES);  ?>"></input></td>
+            <td><input id="surname" class="form-control" type="text"
+                       value="<?php echo $textHelper->getSpecialChars($enrollment->getSurname())  ?>"/></td>
         </tr>
         <tr>
             <td>Class Section</td>
@@ -130,8 +135,8 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         <tr>
             <td>Expiry Date</td>
             <td><div class='input-group date' id='datetimepicker1'>
-                    <input type='text' id="expiryDate" class="form-control" value="<?php echo htmlspecialchars($enrollment->
-                    getExpiryDate(), ENT_QUOTES);  ?>" readonly/>
+                    <input type='text' id="expiryDate" class="form-control" value="<?php echo $textHelper->getSpecialChars($enrollment->
+                    getExpiryDate());  ?>" readonly/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                         </span>

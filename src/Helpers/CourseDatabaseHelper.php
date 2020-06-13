@@ -27,7 +27,7 @@ class CourseDatabaseHelper
             return $result;
         }
     }
-//MIGHT NOT BE NEEDED
+
     public static function getCourseList() {
         $databaseHelper = new DatabaseHelper();
         $databaseHelper->query("SELECT DISTINCT unitCode FROM courses");
