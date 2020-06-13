@@ -148,14 +148,18 @@ if (isset($_POST["Logout"])) {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollments = $enrollmentDatabaseHelper->getAllEnrollments();
 
-        if ($enrollments != 0) {
-            //code to create database table
-//            echo"<div class='scrollit'>";
-            echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
-            //start table
-            //creating our table heading
+        //start table
+        //creating our table heading
 
-            echo "<tr>";
+        echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
+
+        echo "<tr>";
+
+
+
+
+        if ($enrollments != 0) {
+
             //add echos for table fields from database
             echo "<th>Student Number</th>";
             echo "<th>Name</th>";
@@ -168,7 +172,6 @@ if (isset($_POST["Logout"])) {
             echo "<th>Expiry Date</th>";
             echo "<th>Actions</th>";
             echo "</tr>";
-
 
             //add table contents
             for ($index = 0; $index < sizeof($enrollments); $index++) {
@@ -211,9 +214,12 @@ if (isset($_POST["Logout"])) {
                 echo "</tr>";
             }
             echo "</table>";
-//            echo "</div>";
+
         } else {
-            echo "<div class='alert alert-danger'>No records found.</div>";
+            echo "<td style='text-align: center' >No records to display</td>";
+            echo "</tr>";
+            echo "</table>";
+
         }
         ?>
     </div>
