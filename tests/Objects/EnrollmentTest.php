@@ -163,6 +163,13 @@ class EnrollmentTest extends TestCase
 
     }
 
+    public function testSetCourseID()
+    {
+        self::$enrollment->setCourseID(100);
+        assertEquals(100, self::$enrollment->getCourseID(),
+            "new course ID equals expected value");
+    }
+
 
 
 
