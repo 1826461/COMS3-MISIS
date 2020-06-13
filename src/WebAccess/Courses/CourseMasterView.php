@@ -112,7 +112,7 @@ if (isset($_POST["Logout"])) {
         if ($_SESSION['admin'] == 1) {
             echo "<div class='viewButtons'>";
             echo "<ul class='views'>";
-            echo "<li><button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></li>";
+            echo "<li><button class='btn btn-primary' onclick='showEnrollments()'>Switch to enrollment view</button></li>";
             echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Course</button></li></ul></div></div>
        </div> ";
         } else {
