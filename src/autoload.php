@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Simple autoloader that follow the PHP Standards Recommendation #0 (PSR-0)

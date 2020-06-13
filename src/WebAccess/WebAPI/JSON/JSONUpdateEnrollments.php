@@ -1,7 +1,6 @@
 <?php
 
 use Helpers\JSONHelper;
-use Objects\Enrollment;
 
 include("..\..\..\Helpers\JSONHelper.php");
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");

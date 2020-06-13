@@ -1,8 +1,9 @@
 <?php
 
 use Helpers\CourseDatabaseHelper;
-use Helpers\TextHelper;
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\TextHelper;
+
 include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\TextHelper.php");
 include("..\..\Helpers\EnrollmentDatabaseHelper.php");
@@ -11,7 +12,7 @@ include("..\..\Objects\Course.php");
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
-    header ("Location: ../index.php");
+    header("Location: ../index.php");
 }
 ?>
 
@@ -20,7 +21,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
 <head>
     <title>Course Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
 <!-- container -->
@@ -47,19 +48,19 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     <table id="table" class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>Unit Code</td>
-            <td><?php echo $textHelper->getSpecialChars($course->getUnitCode());  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getUnitCode()); ?></td>
         </tr>
         <tr>
             <td>Course ID</td>
-            <td><?php echo $textHelper->getSpecialChars($course->getCourseID());  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getCourseID()); ?></td>
         </tr>
         <tr>
             <td>Course Name</td>
-            <td><?php echo $textHelper->getSpecialChars($course->getCourseName());  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($course->getCourseName()); ?></td>
         </tr>
         <tr>
             <td>Enrollment Count</td>
-            <td><?php echo $textHelper->getSpecialChars($enrollmentCount);  ?></td>
+            <td><?php echo $textHelper->getSpecialChars($enrollmentCount); ?></td>
         </tr>
 
 
@@ -79,10 +80,11 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
-    body{
+    body {
         background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
     }
-    #table{
+
+    #table {
         background-color: white;
     }
 </style>

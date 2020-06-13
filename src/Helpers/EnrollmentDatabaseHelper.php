@@ -9,9 +9,10 @@ use PDOException;
 class EnrollmentDatabaseHelper
 {
 
-    public static function insertEnrollment(Enrollment $enrollment) {
+    public static function insertEnrollment(Enrollment $enrollment)
+    {
         $databaseHelper = new DatabaseHelper();
-        try{
+        try {
             $databaseHelper->query("INSERT INTO enrollments (studentNo, name, surname, subject, unitCode, session, 
                          classSection, expiryDate, status) VALUES (:studentNo, :name, :surname, :subject, :unitCode, 
                                                                    :session, :classSection, :expiryDate, :status) ");
@@ -37,10 +38,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function getAllEnrollments() {
+    public static function getAllEnrollments()
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
             $result = $databaseHelper->resultSet();
 
@@ -53,10 +55,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function getCourseList() {
+    public static function getCourseList()
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
             $result = $databaseHelper->resultSet();
             if ($databaseHelper->rowCount() != 0) {
@@ -68,10 +71,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function deleteEnrollment($studentNo, $unitCode) {
+    public static function deleteEnrollment($studentNo, $unitCode)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("DELETE FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode");
             $databaseHelper->bind(':studentNo', $studentNo);
             $databaseHelper->bind(':unitCode', $unitCode);
@@ -81,10 +85,11 @@ class EnrollmentDatabaseHelper
         }
     }
 
-    public static function deleteAllCourseEnrollments($unitCode) {
+    public static function deleteAllCourseEnrollments($unitCode)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("DELETE FROM enrollments WHERE unitCode = :unitCode");
             $databaseHelper->bind(':unitCode', $unitCode);
             $databaseHelper->execute();
@@ -94,10 +99,20 @@ class EnrollmentDatabaseHelper
 
     }
 
-    public static function getAllCourseEnrollments($unitCode) {
+    public static function getCourseEnrollmentsCount($unitCode)
+    {
+        if (self::getAllCourseEnrollments($unitCode) === 0) {
+            return 0;
+        } else {
+            return sizeof(self::getAllCourseEnrollments($unitCode));
+        }
+    }
+
+    public static function getAllCourseEnrollments($unitCode)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
             $databaseHelper->bind(':unitCode', $unitCode);
             $enrollments = $databaseHelper->resultSet();
@@ -110,18 +125,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function getCourseEnrollmentsCount($unitCode) {
-        if (self::getAllCourseEnrollments($unitCode) === 0) {
-           return 0;
-        } else {
-            return sizeof(self::getAllCourseEnrollments($unitCode));
-        }
-    }
-
-    public static function getEnrollment($studentNo, $unitCode) {
+    public static function getEnrollment($studentNo, $unitCode)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("SELECT * FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode LIMIT 0,1");
             $databaseHelper->bind(':studentNo', $studentNo);
             $databaseHelper->bind(':unitCode', $unitCode);
@@ -132,8 +140,8 @@ class EnrollmentDatabaseHelper
             }
 
             $enrollmentObject = new Enrollment($enrollment['id'], $enrollment['studentNo'], $enrollment['name'], $enrollment['surname'],
-            $enrollment['subject'], $enrollment['unitCode'], $enrollment['session'], $enrollment['classSection'],
-            $enrollment['expiryDate'], $enrollment['status']);
+                $enrollment['subject'], $enrollment['unitCode'], $enrollment['session'], $enrollment['classSection'],
+                $enrollment['expiryDate'], $enrollment['status']);
             $enrollmentObject->setCourseID($enrollment['courseId']);
 
             return $enrollmentObject;
@@ -143,10 +151,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function updateEnrollment(Enrollment $enrollment) {
+    public static function updateEnrollment(Enrollment $enrollment)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("UPDATE enrollments SET studentNo = :studentNo, name = :name, surname = :surname, 
                            subject= :subject, unitCode = :unitCode, session = :session, classSection = :classSection , expiryDate = :expiryDate,
                            status = :status WHERE (id= :id)");
@@ -167,10 +176,11 @@ class EnrollmentDatabaseHelper
         }
     }
 
-    public static function updateEnrollmentWhenCourseChange(string $unitCode, int $courseID) {
+    public static function updateEnrollmentWhenCourseChange(string $unitCode, int $courseID)
+    {
         $databaseHelper = new DatabaseHelper();
 
-        try{
+        try {
             $databaseHelper->query("UPDATE enrollments SET courseId = :courseID WHERE (unitCode = :unitCode)");
             $databaseHelper->bind(':unitCode', $unitCode);
             $databaseHelper->bind(':courseID', $courseID);

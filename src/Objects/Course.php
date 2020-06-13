@@ -9,7 +9,8 @@ class Course
     public string $courseName;
 
 
-    function __construct($unitCode, $courseID) {
+    function __construct($unitCode, $courseID)
+    {
         $this->unitCode = $unitCode;
         $this->courseID = $courseID;
         $this->courseName = $this->unitCode;
@@ -25,23 +26,6 @@ class Course
     }
 
     /**
-     * @return string
-     */
-    public function getCourseName(): string
-    {
-        return $this->courseName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUnitCode(): string
-    {
-        return $this->unitCode;
-    }
-
-
-    /**
      * @param int $courseID
      */
     public function setCourseID(int $courseID): void
@@ -50,11 +34,27 @@ class Course
     }
 
     /**
+     * @return string
+     */
+    public function getCourseName(): string
+    {
+        return $this->courseName;
+    }
+
+    /**
      * @param string $courseName
      */
     public function setCourseName(string $courseName): void
     {
         $this->courseName = $courseName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnitCode(): string
+    {
+        return $this->unitCode;
     }
 
     /**
