@@ -22,47 +22,37 @@ class DatabaseHelper
     {
         $options = array(
             PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT);
 
-        try {
-            $this->databaseHelper = new PDO("mysql:host={$this->mySQLHost};port={$this->mySQLPort};dbname={$this->mySQLDbName}", $this->mySQLUser, $this->mySQLPassword, $options);
-        } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-        }
+        $this->databaseHelper = new PDO("mysql:host={$this->mySQLHost};port={$this->mySQLPort};dbname={$this->mySQLDbName}", $this->mySQLUser, $this->mySQLPassword, $options);
     }
 
     public function query($query)
     {
-        try {
-            $this->statement = $this->databaseHelper->prepare($query);
-        } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-        }
+        $this->statement = $this->databaseHelper->prepare($query);
     }
 
     public function bind($param, $value, $type = null)
     {
+        //uncomment if needed in future
         if (is_null($type)) {
             switch (true) {
                 case is_int($value):
                     $type = PDO::PARAM_INT;
                     break;
                 case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
-                    break;
+                    //$type = PDO::PARAM_BOOL;
+                    //break;
                 case is_null($value):
-                    $type = PDO::PARAM_NULL;
-                    break;
+                    //$type = PDO::PARAM_NULL;
+                    //break;
                 default:
                     $type = PDO::PARAM_STR;
             }
         }
 
-        try {
-            $this->statement->bindValue($param, $value, $type);
-        } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-        }
+        $this->statement->bindValue($param, $value, $type);
+
     }
 
     public function resultSet()

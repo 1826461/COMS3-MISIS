@@ -3,6 +3,7 @@
 use Helpers\DatabaseHelper;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertNull;
+use function PHPUnit\Framework\assertNotNull;
 
 class DatabaseHelperTest extends TestCase
 {

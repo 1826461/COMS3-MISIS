@@ -10,6 +10,16 @@ use function PHPUnit\Framework\assertGreaterThan;
 class CourseDatabaseHelperTest extends TestCase
 {
 
+    public function testGetAllCoursesEmpty() {
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        assertEquals($courseDatabaseHelper->getAllCourses(), 0, "returns correct course count");
+    }
+
+    public function testGetCourseListEmpty() {
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        assertEquals($courseDatabaseHelper->getCourseList(), 0, "returns correct course count");
+    }
+
     public function testInsertCourse() {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $course = new Course("TEST100A", 3);
