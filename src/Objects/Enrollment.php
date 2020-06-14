@@ -16,6 +16,19 @@ class Enrollment
     public string $status;
     public int $courseID;
 
+    /**
+     * Enrollment constructor.
+     * @param $id
+     * @param $studentNo
+     * @param $name
+     * @param $surname
+     * @param $subject
+     * @param $unitCode
+     * @param $session
+     * @param $classSection
+     * @param $expiryDate
+     * @param $status
+     */
     function __construct($id, $studentNo, $name, $surname, $subject, $unitCode, $session, $classSection, $expiryDate, $status)
     {
         $this->id = $id;

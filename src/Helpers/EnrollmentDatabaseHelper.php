@@ -8,6 +8,10 @@ use Objects\Enrollment;
 class EnrollmentDatabaseHelper
 {
 
+    /**
+     * @param Enrollment $enrollment
+     * @return int
+     */
     public static function insertEnrollment(Enrollment $enrollment)
     {
         $getCurrentEnrollmentStatus = self::getEnrollment($enrollment->getStudentNo(), $enrollment->getUnitCode());
@@ -34,69 +38,11 @@ class EnrollmentDatabaseHelper
         return 0;
     }
 
-    public static function getAllEnrollments()
-    {
-        $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
-        $result = $databaseHelper->resultSet();
-        if ($databaseHelper->rowCount() != 0) {
-            return $result;
-        }
-
-        return 0;
-    }
-
-    public static function getCourseList()
-    {
-        $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
-        $result = $databaseHelper->resultSet();
-        if ($databaseHelper->rowCount() != 0) {
-            return $result;
-        }
-
-        return 0;
-    }
-
-    public static function deleteEnrollment($studentNo, $unitCode)
-    {
-        $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("DELETE FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode");
-        $databaseHelper->bind(':studentNo', $studentNo);
-        $databaseHelper->bind(':unitCode', $unitCode);
-        $databaseHelper->execute();
-    }
-
-    public static function deleteAllCourseEnrollments($unitCode)
-    {
-        $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("DELETE FROM enrollments WHERE unitCode = :unitCode");
-        $databaseHelper->bind(':unitCode', $unitCode);
-        $databaseHelper->execute();
-    }
-
-    public static function getCourseEnrollmentsCount($unitCode)
-    {
-        if (self::getAllCourseEnrollments($unitCode) === 0) {
-            return 0;
-        } else {
-            return sizeof(self::getAllCourseEnrollments($unitCode));
-        }
-    }
-
-    public static function getAllCourseEnrollments($unitCode)
-    {
-        $databaseHelper = new DatabaseHelper();
-        $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
-        $databaseHelper->bind(':unitCode', $unitCode);
-        $enrollments = $databaseHelper->resultSet();
-        if ($databaseHelper->rowCount() !== 0) {
-            return $enrollments;
-        }
-
-        return 0;
-    }
-
+    /**
+     * @param $studentNo
+     * @param $unitCode
+     * @return int|Enrollment
+     */
     public static function getEnrollment($studentNo, $unitCode)
     {
         $databaseHelper = new DatabaseHelper();
@@ -115,6 +61,93 @@ class EnrollmentDatabaseHelper
         return $enrollmentObject;
     }
 
+    /**
+     * @return array|int
+     */
+    public static function getAllEnrollments()
+    {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() != 0) {
+            return $result;
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return array|int
+     */
+    public static function getCourseList()
+    {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() != 0) {
+            return $result;
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param $studentNo
+     * @param $unitCode
+     */
+    public static function deleteEnrollment($studentNo, $unitCode)
+    {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("DELETE FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode");
+        $databaseHelper->bind(':studentNo', $studentNo);
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->execute();
+    }
+
+    /**
+     * @param $unitCode
+     */
+    public static function deleteAllCourseEnrollments($unitCode)
+    {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("DELETE FROM enrollments WHERE unitCode = :unitCode");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->execute();
+    }
+
+    /**
+     * @param $unitCode
+     * @return int
+     */
+    public static function getCourseEnrollmentsCount($unitCode)
+    {
+        if (self::getAllCourseEnrollments($unitCode) === 0) {
+            return 0;
+        } else {
+            return sizeof(self::getAllCourseEnrollments($unitCode));
+        }
+    }
+
+    /**
+     * @param $unitCode
+     * @return array|int
+     */
+    public static function getAllCourseEnrollments($unitCode)
+    {
+        $databaseHelper = new DatabaseHelper();
+        $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $enrollments = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() !== 0) {
+            return $enrollments;
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param Enrollment $enrollment
+     */
     public static function updateEnrollment(Enrollment $enrollment)
     {
         $databaseHelper = new DatabaseHelper();
@@ -134,6 +167,10 @@ class EnrollmentDatabaseHelper
         $databaseHelper->execute();
     }
 
+    /**
+     * @param string $unitCode
+     * @param int $courseID
+     */
     public static function updateEnrollmentWhenCourseChange(string $unitCode, int $courseID)
     {
         $databaseHelper = new DatabaseHelper();

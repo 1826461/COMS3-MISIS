@@ -9,6 +9,11 @@ class Course
     public string $courseName;
 
 
+    /**
+     * Course constructor.
+     * @param $unitCode
+     * @param $courseID
+     */
     function __construct($unitCode, $courseID)
     {
         $this->unitCode = $unitCode;

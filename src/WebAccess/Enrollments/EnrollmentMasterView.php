@@ -156,8 +156,6 @@ if (isset($_POST["Logout"])) {
         echo "<tr>";
 
 
-
-
         if ($enrollments != 0) {
 
             //add echos for table fields from database

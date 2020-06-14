@@ -8,6 +8,12 @@ class User
     public string $password;
     public string $role;
 
+    /**
+     * User constructor.
+     * @param $userID
+     * @param $password
+     * @param $role
+     */
     function __construct($userID, $password, $role)
     {
         $this->userID = $userID;

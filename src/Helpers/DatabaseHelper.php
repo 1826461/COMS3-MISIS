@@ -3,7 +3,6 @@
 namespace Helpers;
 
 use PDO;
-use PDOException;
 use PDOStatement;
 
 class DatabaseHelper
@@ -13,11 +12,14 @@ class DatabaseHelper
     protected PDO $databaseHelper;
     protected string $mySQLHost = "localhost";
     protected int $mySQLPort = 3306;
-    protected string $mySQLSocket = "";
+    //protected string $mySQLSocket = "";
     protected string $mySQLUser = "root";
-    protected string $mySQLPassword = "";
+    protected string $mySQLPassword = "root";
     protected string $mySQLDbName = "coms3-misis";
 
+    /**
+     * DatabaseHelper constructor.
+     */
     public function __construct()
     {
         $options = array(
@@ -27,11 +29,19 @@ class DatabaseHelper
         $this->databaseHelper = new PDO("mysql:host={$this->mySQLHost};port={$this->mySQLPort};dbname={$this->mySQLDbName}", $this->mySQLUser, $this->mySQLPassword, $options);
     }
 
+    /**
+     * @param $query
+     */
     public function query($query)
     {
         $this->statement = $this->databaseHelper->prepare($query);
     }
 
+    /**
+     * @param $param
+     * @param $value
+     * @param null $type
+     */
     public function bind($param, $value, $type = null)
     {
         //uncomment if needed in future
@@ -55,28 +65,43 @@ class DatabaseHelper
 
     }
 
+    /**
+     * @return array
+     */
     public function resultSet()
     {
         $this->execute();
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return bool
+     */
     public function execute()
     {
         return $this->statement->execute();
     }
 
+    /**
+     * @return mixed
+     */
     public function single()
     {
         $this->execute();
         return $this->statement->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return int
+     */
     public function rowCount()
     {
         return $this->statement->rowCount();
     }
 
+    /**
+     * @return string
+     */
     public function lastInsertId()
     {
         return $this->databaseHelper->lastInsertId();

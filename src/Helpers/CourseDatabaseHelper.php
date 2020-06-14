@@ -8,6 +8,9 @@ use Objects\Course;
 class CourseDatabaseHelper
 {
 
+    /**
+     * @param Course $course
+     */
     public static function insertCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper();
@@ -18,6 +21,9 @@ class CourseDatabaseHelper
         $databaseHelper->execute();
     }
 
+    /**
+     * @return array|int
+     */
     public static function getAllCourses()
     {
         $databaseHelper = new DatabaseHelper();
@@ -30,6 +36,9 @@ class CourseDatabaseHelper
         }
     }
 
+    /**
+     * @return array|int
+     */
     public static function getCourseList()
     {
         $databaseHelper = new DatabaseHelper();
@@ -42,6 +51,9 @@ class CourseDatabaseHelper
         }
     }
 
+    /**
+     * @param $unitCode
+     */
     public static function deleteCourse($unitCode)
     {
         $databaseHelper = new DatabaseHelper();
@@ -50,6 +62,10 @@ class CourseDatabaseHelper
         $databaseHelper->execute();
     }
 
+    /**
+     * @param $unitCode
+     * @return int|Course
+     */
     public static function getCourse($unitCode)
     {
         $databaseHelper = new DatabaseHelper();
@@ -64,6 +80,9 @@ class CourseDatabaseHelper
         return $newCourse;
     }
 
+    /**
+     * @param Course $course
+     */
     public static function updateCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper();

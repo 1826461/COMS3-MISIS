@@ -4,11 +4,14 @@
 namespace Helpers;
 
 use Objects\User;
-use PDOException;
 
 class UserDatabaseHelper
 {
 
+    /**
+     * @param $username
+     * @return int|User
+     */
     public static function getUser($username)
     {
         $databaseHelper = new DatabaseHelper();
