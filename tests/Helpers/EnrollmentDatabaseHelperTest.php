@@ -38,6 +38,14 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, $result, "Enrollment added to database table");
     }
 
+    public function testInsertEnrollmentExists() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS3006A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $result = $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+        assertEquals(0, $result, "Enrollment added to database table");
+    }
+
     public function testUpdateEnrollment() {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = $enrollmentDatabaseHelper->getEnrollment(1826461, "COMS3006A");
