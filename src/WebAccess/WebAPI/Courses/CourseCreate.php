@@ -31,6 +31,8 @@ if ($_SESSION['admin'] == 1) {
     $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
     if ($work === true) {
         header('Location: ../../Courses/CourseMasterView.php?action=created');
+    } else {
+        header('Location: ../../Courses/CourseMasterView.php?action=invalid');
     }
 } else {
     header('Location: ../../Courses/CourseMasterView.php?action=deny');

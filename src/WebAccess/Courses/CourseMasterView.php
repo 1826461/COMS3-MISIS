@@ -76,6 +76,10 @@ if (isset($_POST["Logout"])) {
             echo "<div class='alert alert-success' id='message'>You don't have permission to edit the database.</div>";
         }
 
+        if ($action == 'invalid') {
+            echo "<div class='alert alert-success' id='message'>Course not found in Wits System.</div>";
+        }
+
 
         if ($action == 'created') {
             echo "<div class='alert alert-success' id='message'>Course created.</div>";
@@ -350,9 +354,9 @@ if (isset($_POST["Logout"])) {
     }
 
     function isBlank() {
-        var courseID = document.getElementById("courseID").value;
-        var courseName = document.getElementById("courseName").value;
-        var unitCode = document.getElementById("unitCode").value;
+        var courseID = document.getElementById("courseID").value.trim();
+        var courseName = document.getElementById("courseName").value.trim();
+        var unitCode = document.getElementById("unitCode").value.trim();
 
         //TODO improve input validation
 
@@ -367,6 +371,15 @@ if (isset($_POST["Logout"])) {
             document.getElementById("courseID").focus();
             return [true, "Please insert a course ID."];
         }
+        var unitCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (unitCheck.test(unitCode) || unitCode.length < 8 || unitCode.length > 9) {
+            document.getElementById("unitCode").focus();
+            return [true, "Please insert a valid unit code."]
+        }
+        if (isNaN(courseID) || courseID.length < 0 || courseID > 8) {
+            document.getElementById("courseID").focus();
+            return [true, "Please insert a valid course ID."];
+        }
 
         return [false, "none"];
     }
@@ -376,9 +389,9 @@ if (isset($_POST["Logout"])) {
             var msg = isBlank()[1];
             alert(msg);
         } else {
-            var courseID = 'courseID=' + document.getElementById("courseID").value + '&';
-            var unitCode = 'unitCode=' + document.getElementById("unitCode").value + '&';
-            var courseName = 'courseName=' + document.getElementById("courseName").value;
+            var courseID = 'courseID=' + document.getElementById("courseID").value.trim() + '&';
+            var unitCode = 'unitCode=' + document.getElementById("unitCode").value.trim() + '&';
+            var courseName = 'courseName=' + document.getElementById("courseName").value.trim();
 
 
             //send to php create script

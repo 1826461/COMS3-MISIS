@@ -393,11 +393,11 @@ if (isset($_POST["Logout"])) {
     }
 
     function isBlank() {
-        var studentNo = document.getElementById("studentNo").value;
-        var name = document.getElementById("name").value;
-        var surname = document.getElementById("surname").value;
-        var subject = document.getElementById("subject").value;
-        var unitCode = document.getElementById("unitCode").value;
+        var studentNo = document.getElementById("studentNo").value.trim();
+        var name = document.getElementById("name").value.trim();
+        var surname = document.getElementById("surname").value.trim();
+        var subject = document.getElementById("subject").value.trim();
+        var unitCode = document.getElementById("unitCode").value.trim();
 
         //null checks
         if (studentNo === "") {
@@ -437,7 +437,7 @@ if (isset($_POST["Logout"])) {
         }
         //surnames can have spaces
         var format2 = /[`!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?~0123456789]/;
-        if (format2.test(surname) || surname.length < 3) {
+        if (format2.test(surname) || surname.length < 2) {
             document.getElementById("surname").focus();
             return [true, "Please insert a valid surname."]
         }
@@ -448,7 +448,7 @@ if (isset($_POST["Logout"])) {
         }
         //checking valid unitCode
         var unitCheck = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-        if (unitCheck.test(unitCode) || unitCode.length < 8) {
+        if (unitCheck.test(unitCode) || unitCode.length < 8 || unitCode.length > 9) {
             document.getElementById("unitCode").focus();
             return [true, "Please insert a valid unit code."]
         }
@@ -460,14 +460,14 @@ if (isset($_POST["Logout"])) {
             var msg = isBlank()[1];
             alert(msg);
         } else {
-            var student = 'studentNo=' + document.getElementById("studentNo").value + '&';
-            var name = 'name=' + document.getElementById("name").value + '&';
-            var surname = 'surname=' + document.getElementById("surname").value + '&';
-            var subject = 'subject=' + document.getElementById("subject").value + '&';
-            var unitCode = 'unitCode=' + document.getElementById("unitCode").value + '&';
-            var session = 'session=' + document.getElementById("session").value + '&';
-            var classSection = 'classSection=' + document.getElementById("classSection").value + '&';
-            var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value;
+            var student = 'studentNo=' + document.getElementById("studentNo").value.trim() + '&';
+            var name = 'name=' + document.getElementById("name").value.trim() + '&';
+            var surname = 'surname=' + document.getElementById("surname").value.trim() + '&';
+            var subject = 'subject=' + document.getElementById("subject").value.trim() + '&';
+            var unitCode = 'unitCode=' + document.getElementById("unitCode").value.trim() + '&';
+            var session = 'session=' + document.getElementById("session").value.trim() + '&';
+            var classSection = 'classSection=' + document.getElementById("classSection").value.trim() + '&';
+            var expiryDate = 'expiryDate=' + document.getElementById("expiryDate").value.trim();
 
             //send to php create script
             var statement = '../WebAPI/Enrollments/EnrollmentCreate.php?' + student + name + surname + subject + unitCode + session + classSection + expiryDate;

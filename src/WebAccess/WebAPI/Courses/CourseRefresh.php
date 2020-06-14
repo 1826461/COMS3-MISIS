@@ -23,5 +23,7 @@ $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
 $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
 if ($work === true) {
     header('Location: ../../Courses/CourseMasterView.php?action=updated');
+} else {
+    header('Location: ../../Courses/CourseMasterView.php?action=invalid');
 }
 
