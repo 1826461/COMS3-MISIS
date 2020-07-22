@@ -16,7 +16,7 @@ class EnrollmentDatabaseHelper
     {
         $getCurrentEnrollmentStatus = self::getEnrollment($enrollment->getStudentNo(), $enrollment->getUnitCode());
         if ($getCurrentEnrollmentStatus === 0) {
-            $databaseHelper = new DatabaseHelper();
+            $databaseHelper = new DatabaseHelper("coms3-misis");
             $databaseHelper->query("INSERT INTO enrollments (studentNo, name, surname, subject, unitCode, session, 
                         classSection, expiryDate, status) VALUES (:studentNo, :name, :surname, :subject, :unitCode, 
                                                                    :session, :classSection, :expiryDate, :status) ");
@@ -45,7 +45,7 @@ class EnrollmentDatabaseHelper
      */
     public static function getEnrollment($studentNo, $unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT * FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode LIMIT 0,1");
         $databaseHelper->bind(':studentNo', $studentNo);
         $databaseHelper->bind(':unitCode', $unitCode);
@@ -66,7 +66,7 @@ class EnrollmentDatabaseHelper
      */
     public static function getAllEnrollments()
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT DISTINCT * FROM enrollments ORDER BY unitCode, studentNo");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() != 0) {
@@ -81,7 +81,7 @@ class EnrollmentDatabaseHelper
      */
     public static function getCourseList()
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT DISTINCT unitCode FROM enrollments ORDER BY unitCode");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() != 0) {
@@ -97,7 +97,7 @@ class EnrollmentDatabaseHelper
      */
     public static function deleteEnrollment($studentNo, $unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("DELETE FROM enrollments WHERE studentNo = :studentNo AND unitCode = :unitCode");
         $databaseHelper->bind(':studentNo', $studentNo);
         $databaseHelper->bind(':unitCode', $unitCode);
@@ -109,7 +109,7 @@ class EnrollmentDatabaseHelper
      */
     public static function deleteAllCourseEnrollments($unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("DELETE FROM enrollments WHERE unitCode = :unitCode");
         $databaseHelper->bind(':unitCode', $unitCode);
         $databaseHelper->execute();
@@ -134,7 +134,7 @@ class EnrollmentDatabaseHelper
      */
     public static function getAllCourseEnrollments($unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
         $databaseHelper->bind(':unitCode', $unitCode);
         $enrollments = $databaseHelper->resultSet();
@@ -150,7 +150,7 @@ class EnrollmentDatabaseHelper
      */
     public static function updateEnrollment(Enrollment $enrollment)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("UPDATE enrollments SET studentNo = :studentNo, name = :name, surname = :surname, 
                            subject= :subject, unitCode = :unitCode, session = :session, classSection = :classSection , expiryDate = :expiryDate,
                            status = :status WHERE (id= :id)");
@@ -173,7 +173,7 @@ class EnrollmentDatabaseHelper
      */
     public static function updateEnrollmentWhenCourseChange(string $unitCode, int $courseID)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("UPDATE enrollments SET courseId = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $unitCode);
         $databaseHelper->bind(':courseID', $courseID);

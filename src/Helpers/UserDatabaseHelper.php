@@ -14,7 +14,7 @@ class UserDatabaseHelper
      */
     public static function getUser($username)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT * FROM users WHERE userID = ? LIMIT 0,1");
         $databaseHelper->bind(1, $username);
         $user = $databaseHelper->single();

@@ -13,7 +13,7 @@ class CourseDatabaseHelper
      */
     public static function insertCourse(Course $course)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName) VALUES (:courseID, :unitCode, :courseName) ");
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
@@ -26,7 +26,7 @@ class CourseDatabaseHelper
      */
     public static function getAllCourses()
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT DISTINCT * FROM courses ORDER BY unitCode, courseName");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() == 0) {
@@ -41,7 +41,7 @@ class CourseDatabaseHelper
      */
     public static function getCourseList()
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT DISTINCT unitCode FROM courses");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() == 0) {
@@ -56,7 +56,7 @@ class CourseDatabaseHelper
      */
     public static function deleteCourse($unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("DELETE FROM courses WHERE unitCode = :unitCode");
         $databaseHelper->bind(':unitCode', $unitCode);
         $databaseHelper->execute();
@@ -68,7 +68,7 @@ class CourseDatabaseHelper
      */
     public static function getCourse($unitCode)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT * FROM courses WHERE unitCode = :unitCode LIMIT 0,1");
         $databaseHelper->bind(':unitCode', $unitCode);
         $course = $databaseHelper->single();
@@ -85,7 +85,7 @@ class CourseDatabaseHelper
      */
     public static function updateCourse(Course $course)
     {
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseID', $course->getCourseID());
