@@ -15,18 +15,18 @@ class DatabaseHelper
     //protected string $mySQLSocket = "";
     protected string $mySQLUser = "root";
     protected string $mySQLPassword = "";
-    protected string $mySQLDbName = "coms3-misis";
 
     /**
      * DatabaseHelper constructor.
+     * @param string $mySQLDbName
      */
-    public function __construct()
+    public function __construct(string $mySQLDbName)
     {
         $options = array(
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT);
 
-        $this->databaseHelper = new PDO("mysql:host={$this->mySQLHost};port={$this->mySQLPort};dbname={$this->mySQLDbName}", $this->mySQLUser, $this->mySQLPassword, $options);
+        $this->databaseHelper = new PDO("mysql:host={$this->mySQLHost};port={$this->mySQLPort};dbname={$mySQLDbName}", $this->mySQLUser, $this->mySQLPassword, $options);
     }
 
     /**

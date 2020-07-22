@@ -89,7 +89,7 @@ class EnrollmentDatabaseHelperTest extends TestCase
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
         $enrollmentDatabaseHelper->insertEnrollment($enrollment);
         $enrollmentDatabaseHelper->deleteAllCourseEnrollments('COMS4000A');
-        $databaseHelper = new DatabaseHelper();
+        $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("SELECT * FROM enrollments WHERE unitCode = :unitCode");
         assertEquals(0, $databaseHelper->rowCount(), "Enrollments removed from database table");
     }
