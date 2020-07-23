@@ -20,6 +20,7 @@ class MoodleCourseDatabaseHelperTest extends TestCase
         assertEquals(1, $moodleCourse->getId(), "returns correct id");
         assertEquals("COMS3-MISIS Test Site", $moodleCourse->getLongName(), "returns correct long name");
         assertEquals("COMS3-MISIS", $moodleCourse->getShortName(), "returns correct short name");
+        assertEquals(0, $moodleCourse->getCategory(), "returns correct category");
 
     }
 }

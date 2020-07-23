@@ -7,6 +7,7 @@ class MoodleCourse
     public string $longName;
     public int $id;
     public string $shortName;
+    public int $category;
 
 
     /**
@@ -14,12 +15,14 @@ class MoodleCourse
      * @param $id
      * @param $longName
      * @param $shortName
+     * @param $category
      */
-    function __construct($id, $longName, $shortName)
+    function __construct($id, $longName, $shortName, $category)
     {
         $this->id = $id;
         $this->longName = $longName;
         $this->shortName = $shortName;
+        $this->category = $category;
 
     }
 
@@ -48,6 +51,14 @@ class MoodleCourse
     }
 
     /**
+     * @return int
+     */
+    public function getCategory(): int
+    {
+        return $this->category;
+    }
+
+    /**
      * @param int $id
      */
     public function setId(int $id): void
@@ -71,4 +82,11 @@ class MoodleCourse
         $this->shortName = $shortName;
     }
 
+    /**
+     * @param int $category
+     */
+    public function setCategory(int $category): void
+    {
+        $this->category = $category;
+    }
 }

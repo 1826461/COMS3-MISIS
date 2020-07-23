@@ -9,7 +9,7 @@ class MoodleCourseTest extends TestCase
     private static MoodleCourse $moodleCourse;
 
     public function testMoodleCourseConstructor() {
-        self::$moodleCourse = new MoodleCourse(0, "TEST1000A/TEST1001A - Long Name", "TEST1000A");
+        self::$moodleCourse = new MoodleCourse(0, "TEST1000A/TEST1001A - Long Name", "TEST1000A", 0);
         assertEquals("TEST1000A/TEST1001A - Long Name", self::$moodleCourse->longName, "created long name equals expected value");
         assertEquals("TEST1000A", self::$moodleCourse->shortName, "created short name equals expected value");
         assertEquals(0, self::$moodleCourse->id, "created id equals expected value");
@@ -55,5 +55,19 @@ class MoodleCourseTest extends TestCase
             "new short name equals expected value");
 
     }
+    public function testGetCategory()
+    {
+        assertEquals(0, self::$moodleCourse->getCategory(),
+            "category equals expected value");
+
+    }
+    public function testSetCategory()
+    {
+        self::$moodleCourse->setCategory(1);
+        assertEquals(1, self::$moodleCourse->getCategory(),
+            "new category equals expected value");
+
+    }
+
 
 }
