@@ -23,6 +23,19 @@ class MoodleCourseDatabaseHelper
         }
     }
 
+    public static function getAllMoodleCoursesByCategory($category)
+    {
+        $databaseHelper = new DatabaseHelper("moodle");
+        $databaseHelper->query("SELECT id, fullname, shortname, category FROM mdl_course WHERE category = :category ORDER BY shortname");
+        $databaseHelper->bind(':category', $category);
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() == 0) {
+            return 0;
+        } else {
+            return $result;
+        }
+    }
+
     /**
      * @param $id
      * @return int|MoodleCourse

@@ -22,4 +22,11 @@ class MoodleCourseCategoryDatabaseHelperTest extends TestCase
         assertEquals(0, $moodleCourseCategory->getCourseCount(), "returns correct course count");
 
     }
+
+    public function  testGetMoodleCourseCategoryNone() {
+        $moodleCourseCategoriesDatabaseHelper = new MoodleCourseCategoriesDatabaseHelper();
+        $moodleCourseCategory = $moodleCourseCategoriesDatabaseHelper->getMoodleCourseCategory(0);
+        assertEquals(0, $moodleCourseCategory, "returns correct value");
+
+    }
 }

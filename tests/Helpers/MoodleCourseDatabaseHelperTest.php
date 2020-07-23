@@ -23,4 +23,20 @@ class MoodleCourseDatabaseHelperTest extends TestCase
         assertEquals(0, $moodleCourse->getCategory(), "returns correct category");
 
     }
+
+    public function  testGetMoodleCourseNone() {
+        $moodleCourseDatabaseHelper = new MoodleCourseDatabaseHelper();
+        $moodleCourse = $moodleCourseDatabaseHelper->getMoodleCourse(0);
+        assertEquals(0, $moodleCourse, "returns correct value");
+    }
+
+    public function testGetAllMoodleCoursesByCategory() {
+        $moodleCourseDatabaseHelper = new MoodleCourseDatabaseHelper();
+        assertEquals(1, sizeof($moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory(0)), "returns correct course list");
+    }
+
+    public function testGetAllMoodleCoursesByCategoryNone() {
+        $moodleCourseDatabaseHelper = new MoodleCourseDatabaseHelper();
+        assertEquals(0, $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory(-1), "returns correct value");
+    }
 }
