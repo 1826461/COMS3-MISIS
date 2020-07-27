@@ -2,11 +2,13 @@
 
 use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\MoodleCourseCategoriesDatabaseHelper;
+use Helpers\MoodleCourseDatabaseHelper;
 
-include("..\..\Helpers\EnrollmentDatabaseHelper.php");
-include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
-include("..\..\Objects\Enrollment.php");
+include("..\..\Helpers\MoodleCourseCategoriesDatabaseHelper.php");
+include("..\..\Helpers\MoodleCourseDatabaseHelper.php");
+
 
 session_start();
 if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
@@ -89,19 +91,38 @@ if (isset($_POST["Logout"])) {
     <!-- Side navigation -->
     <div class="sidenav">
     <?php
-        echo "<button type=\"button\" class=\" btn btn-danger collapsible\">Categories</button>";
-        echo "<div class=\"content\">";
-        //get all courses and make them into an a clickable object
+
+        //get all courses and make them into an a clickable object eg. echo "<a>Button</a>";
         //create helper object
-//        echo "<a>Button</a>";
-//
-//        $courseObject = new MoodleCourse();
-//        $categoryObject = new MoodleCourseCategory();
+        $allCategoryObject = new MoodleCourseDatabaseHelper();
+        $moodleCategoryHelper = new MoodleCourseCategoriesDatabaseHelper();
+        $categories = $moodleCategoryHelper->getAllMoodleCourseCategories();
 
+        $numCategories = sizeof($categories);
+        for ($i =0;$i<$numCategories;$i++){
+            echo "<div class='categoryButtons'>";
+            echo "<button type=\"button\" class=\" btn btn-danger collapsible\">{$categories[$i]['name']}</button>";
+            echo "<div class=\"content\">";
 
+            //get each course associated to this category
+            $courses = $allCategoryObject->getAllMoodleCoursesByCategory($categories[$i]['id']);
 
+//            echo '<script>';
+//            echo 'console.log('. json_encode($courses, JSON_HEX_TAG) .')';
+//            echo '</script>';
 
-        echo "</div>";
+            if($courses != 0){
+                $numSubjects = sizeof($courses);
+                for ($k=0;$k<$numSubjects;$k++){
+                    echo "<a>{$courses[$k]['shortname']}</a>";
+                }
+            }else{
+                echo "<a>None</a>";
+            }
+
+            echo "</div>";
+            echo "</div>";
+            }
     ?>
     </div>
 

@@ -238,3 +238,6 @@ ul.views li {
     position: absolute;
     right: 150px;
 }
+.categoryButtons{
+    padding-bottom: 10px;
+}
