@@ -114,7 +114,7 @@ if (isset($_POST["Logout"])) {
             if($courses != 0){
                 $numSubjects = sizeof($courses);
                 for ($k=0;$k<$numSubjects;$k++){
-                    echo "<a>{$courses[$k]['shortname']}</a>";
+                    echo "<a href='#'>{$courses[$k]['shortname']}</a>";
                 }
             }else{
                 echo "<a>None</a>";
