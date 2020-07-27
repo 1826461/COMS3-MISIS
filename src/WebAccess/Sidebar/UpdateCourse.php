@@ -4,10 +4,12 @@ use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 use Helpers\MoodleCourseCategoriesDatabaseHelper;
 use Helpers\MoodleCourseDatabaseHelper;
+use Objects\MoodleCourse;
 
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\MoodleCourseCategoriesDatabaseHelper.php");
 include("..\..\Helpers\MoodleCourseDatabaseHelper.php");
+include("..\..\Objects\MoodleCourse.php");
 
 
 session_start();
@@ -98,6 +100,8 @@ if (isset($_POST["Logout"])) {
         $moodleCategoryHelper = new MoodleCourseCategoriesDatabaseHelper();
         $categories = $moodleCategoryHelper->getAllMoodleCourseCategories();
 
+        $allCourses = [];
+
         $numCategories = sizeof($categories);
         for ($i =0;$i<$numCategories;$i++){
             echo "<div class='categoryButtons'>";
@@ -107,22 +111,32 @@ if (isset($_POST["Logout"])) {
             //get each course associated to this category
             $courses = $allCategoryObject->getAllMoodleCoursesByCategory($categories[$i]['id']);
 
-//            echo '<script>';
-//            echo 'console.log('. json_encode($courses, JSON_HEX_TAG) .')';
-//            echo '</script>';
-
             if($courses != 0){
                 $numSubjects = sizeof($courses);
                 for ($k=0;$k<$numSubjects;$k++){
-                    echo "<a href='#'>{$courses[$k]['shortname']}</a>";
+                    $id = $courses[$k]['id'];
+                    $shortname = $courses[$k]['shortname'];
+                    $longname = $courses[$k]['fullname'];
+                    $category = $courses[$k]['category'];
+
+                    //moodle object
+                    $courseObject = new MoodleCourse($id,$longname,$shortname,$category);
+                    array_push($allCourses,$courseObject);
+
+                    echo "<a href='#'>{$shortname}</a>";
                 }
             }else{
                 echo "<a>None</a>";
             }
 
+
             echo "</div>";
             echo "</div>";
             }
+
+    echo '<script>';
+    echo 'console.log('. json_encode($allCourses, JSON_HEX_TAG) .')';
+    echo '</script>';
     ?>
     </div>
 
@@ -146,6 +160,7 @@ if (isset($_POST["Logout"])) {
         });
     }
 
+    //switch to main view
     function showMain() {
         window.location.href = "../Enrollments/EnrollmentMasterView.php";
     }
