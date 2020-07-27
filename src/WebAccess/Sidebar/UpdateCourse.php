@@ -1,7 +1,5 @@
 <?php
 
-use Helpers\CourseDatabaseHelper;
-use Helpers\EnrollmentDatabaseHelper;
 use Helpers\MoodleCourseCategoriesDatabaseHelper;
 use Helpers\MoodleCourseDatabaseHelper;
 use Objects\MoodleCourse;
@@ -82,7 +80,7 @@ if (isset($_POST["Logout"])) {
         <!--logout button-->
         <form class="logOut" method="post">
             <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
-                    class="glyphicon glyphicon-log-out"></span>Log out
+                        class="glyphicon glyphicon-log-out"></span>Log out
             </button>
         </form>
         <div class="collapseButtons">
@@ -92,52 +90,46 @@ if (isset($_POST["Logout"])) {
 
     <!-- Side navigation -->
     <div class="sidenav">
-    <?php
+        <?php
 
         //get all courses and make them into an a clickable object eg. echo "<a>Button</a>";
         //create helper object
-        $allCategoryObject = new MoodleCourseDatabaseHelper();
-        $moodleCategoryHelper = new MoodleCourseCategoriesDatabaseHelper();
-        $categories = $moodleCategoryHelper->getAllMoodleCourseCategories();
+        $moodleCourseDatabaseHelper = new MoodleCourseDatabaseHelper();
+        $moodleCourseCategoryHelper = new MoodleCourseCategoriesDatabaseHelper();
+        $moodleCategories = $moodleCourseCategoryHelper->getAllMoodleCourseCategories();
 
         $allCourses = [];
 
-        $numCategories = sizeof($categories);
-        for ($i =0;$i<$numCategories;$i++){
+        for ($index = 0; $index < sizeof($moodleCategories); $index++) {
             echo "<div class='categoryButtons'>";
-            echo "<button type=\"button\" class=\" btn btn-danger collapsible\">{$categories[$i]['name']}</button>";
+            echo "<button type=\"button\" class=\" btn btn-danger collapsible\">{$moodleCategories[$index]['name']}</button>";
             echo "<div class=\"content\">";
 
             //get each course associated to this category
-            $courses = $allCategoryObject->getAllMoodleCoursesByCategory($categories[$i]['id']);
+            $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
 
-            if($courses != 0){
-                $numSubjects = sizeof($courses);
-                for ($k=0;$k<$numSubjects;$k++){
-                    $id = $courses[$k]['id'];
-                    $shortname = $courses[$k]['shortname'];
-                    $longname = $courses[$k]['fullname'];
-                    $category = $courses[$k]['category'];
+            if ($courses != 0) {
+                for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
 
                     //moodle object
-                    $courseObject = new MoodleCourse($id,$longname,$shortname,$category);
-                    array_push($allCourses,$courseObject);
+                    $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
+                    array_push($allCourses, $courseObject);
 
-                    echo "<a href='#'>{$shortname}</a>";
+                    echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
                 }
-            }else{
+            } else {
                 echo "<a>None</a>";
             }
 
 
             echo "</div>";
             echo "</div>";
-            }
+        }
 
-    echo '<script>';
-    echo 'console.log('. json_encode($allCourses, JSON_HEX_TAG) .')';
-    echo '</script>';
-    ?>
+        echo '<script>';
+        echo 'console.log(' . json_encode($allCourses, JSON_HEX_TAG) . ')';
+        echo '</script>';
+        ?>
     </div>
 
 </div>
@@ -149,7 +141,7 @@ if (isset($_POST["Logout"])) {
     var i;
 
     for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
+        coll[i].addEventListener("click", function () {
             this.classList.toggle("active");
             var content = this.nextElementSibling;
             if (content.style.display === "block") {
