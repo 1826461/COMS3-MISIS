@@ -54,7 +54,7 @@ if (isset($_POST["Logout"])) {
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <!---->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet"
@@ -100,35 +100,30 @@ if (isset($_POST["Logout"])) {
 
         $allCourses = [];
 
-        for ($index = 0; $index < sizeof($moodleCategories); $index++) {
-            echo "<div class='categoryButtons'>";
-            echo "<button type=\"button\" class=\" btn btn-danger collapsible\">{$moodleCategories[$index]['name']}</button>";
-            echo "<div class=\"content\">";
+        echo "<div class=\"panel-group\" id='accParent'>";
+            for ($index = 0; $index < sizeof($moodleCategories); $index++) {
+                echo "<button type=\"button\" data-parent='#accParent' class=\" btn btn-danger accordion\">{$moodleCategories[$index]['name']}</button>";
+                echo "<div class=\"panel\">";
 
-            //get each course associated to this category
-            $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
+                //get each course associated to this category
+                $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
 
-            if ($courses != 0) {
-                for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
+                if ($courses != 0) {
+                    for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
 
-                    //moodle object
-                    $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
-                    array_push($allCourses, $courseObject);
+                        //moodle object
+                        $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
+                        array_push($allCourses, $courseObject);
 
-                    echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
+                        echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
+                    }
+                } else {
+                    echo "<a>None</a>";
                 }
-            } else {
-                echo "<a>None</a>";
+
+                echo "</div>";
             }
-
-
-            echo "</div>";
-            echo "</div>";
-        }
-
-        echo '<script>';
-        echo 'console.log(' . json_encode($allCourses, JSON_HEX_TAG) . ')';
-        echo '</script>';
+        echo "</div>";
         ?>
     </div>
 
@@ -137,17 +132,17 @@ if (isset($_POST["Logout"])) {
 
 <script>
     //for collapsable pane
-    var coll = document.getElementsByClassName("collapsible");
+    var acc = document.getElementsByClassName("accordion");
     var i;
 
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
             this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.display === "block") {
-                content.style.display = "none";
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
             } else {
-                content.style.display = "block";
+                panel.style.maxHeight = panel.scrollHeight + "px";
             }
         });
     }
