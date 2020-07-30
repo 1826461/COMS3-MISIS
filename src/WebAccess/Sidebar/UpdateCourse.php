@@ -43,14 +43,15 @@ if (isset($_POST["Logout"])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enrollment Master</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Course Update Master</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
 
     <!--javascript code -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Latest compiled and minified Bootstrap JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <!---->
@@ -100,30 +101,39 @@ if (isset($_POST["Logout"])) {
 
         $allCourses = [];
 
-        echo "<div class=\"panel-group\" id='accParent'>";
-            for ($index = 0; $index < sizeof($moodleCategories); $index++) {
-                echo "<button type=\"button\" data-parent='#accParent' class=\" btn btn-danger accordion\">{$moodleCategories[$index]['name']}</button>";
-                echo "<div class=\"panel\">";
+        echo "<div class=\"panel-group\" id='accordion'>";
+                    for ($index = 0; $index < sizeof($moodleCategories); $index++) { //accordion
+                        echo "<div class='panel'>";
 
-                //get each course associated to this category
-                $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
+                        //panel header
+                        echo "<div class=\"panel-heading\">";
+                        echo "<button class=\"btn btn-danger acc\" data-toggle=\"collapse\" data-parent=\"#accordion\" data-target=\"#{$moodleCategories[$index]['id']}\" aria-expanded=\"false\" aria-controls=\"{$moodleCategories[$index]['id']}\">{$moodleCategories[$index]['name']}</button>";
+                        echo "</div>";
 
-                if ($courses != 0) {
-                    for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
+                        echo "<div id='{$moodleCategories[$index]['id']}' class=\"panel-collapse collapse\">";
+                        echo "<div class=\"panel-body\">";
 
-                        //moodle object
-                        $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
-                        array_push($allCourses, $courseObject);
+                        //get each course associated to this category
+                        $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
 
-                        echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
+                        if ($courses != 0) {
+                            for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
+
+                                //moodle object
+                                $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
+                                array_push($allCourses, $courseObject);
+
+                                echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
+                            }
+                        } else {
+                            echo "<a>None</a>";
+                        }
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
                     }
-                } else {
-                    echo "<a>None</a>";
-                }
-
                 echo "</div>";
-            }
-        echo "</div>";
+
         ?>
     </div>
 
@@ -132,20 +142,20 @@ if (isset($_POST["Logout"])) {
 
 <script>
     //for collapsable pane
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-        });
-    }
+    // var acc = document.getElementsByClassName("accordion");
+    // var i;
+    //
+    // for (i = 0; i < acc.length; i++) {
+    //     acc[i].addEventListener("click", function() {
+    //         this.classList.toggle("active");
+    //         var panel = this.nextElementSibling;
+    //         if (panel.style.maxHeight) {
+    //             panel.style.maxHeight = null;
+    //         } else {
+    //             panel.style.maxHeight = panel.scrollHeight + "px";
+    //         }
+    //     });
+    // }
 
     //switch to main view
     function showMain() {
