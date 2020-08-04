@@ -2,12 +2,18 @@
 
 use Helpers\MoodleCourseCategoriesDatabaseHelper;
 use Helpers\MoodleCourseDatabaseHelper;
+use Helpers\CourseDatabaseHelper;
 use Objects\MoodleCourse;
 
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\MoodleCourseCategoriesDatabaseHelper.php");
 include("..\..\Helpers\MoodleCourseDatabaseHelper.php");
 include("..\..\Objects\MoodleCourse.php");
+include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\TextHelper.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Helpers\JSONHelper.php");
+include("..\..\Objects\Course.php");
 
 
 session_start();
@@ -91,13 +97,16 @@ if (isset($_POST["Logout"])) {
 
     <!-- Side navigation -->
     <div class="sidenav">
+        <h2>All courses:</h2>
         <?php
-
         //get all courses and make them into an a clickable object eg. echo "<a>Button</a>";
         //create helper object
         $moodleCourseDatabaseHelper = new MoodleCourseDatabaseHelper();
         $moodleCourseCategoryHelper = new MoodleCourseCategoriesDatabaseHelper();
         $moodleCategories = $moodleCourseCategoryHelper->getAllMoodleCourseCategories();
+
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        $courseVirtus = $courseDatabaseHelper->getAllCourses();
 
         $allCourses = [];
 
@@ -117,13 +126,14 @@ if (isset($_POST["Logout"])) {
                         $courses = $moodleCourseDatabaseHelper->getAllMoodleCoursesByCategory($moodleCategories[$index]['id']);
 
                         if ($courses != 0) {
+                            $numCourse = sizeof($courses);
                             for ($coursesIndex = 0; $coursesIndex < sizeof($courses); $coursesIndex++) {
 
                                 //moodle object
                                 $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
                                 array_push($allCourses, $courseObject);
 
-                                echo "<a href='#'>{$courses[$coursesIndex]['shortname']}</a>";
+                                echo "<a href=\"#\" onclick=\"clickCourse(this.id)\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
                             }
                         } else {
                             echo "<a>None</a>";
@@ -137,10 +147,140 @@ if (isset($_POST["Logout"])) {
         ?>
     </div>
 
+    <div class="sidenav2">
+        <h2>Associated courses:</h2>
+        <?php
+        echo "<div class=\"panel-group\" id='accordion'>";
+        echo "<div class='panel'>";
+
+        echo "<div class=\"panel-body\">";
+
+        echo "<table id=\"tableAssociated\" class=\"table table-hover table-responsive table-bordered\">";
+        for ($index = 0; $index < 5; $index++) {
+            echo "<tr>";
+            $newIndex = $index+100;
+            if ($index != 0) {
+                echo "<td>";
+                echo "<a href=\"#\" id=$newIndex>None</a>";
+                echo "</td>";
+                if($index >= 1){
+                    echo "<td>";
+                    echo "<button class=\"btn btn-warning\" name=$newIndex style=\"display: none;\"></button>";
+                    echo "</td>";
+                }
+            } else {
+                echo "<td>";
+                echo "<a id=100>None</a>";
+                echo "</td>";
+                echo "<td>";
+                echo "<button name=100 class=\"btn btn-warning\" style=\"display: none;\"></button>";
+                echo "</td>";
+            }
+            echo "</tr>";
+
+        }
+        echo "</table>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+        ?>
+    </div>
+
+    <div class="sidenav3">
+        <h2>Suggested courses:</h2>
+        <?php
+        echo "<div class=\"panel-group\" id='accordion'>";
+        echo "<div class='panel'>";
+
+        echo "<div class=\"panel-body\">";
+
+        echo "<table id=\"tableSuggested\" class=\"table table-hover table-responsive table-bordered\">";
+        for ($index = 0; $index < 5; $index++) {
+            echo "<tr>";
+            if ($index != 0) {
+                echo "<td>";
+                echo "<a href=\"#\" id=$index>None</a>";
+                echo "</td>";
+                if($index >= 1){
+                    echo "<td>";
+                    echo "<button name=$index class=\"btn btn-success\" style=\"display: none;\"></button>";
+                    echo "</td>";
+                }
+            } else {
+                echo "<td>";
+                echo "<a id=0>None</a>";
+                echo "</td>";
+                echo "<td>";
+                echo "<button name=$index class=\"btn btn-success\" style=\"display: none;\"></button>";
+                echo "</td>";
+            }
+            echo "</tr>";
+
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+        }
+        echo "</table>";
+        ?>
+    </div>
 </div>
 </body>
 
-<script>
+<script type='text/javascript'>
+    function clickCourse(clickedID) {
+        var chosenID = clickedID;
+        var dash = chosenID.indexOf("-");
+        dash = dash - 1;
+        while (chosenID[dash] == " ") {
+            dash = dash - 1;
+        }
+        var coursesCon = chosenID.substring(0, dash + 1);
+        var courses = coursesCon.split("/");
+        for (var i = 1; i < courses.length; ++i) {
+            document.getElementById(i - 1).innerHTML = courses[i];
+            document.getElementById(i - 1).style.display = "initial";
+            if (i >= 1) {
+                document.getElementsByName(i - 1)[0].innerHTML = 'Add';
+                document.getElementsByName(i - 1)[0].style.display = "initial";
+            }
+        }
+        for (var i = courses.length; i < 4; ++i) {
+            document.getElementById(i - 1).innerHTML = 'None';
+            document.getElementsByName(i - 1)[0].innerHTML = '';
+            document.getElementsByName(i - 1)[0].style.display = "none";
+        }
+
+        for (var iLoop = 0; iLoop < 4; ++iLoop) {
+            document.getElementById(100+iLoop).innerHTML = 'None';
+            document.getElementsByName(100+iLoop)[0].innerHTML = '';
+            document.getElementsByName(100+iLoop)[0].style.display = "none";
+        }
+
+        var jArray = <?php echo json_encode($courseVirtus); ?>;
+        var sameCourseID = [];
+        var courseID = "";
+        sameCourseID.push(courses[0]);
+        for (var iLoop = 0; iLoop < jArray.length-1; ++iLoop) {
+            if (jArray[iLoop]['unitCode'] == courses[0]) {
+                courseID = jArray[iLoop]['courseID'];
+            }
+        }
+
+        for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
+            if (jArray[iLoop]['courseID'] == courseID && jArray[iLoop]['unitCode'] != courses[0]) {
+                sameCourseID.push(jArray[iLoop]['unitCode']);
+            }
+        }
+
+        for (var iLoop = 0; iLoop < sameCourseID.length; ++iLoop) {
+            document.getElementById(100+iLoop).innerHTML = sameCourseID[iLoop];
+            document.getElementById(100+iLoop).style.display = "initial";
+            if (iLoop >= 1) {
+                document.getElementsByName(100+iLoop)[0].innerHTML = 'Remove';
+                document.getElementsByName(100+iLoop)[0].style.display = "initial";
+            }
+        }
+    }
     //for collapsable pane
     // var acc = document.getElementsByClassName("accordion");
     // var i;
