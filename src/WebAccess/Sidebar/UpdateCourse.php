@@ -223,12 +223,11 @@ if (isset($_POST["Logout"])) {
                 echo "</td>";
             }
             echo "</tr>";
-
-            echo "</div>";
-            echo "</div>";
-            echo "</div>";
         }
         echo "</table>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
         ?>
     </div>
 </div>
@@ -377,6 +376,7 @@ if (isset($_POST["Logout"])) {
     function saveCourseConfig() {
         var saveForm = document.getElementById("saveForm");
         saveForm.style.display = "block";
+        saveForm.style.webkitFilter = "";
         document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
     }
 
