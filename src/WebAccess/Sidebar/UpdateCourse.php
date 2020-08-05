@@ -136,7 +136,7 @@ if (isset($_POST["Logout"])) {
                                 $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
                                 array_push($allCourses, $courseObject);
 
-                                echo "<a href=\"#\" onclick=\"clickCourse(this.id)\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
+                                echo "<a href=\"#\" onclick=\"clickCourse(this.id, {$courses[$coursesIndex]['id']})\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
                             }
                         } else {
                             echo "<a>None</a>";
@@ -250,9 +250,10 @@ if (isset($_POST["Logout"])) {
 
 <script type='text/javascript'>
     var sameCourseID = [];
-    var courseID = "";
-    function clickCourse(clickedID) {
+    var courseID = 0;
+    function clickCourse(clickedID, id) {
         var chosenID = clickedID;
+        courseID = id;
         var dash = chosenID.indexOf("-");
         dash = dash - 1;
         while (chosenID[dash] == " ") {
@@ -281,7 +282,6 @@ if (isset($_POST["Logout"])) {
         }
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
-        courseID = "";
         sameCourseID = [];
         sameCourseID.push(courses[0]);
         for (var iLoop = 0; iLoop < jArray.length-1; ++iLoop) {
@@ -376,14 +376,7 @@ if (isset($_POST["Logout"])) {
 
     //function when save is clicked
     function saveCourse() {
-        //first method tried
-        //var courseIDStr = 'courseID=' + courseID + '&';
-        //var courseSame = 'courseSame=' + JSON.stringify(sameCourseID);
-        //window.location.href = '../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php?' + courseIDStr + courseSame;
 
-        //TEST COURSES THAT WORK
-        //sameCourseID = ["COMS2014A", "COMS3005A"];
-        //second method
         $.ajax({
             type: "POST",
             url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
@@ -393,6 +386,8 @@ if (isset($_POST["Logout"])) {
             },
             success: function() {
                 alert("Success");
+                document.getElementById("saveForm").style.display = "none";
+                document.getElementById("mainView").style.webkitFilter = ""
             }
         });
     }
