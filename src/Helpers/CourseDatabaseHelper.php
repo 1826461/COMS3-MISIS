@@ -64,6 +64,17 @@ class CourseDatabaseHelper
 
     /**
      * @param $unitCode
+     */
+    public static function deleteCourseWithID($ID)
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("DELETE FROM courses WHERE courseID = :ID");
+        $databaseHelper->bind(':ID', $ID);
+        $databaseHelper->execute();
+    }
+
+    /**
+     * @param $unitCode
      * @return int|Course
      */
     public static function getCourse($unitCode)

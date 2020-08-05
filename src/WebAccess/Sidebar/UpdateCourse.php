@@ -237,7 +237,7 @@ if (isset($_POST["Logout"])) {
         <ul class="buttonGroup">
             <li><b>Are you sure you want to save your changes for this course?</b></li>
             <li>
-                <button type="submit" class='btn btn-danger' onclick="saveCourseCourse()">Save</button>
+                <button type="submit" class='btn btn-danger' onclick="saveCourse()">Save</button>
             </li>
             <li>
                 <button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button>
@@ -250,6 +250,7 @@ if (isset($_POST["Logout"])) {
 
 <script type='text/javascript'>
     var sameCourseID = [];
+    var courseID = "";
     function clickCourse(clickedID) {
         var chosenID = clickedID;
         var dash = chosenID.indexOf("-");
@@ -280,7 +281,7 @@ if (isset($_POST["Logout"])) {
         }
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
-        var courseID = "";
+        courseID = "";
         sameCourseID = [];
         sameCourseID.push(courses[0]);
         for (var iLoop = 0; iLoop < jArray.length-1; ++iLoop) {
@@ -371,6 +372,24 @@ if (isset($_POST["Logout"])) {
                 break;
             }
         }
+    }
+
+    //function when save is clicked
+    function saveCourse() {
+        //first method tried
+        //var courseIDStr = 'courseID=' + courseID + '&';
+        //var courseSame = 'courseSame=' + JSON.stringify(sameCourseID);
+        //window.location.href = '../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php?' + courseIDStr + courseSame;
+
+        //second method
+        $.ajax({
+            type: "POST",
+            url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
+            data: { courseID : courseID ,courseSame : JSON.stringify(sameCourseID)},
+            success: function() {
+                alert("Success");
+            }
+        });
     }
 
     function saveCourseConfig() {

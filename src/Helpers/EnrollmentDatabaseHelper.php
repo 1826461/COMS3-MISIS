@@ -116,6 +116,17 @@ class EnrollmentDatabaseHelper
     }
 
     /**
+     * @param $ID
+     */
+    public static function deleteAllCourseEnrollmentsWithID($ID)
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("DELETE FROM enrollments WHERE courseID = :ID");
+        $databaseHelper->bind(':ID', $ID);
+        $databaseHelper->execute();
+    }
+
+    /**
      * @param $unitCode
      * @return int
      */
