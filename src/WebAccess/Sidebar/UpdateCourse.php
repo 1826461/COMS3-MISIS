@@ -381,11 +381,16 @@ if (isset($_POST["Logout"])) {
         //var courseSame = 'courseSame=' + JSON.stringify(sameCourseID);
         //window.location.href = '../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php?' + courseIDStr + courseSame;
 
+        //TEST COURSES THAT WORK
+        //sameCourseID = ["COMS2014A", "COMS3005A"];
         //second method
         $.ajax({
             type: "POST",
             url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
-            data: { courseID : courseID ,courseSame : JSON.stringify(sameCourseID)},
+            data: {
+                courseID : courseID,
+                courseSame : JSON.stringify(sameCourseID)
+            },
             success: function() {
                 alert("Success");
             }

@@ -1,47 +1,45 @@
 <?php
-    use Helpers\CourseDatabaseHelper;
-    use Helpers\EnrollmentDatabaseHelper;
-    use Objects\Course;
 
-    include("..\..\..\Helpers\CourseDatabaseHelper.php");
-    include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
-    include("..\..\..\Helpers\DatabaseHelper.php");
-    include("..\..\..\Helpers\JSONHelper.php");
-    include("..\..\..\Objects\Course.php");
+use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
+use Helpers\JSONHelper;
+use Objects\Course;
 
-    session_start();
+include("..\..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\..\Helpers\DatabaseHelper.php");
+include("..\..\..\Helpers\JSONHelper.php");
+include("..\..\..\Objects\Enrollment.php");
+include("..\..\..\Objects\Course.php");
 
-    //first method deleted correctly but did not do rest correctly
-    //$courseIDStr = isset($_GET['courseID']) ? $_GET['courseID'] : die('Error: ID not found.');
-    //$courseSame = isset($_GET['courseSame']) ? $_GET['courseSame'] : die('Error: Array not found.');
+session_start();
 
-    //second method
-    $courseIDStr = $_POST['courseID'];
-    $courseSame = $_POST['courseSame'];
-    var_dump($courseSame);
-    if ($_SESSION['admin'] == 1) {
-        //delete all courses with the course id of the main course
-        $courseDatabaseHelper = new CourseDatabaseHelper();
-        $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
-        //delete all enrollments with the course id of the main course
-        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        $enrollmentDatabaseHelper->deleteAllCourseEnrollmentsWithID($courseIDStr);
+$courseIDStr = $_POST['courseID'];
+$courseSame = $_POST['courseSame'];
 
-        //supposed to go through the posted array containing associated course codes and add them back into DB and their enrollments
-        //have a feeling the error occurs here
-        for ($index = 0; $index < $courseSame.length; $index++) {
-            $course = new Course($courseSame[$index], $courseIDStr);
-            if ($courseName != "") {
-                $course->setCourseName($courseName);
-            }
-            $courseDatabaseHelper->insertCourse($course);
-            $JSONHelper = new JSONHelper();
-            $work = $JSONHelper->addCourseData($unitCode);
-            $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-            $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($course->getUnitCode(), $course->getCourseID());
-        }
+//CAN USE THIS TO CONVERT A STRING TO A NUMBER IN PHP IF NEEDED
+//$courseIDStr = $courseIDStr + 0;
 
-        header('Location: ../../Courses/CourseMasterView.php?action=edited');
-    } else {
-        header('Location: ../../Courses/CourseMasterView.php?action=deny');
+//$courseIDStr = 5;
+
+//TESTED WORKING FOR MULTIPLE COURSES WITH HARDCODED COURSEID. ISSUES COME IN WITH THE MESSY CODE XD
+
+$courseList = json_decode($courseSame);
+
+if ($_SESSION['admin'] == 1) {
+    $courseDatabaseHelper = new CourseDatabaseHelper();
+    $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $JSONHelper = new JSONHelper();
+
+    for ($index = 0; $index < sizeof($courseList); $index++) {
+        $courseDatabaseHelper->deleteCourse($courseList[$index]);
+        $enrollmentDatabaseHelper->deleteAllCourseEnrollments($courseList[$index]);
+        $course = new Course($courseList[$index], $courseIDStr);
+        $courseDatabaseHelper->insertCourse($course);
+        $JSONHelper->addCourseData($courseList[$index]);
+        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($courseList[$index], $courseIDStr);
     }
+
+} else {
+    header('Location: ../../Courses/CourseMasterView.php?action=deny');
+}

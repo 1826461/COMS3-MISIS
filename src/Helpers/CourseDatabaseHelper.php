@@ -63,7 +63,7 @@ class CourseDatabaseHelper
     }
 
     /**
-     * @param $unitCode
+     * @param $ID
      */
     public static function deleteCourseWithID($ID)
     {
