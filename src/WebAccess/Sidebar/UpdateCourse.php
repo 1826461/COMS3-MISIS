@@ -90,6 +90,9 @@ if (isset($_POST["Logout"])) {
                         class="glyphicon glyphicon-log-out"></span>Log out
             </button>
         </form>
+        <div class="collapseButtons2">
+            <button class='btn btn-info' onclick='saveCourseConfig()'>Save course configuration</button>
+        </div>
         <div class="collapseButtons">
             <button class='btn btn-primary' onclick='showMain()'>Switch to Main view</button>
         </div>
@@ -147,6 +150,8 @@ if (isset($_POST["Logout"])) {
         ?>
     </div>
 
+    <!-- id start from 200 upwards for course code a tags -->
+    <!-- name start from 200 upwards for course code associated remove button -->
     <div class="sidenav2">
         <h2>Associated courses:</h2>
         <?php
@@ -158,22 +163,22 @@ if (isset($_POST["Logout"])) {
         echo "<table id=\"tableAssociated\" class=\"table table-hover table-responsive table-bordered\">";
         for ($index = 0; $index < 5; $index++) {
             echo "<tr>";
-            $newIndex = $index+100;
+            $newIndex = $index+200;
             if ($index != 0) {
                 echo "<td>";
                 echo "<a href=\"#\" id=$newIndex>None</a>";
                 echo "</td>";
                 if($index >= 1){
                     echo "<td>";
-                    echo "<button class=\"btn btn-warning\" name=$newIndex style=\"display: none;\"></button>";
+                    echo "<button class=\"btn btn-warning\" onclick=\"removeCourse(this.name)\" name=$newIndex style=\"display: none;\"></button>";
                     echo "</td>";
                 }
             } else {
                 echo "<td>";
-                echo "<a id=100>None</a>";
+                echo "<a id=200>None</a>";
                 echo "</td>";
                 echo "<td>";
-                echo "<button name=100 class=\"btn btn-warning\" style=\"display: none;\"></button>";
+                echo "<button name=200 class=\"btn btn-warning\" onclick=\"removeCourse(this.name)\" style=\"display: none;\"></button>";
                 echo "</td>";
             }
             echo "</tr>";
@@ -186,6 +191,8 @@ if (isset($_POST["Logout"])) {
         ?>
     </div>
 
+    <!-- id start from 100 upwards for course code a tags -->
+    <!-- name start from 100 upwards for course code associated add button -->
     <div class="sidenav3">
         <h2>Suggested courses:</h2>
         <?php
@@ -197,21 +204,22 @@ if (isset($_POST["Logout"])) {
         echo "<table id=\"tableSuggested\" class=\"table table-hover table-responsive table-bordered\">";
         for ($index = 0; $index < 5; $index++) {
             echo "<tr>";
+            $newIndex = $index+100;
             if ($index != 0) {
                 echo "<td>";
-                echo "<a href=\"#\" id=$index>None</a>";
+                echo "<a href=\"#\" id=$newIndex>None</a>";
                 echo "</td>";
                 if($index >= 1){
                     echo "<td>";
-                    echo "<button name=$index class=\"btn btn-success\" style=\"display: none;\"></button>";
+                    echo "<button name=$newIndex class=\"btn btn-success\" onclick=\"addCourse(this.name)\" style=\"display: none;\"></button>";
                     echo "</td>";
                 }
             } else {
                 echo "<td>";
-                echo "<a id=0>None</a>";
+                echo "<a id=100>None</a>";
                 echo "</td>";
                 echo "<td>";
-                echo "<button name=$index class=\"btn btn-success\" style=\"display: none;\"></button>";
+                echo "<button name=$newIndex class=\"btn btn-success\" onclick=\"addCourse(this.name)\" style=\"display: none;\"></button>";
                 echo "</td>";
             }
             echo "</tr>";
@@ -224,9 +232,25 @@ if (isset($_POST["Logout"])) {
         ?>
     </div>
 </div>
+
+<div class="form-popup" id="saveForm" method="post">
+    <div class="form-container">
+        <ul class="buttonGroup">
+            <li><b>Are you sure you want to save your changes for this course?</b></li>
+            <li>
+                <button type="submit" class='btn btn-danger' onclick="saveCourseCourse()">Save</button>
+            </li>
+            <li>
+                <button type="submit" id="close" class='btn btn-info' onclick="closeForm()">Cancel</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
 </body>
 
 <script type='text/javascript'>
+    var sameCourseID = [];
     function clickCourse(clickedID) {
         var chosenID = clickedID;
         var dash = chosenID.indexOf("-");
@@ -237,28 +261,28 @@ if (isset($_POST["Logout"])) {
         var coursesCon = chosenID.substring(0, dash + 1);
         var courses = coursesCon.split("/");
         for (var i = 1; i < courses.length; ++i) {
-            document.getElementById(i - 1).innerHTML = courses[i];
-            document.getElementById(i - 1).style.display = "initial";
+            document.getElementById(100+i - 1).innerHTML = courses[i];
+            document.getElementById(100+i - 1).style.display = "initial";
             if (i >= 1) {
-                document.getElementsByName(i - 1)[0].innerHTML = 'Add';
-                document.getElementsByName(i - 1)[0].style.display = "initial";
+                document.getElementsByName(100+i - 1)[0].innerHTML = 'Add';
+                document.getElementsByName(100+i - 1)[0].style.display = "initial";
             }
         }
         for (var i = courses.length; i < 4; ++i) {
-            document.getElementById(i - 1).innerHTML = 'None';
-            document.getElementsByName(i - 1)[0].innerHTML = '';
-            document.getElementsByName(i - 1)[0].style.display = "none";
+            document.getElementById(100+i - 1).innerHTML = 'None';
+            document.getElementsByName(100+i - 1)[0].innerHTML = '';
+            document.getElementsByName(100+i - 1)[0].style.display = "none";
         }
 
-        for (var iLoop = 0; iLoop < 4; ++iLoop) {
-            document.getElementById(100+iLoop).innerHTML = 'None';
-            document.getElementsByName(100+iLoop)[0].innerHTML = '';
-            document.getElementsByName(100+iLoop)[0].style.display = "none";
+        for (var iLoop = 0; iLoop <= 4; ++iLoop) {
+            document.getElementById(200+iLoop).innerHTML = 'None';
+            document.getElementsByName(200+iLoop)[0].innerHTML = '';
+            document.getElementsByName(200+iLoop)[0].style.display = "none";
         }
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
-        var sameCourseID = [];
         var courseID = "";
+        sameCourseID = [];
         sameCourseID.push(courses[0]);
         for (var iLoop = 0; iLoop < jArray.length-1; ++iLoop) {
             if (jArray[iLoop]['unitCode'] == courses[0]) {
@@ -273,13 +297,92 @@ if (isset($_POST["Logout"])) {
         }
 
         for (var iLoop = 0; iLoop < sameCourseID.length; ++iLoop) {
-            document.getElementById(100+iLoop).innerHTML = sameCourseID[iLoop];
-            document.getElementById(100+iLoop).style.display = "initial";
+            document.getElementById(200+iLoop).innerHTML = sameCourseID[iLoop];
+            document.getElementById(200+iLoop).style.display = "initial";
             if (iLoop >= 1) {
-                document.getElementsByName(100+iLoop)[0].innerHTML = 'Remove';
-                document.getElementsByName(100+iLoop)[0].style.display = "initial";
+                document.getElementsByName(200+iLoop)[0].innerHTML = 'Remove';
+                document.getElementsByName(200+iLoop)[0].style.display = "initial";
             }
         }
+    }
+
+    function addCourse(addedCourse) {
+        if(sameCourseID.length+1 <= 5) {
+            var courseName = document.getElementById(addedCourse).innerHTML;
+            sameCourseID.push(courseName);
+            var indexSame = 0;
+            //remove it from suggested
+            for (var iLoop = 0; iLoop <= 4; ++iLoop) {
+                if(document.getElementById(100+iLoop).innerHTML == courseName){
+                    indexSame = iLoop;
+                }
+            }
+            for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
+                document.getElementById(100+iLoop).innerHTML = document.getElementById(100+iLoop+1).innerHTML;
+                if(document.getElementById(100+iLoop).innerHTML == "None"){
+                    document.getElementsByName(100+iLoop)[0].innerHTML = '';
+                    document.getElementsByName(100+iLoop)[0].style.display = "none";
+                }
+            }
+
+            //add to associated
+            for (var iLoop = 0; iLoop < 4; ++iLoop) {
+                document.getElementById(200+iLoop).innerHTML = 'None';
+                document.getElementsByName(200+iLoop)[0].innerHTML = '';
+                document.getElementsByName(200+iLoop)[0].style.display = "none";
+            }
+            for (var iLoop = 0; iLoop < sameCourseID.length; ++iLoop) {
+                document.getElementById(200+iLoop).innerHTML = sameCourseID[iLoop];
+                document.getElementById(200+iLoop).style.display = "initial";
+                if (iLoop >= 1) {
+                    document.getElementsByName(200+iLoop)[0].innerHTML = 'Remove';
+                    document.getElementsByName(200+iLoop)[0].style.display = "initial";
+                }
+            }
+        }
+        else{
+            alert("No more courses can be associated with this course");
+        }
+    }
+
+    function removeCourse(removedCourse) {
+        var courseName = document.getElementById(removedCourse).innerHTML;
+        var indexCourse = sameCourseID.indexOf(courseName);
+        sameCourseID.splice(indexCourse, 1);
+
+        var indexSame = 0;
+        for (var iLoop = 0; iLoop <= 4; ++iLoop) {
+            if(document.getElementById(200+iLoop).innerHTML == courseName){
+                indexSame = iLoop;
+            }
+        }
+        for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
+            document.getElementById(200+iLoop).innerHTML = document.getElementById(200+iLoop+1).innerHTML;
+            if(document.getElementById(200+iLoop).innerHTML == "None"){
+                document.getElementsByName(200+iLoop)[0].innerHTML = '';
+                document.getElementsByName(200+iLoop)[0].style.display = "none";
+            }
+        }
+
+        for (var iLoop = 0; iLoop <= 4; ++iLoop) {
+            if(document.getElementById(100+iLoop).innerHTML == 'None'){
+                document.getElementById(100+iLoop).innerHTML = courseName;
+                document.getElementsByName(100+iLoop)[0].innerHTML = 'Add';
+                document.getElementsByName(100+iLoop)[0].style.display = "initial";
+                break;
+            }
+        }
+    }
+
+    function saveCourseConfig() {
+        var saveForm = document.getElementById("saveForm");
+        saveForm.style.display = "block";
+        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+    }
+
+    function closeForm() {
+        document.getElementById("saveForm").style.display = "none";
+        document.getElementById("mainView").style.webkitFilter = "";
     }
     //for collapsable pane
     // var acc = document.getElementsByClassName("accordion");

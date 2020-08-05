@@ -307,3 +307,10 @@ ul.views li {
     position: absolute;
     right: 150px;
 }
+
+.collapseButtons2{
+    padding-bottom: 5px;
+    /*float: right;*/
+    position: absolute;
+    right: 325px;
+}

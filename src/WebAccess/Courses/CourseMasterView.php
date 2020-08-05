@@ -209,7 +209,6 @@ if (isset($_POST["Logout"])) {
 
 </div>
 
-
 <div class="form-popup" id="deleteForm" method="post">
     <div class="form-container">
         <ul class="buttonGroup">
