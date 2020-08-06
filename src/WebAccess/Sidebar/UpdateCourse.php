@@ -320,7 +320,6 @@ if (isset($_POST["Logout"])) {
                 sameCourseID.push(jArray[iLoop]['unitCode']);
             }
         }
-        alert(sameCourseID);
 
         for (var iLoop = 0; iLoop < sameCourseID.length; ++iLoop) {
             document.getElementById(200+iLoop).innerHTML = sameCourseID[iLoop];
