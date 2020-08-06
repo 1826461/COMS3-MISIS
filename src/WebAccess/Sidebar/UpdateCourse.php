@@ -136,7 +136,7 @@ if (isset($_POST["Logout"])) {
                                 $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
                                 array_push($allCourses, $courseObject);
 
-                                echo "<a href=\"#\" onclick=\"clickCourse(this.id)\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
+                                echo "<a href=\"#\" onclick=\"clickCourse(this.id,{$courses[$coursesIndex]['id']})\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
                             }
                         } else {
                             echo "<a>None</a>";
@@ -251,10 +251,11 @@ if (isset($_POST["Logout"])) {
 <script type='text/javascript'>
     var sameCourseID = [];
     var courseID = 0;
-    var takenID = [];
-    function clickCourse(clickedID) {
+    //var takenID = [];
+    function clickCourse(clickedID,id) {
         var chosenID = clickedID;
         var dash = chosenID.indexOf("-");
+        courseID = id;
         dash = dash - 1;
         while (chosenID[dash] == " ") {
             dash = dash - 1;
@@ -264,9 +265,9 @@ if (isset($_POST["Logout"])) {
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
         sameCourseID.splice(0, sameCourseID.length);
-        courseID = -1;
         sameCourseID.push(courses[0]);
 
+        //reset suggested table
         for(var i = 1; i <= 5; ++i) {
             document.getElementById(100 + i - 1).innerHTML = 'None';
             document.getElementById(100 + i - 1).style.display = "initial";
@@ -274,6 +275,7 @@ if (isset($_POST["Logout"])) {
             document.getElementsByName(100 + i - 1)[0].style.display = "none";
         }
 
+        //find if any already associated are suggested
         var flag = false;
         for (var i = 1; i < courses.length; ++i) {
             flag = false;
@@ -291,29 +293,34 @@ if (isset($_POST["Logout"])) {
                 }
             }
         }
+
+        //clear all after certain point
         for (var i = courses.length; i < 4; ++i) {
             document.getElementById(100+i - 1).innerHTML = 'None';
             document.getElementsByName(100+i - 1)[0].innerHTML = '';
             document.getElementsByName(100+i - 1)[0].style.display = "none";
         }
 
+        //clear associated table
         for (var iLoop = 0; iLoop <= 4; ++iLoop) {
             document.getElementById(200+iLoop).innerHTML = 'None';
             document.getElementsByName(200+iLoop)[0].innerHTML = '';
             document.getElementsByName(200+iLoop)[0].style.display = "none";
         }
 
-        for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
-            takenID.push(jArray[iLoop]['courseID']);
+       /* for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
+            //takenID.push(jArray[iLoop]['courseID']);
             if (jArray[iLoop]['unitCode'] == courses[0]) {
                 courseID = jArray[iLoop]['courseID'];
             }
-        }
+        }*/
+
         for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
             if (jArray[iLoop]['courseID'] == courseID && jArray[iLoop]['unitCode'] != courses[0]) {
                 sameCourseID.push(jArray[iLoop]['unitCode']);
             }
         }
+        alert(sameCourseID);
 
         for (var iLoop = 0; iLoop < sameCourseID.length; ++iLoop) {
             document.getElementById(200+iLoop).innerHTML = sameCourseID[iLoop];
@@ -401,7 +408,7 @@ if (isset($_POST["Logout"])) {
 
     //function when save is clicked
     function saveCourse() {
-        if(courseID == -1){
+        /*if(courseID == -1){
             alert("This course has no associated ID");
             var flag = true;
             while(courseID == -1 || courseID == null || courseID == '' || courseID == NaN || flag == true){
@@ -431,7 +438,7 @@ if (isset($_POST["Logout"])) {
                 }
             }
         }
-        else{
+        else{*/
             $.ajax({
                 type: "POST",
                 url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
@@ -445,7 +452,7 @@ if (isset($_POST["Logout"])) {
                     document.getElementById("mainView").style.webkitFilter = ""
                 }
             });
-        }
+       // }
     }
 
     function saveCourseConfig() {
