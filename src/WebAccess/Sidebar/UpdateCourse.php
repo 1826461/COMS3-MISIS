@@ -251,6 +251,7 @@ if (isset($_POST["Logout"])) {
 <script type='text/javascript'>
     var sameCourseID = [];
     var courseID = 0;
+    var takenID = [];
     function clickCourse(clickedID) {
         var chosenID = clickedID;
         var dash = chosenID.indexOf("-");
@@ -303,6 +304,7 @@ if (isset($_POST["Logout"])) {
         }
 
         for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
+            takenID.push(jArray[iLoop]['courseID']);
             if (jArray[iLoop]['unitCode'] == courses[0]) {
                 courseID = jArray[iLoop]['courseID'];
             }
@@ -399,20 +401,51 @@ if (isset($_POST["Logout"])) {
 
     //function when save is clicked
     function saveCourse() {
-
-        $.ajax({
-            type: "POST",
-            url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
-            data: {
-                courseID : courseID,
-                courseSame : JSON.stringify(sameCourseID)
-            },
-            success: function() {
-                alert("Success");
-                document.getElementById("saveForm").style.display = "none";
-                document.getElementById("mainView").style.webkitFilter = ""
+        if(courseID == -1){
+            alert("This course has no associated ID");
+            var flag = true;
+            while(courseID == -1 || courseID == null || courseID == '' || courseID == NaN || flag == true){
+                courseID = Number(prompt("Please enter a course ID(number) to associate with these courses", '0'));
+                flag = false;
+                for(var iLoop = 0; iLoop < takenID.length; ++iLoop){
+                    if(takenID[iLoop] == courseID){
+                        flag = true;
+                        alert("This course ID is being used already");
+                        break;
+                    }
+                }
+                if(flag == false){
+                    $.ajax({
+                        type: "POST",
+                        url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
+                        data: {
+                            courseID : courseID,
+                            courseSame : JSON.stringify(sameCourseID)
+                        },
+                        success: function() {
+                            alert("Success");
+                            document.getElementById("saveForm").style.display = "none";
+                            document.getElementById("mainView").style.webkitFilter = ""
+                        }
+                    });
+                }
             }
-        });
+        }
+        else{
+            $.ajax({
+                type: "POST",
+                url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
+                data: {
+                    courseID : courseID,
+                    courseSame : JSON.stringify(sameCourseID)
+                },
+                success: function() {
+                    alert("Success");
+                    document.getElementById("saveForm").style.display = "none";
+                    document.getElementById("mainView").style.webkitFilter = ""
+                }
+            });
+        }
     }
 
     function saveCourseConfig() {
