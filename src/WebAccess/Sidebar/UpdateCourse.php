@@ -136,7 +136,7 @@ if (isset($_POST["Logout"])) {
                                 $courseObject = new MoodleCourse($courses[$coursesIndex]['id'], $courses[$coursesIndex]['fullname'], $courses[$coursesIndex]['shortname'], $courses[$coursesIndex]['category']);
                                 array_push($allCourses, $courseObject);
 
-                                echo "<a href=\"#\" onclick=\"clickCourse(this.id, {$courses[$coursesIndex]['id']})\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
+                                echo "<a href=\"#\" onclick=\"clickCourse(this.id)\" id=\"{$courses[$coursesIndex]['fullname']}\">{$courses[$coursesIndex]['shortname']}</a>";
                             }
                         } else {
                             echo "<a>None</a>";
@@ -251,9 +251,8 @@ if (isset($_POST["Logout"])) {
 <script type='text/javascript'>
     var sameCourseID = [];
     var courseID = 0;
-    function clickCourse(clickedID, id) {
+    function clickCourse(clickedID) {
         var chosenID = clickedID;
-        courseID = id;
         var dash = chosenID.indexOf("-");
         dash = dash - 1;
         while (chosenID[dash] == " ") {
@@ -261,12 +260,34 @@ if (isset($_POST["Logout"])) {
         }
         var coursesCon = chosenID.substring(0, dash + 1);
         var courses = coursesCon.split("/");
+
+        var jArray = <?php echo json_encode($courseVirtus); ?>;
+        sameCourseID.splice(0, sameCourseID.length);
+        courseID = -1;
+        sameCourseID.push(courses[0]);
+
+        for(var i = 1; i <= 5; ++i) {
+            document.getElementById(100 + i - 1).innerHTML = 'None';
+            document.getElementById(100 + i - 1).style.display = "initial";
+            document.getElementsByName(100 + i - 1)[0].innerHTML = '';
+            document.getElementsByName(100 + i - 1)[0].style.display = "none";
+        }
+
+        var flag = false;
         for (var i = 1; i < courses.length; ++i) {
-            document.getElementById(100+i - 1).innerHTML = courses[i];
-            document.getElementById(100+i - 1).style.display = "initial";
-            if (i >= 1) {
-                document.getElementsByName(100+i - 1)[0].innerHTML = 'Add';
-                document.getElementsByName(100+i - 1)[0].style.display = "initial";
+            flag = false;
+            for(var j = 0;j < jArray.length;++j) {
+                if(jArray[j]['unitCode'] == courses[i]) {
+                    flag = true;
+                }
+            }
+            if(flag == false) {
+                document.getElementById(100 + i - 1).innerHTML = courses[i];
+                document.getElementById(100 + i - 1).style.display = "initial";
+                if (i >= 1) {
+                    document.getElementsByName(100 + i - 1)[0].innerHTML = 'Add';
+                    document.getElementsByName(100 + i - 1)[0].style.display = "initial";
+                }
             }
         }
         for (var i = courses.length; i < 4; ++i) {
@@ -281,15 +302,11 @@ if (isset($_POST["Logout"])) {
             document.getElementsByName(200+iLoop)[0].style.display = "none";
         }
 
-        var jArray = <?php echo json_encode($courseVirtus); ?>;
-        sameCourseID = [];
-        sameCourseID.push(courses[0]);
-        for (var iLoop = 0; iLoop < jArray.length-1; ++iLoop) {
+        for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
             if (jArray[iLoop]['unitCode'] == courses[0]) {
                 courseID = jArray[iLoop]['courseID'];
             }
         }
-
         for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
             if (jArray[iLoop]['courseID'] == courseID && jArray[iLoop]['unitCode'] != courses[0]) {
                 sameCourseID.push(jArray[iLoop]['unitCode']);
@@ -303,6 +320,12 @@ if (isset($_POST["Logout"])) {
                 document.getElementsByName(200+iLoop)[0].innerHTML = 'Remove';
                 document.getElementsByName(200+iLoop)[0].style.display = "initial";
             }
+        }
+
+        for (var i = sameCourseID.length; i < 4; ++i) {
+            document.getElementById(200+i).innerHTML = 'None';
+            document.getElementsByName(200+i)[0].innerHTML = '';
+            document.getElementsByName(200+i)[0].style.display = "none";
         }
     }
 
