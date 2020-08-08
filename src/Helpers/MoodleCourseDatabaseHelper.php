@@ -16,11 +16,11 @@ class MoodleCourseDatabaseHelper
         $databaseHelper = new DatabaseHelper("moodle");
         $databaseHelper->query("SELECT id, fullname, shortname, category  FROM mdl_course ORDER BY id");
         $result = $databaseHelper->resultSet();
-        if ($databaseHelper->rowCount() == 0) {
-            return 0;
-        } else {
+        //if ($databaseHelper->rowCount() == 0) {
+            //return 0;
+        //} else {
             return $result;
-        }
+        //}
     }
 
     public static function getAllMoodleCoursesByCategory($category)

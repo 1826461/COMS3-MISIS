@@ -80,6 +80,17 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, 1, "Enrollment added to database table");
     }
 
+    public function testDeleteALlCourseEnrollmentsWithID() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826461, "Tristentest", "Paul", "COMS", "TEST1000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollment->setCourseID(100);
+        $enrollmentDatabaseHelper->deleteAllCourseEnrollmentsWithID(100);
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("SELECT * FROM enrollments WHERE courseID = 100");
+        assertEquals(0, $databaseHelper->rowCount(), "Enrollments removed from database table");
+    }
+
     public function testDeleteAllCourseEnrollments() {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS4000A",
