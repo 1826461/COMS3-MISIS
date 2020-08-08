@@ -14,6 +14,8 @@
             <file>./tests/Helpers/CourseDatabaseHelperTest.php</file>
             <file>./tests/Helpers/DatabaseHelperTest.php</file>
             <file>./tests/Helpers/EnrollmentDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/MoodleCourseDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/MoodleCourseCategoryDatabaseHelperTest.php</file>
             <file>./tests/Helpers/TextHelperTest.php</file>
             <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
         </testsuite>
