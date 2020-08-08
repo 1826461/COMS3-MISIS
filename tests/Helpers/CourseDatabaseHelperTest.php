@@ -53,6 +53,16 @@ class CourseDatabaseHelperTest extends TestCase
         assertEquals($courseDatabaseHelper->getCourse("TEST100A"),0, "returns no course");
     }
 
+    public function testDeleteCourseWithID() {
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        $course = new Course("TEST2000A", 100);
+        $courseDatabaseHelper->insertCourse($course);
+        $courseDatabaseHelper->deleteCourseWithID(100);
+        assertEquals($courseDatabaseHelper->getCourse("TEST2000A"),0, "returns no course");
+    }
+
+
+
     public function testGetAllCourses() {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $course = new Course("TEST100A", 1);
