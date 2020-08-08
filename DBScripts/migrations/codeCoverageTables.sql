@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `courses` (
-  `unitCode` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `courseID` int DEFAULT NULL,
-  `courseName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  UNIQUE KEY `unitCode_UNIQUE` (`unitCode`)
+                           `unitCode` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                           `courseID` int DEFAULT NULL,
+                           `courseName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                           UNIQUE KEY `unitCode_UNIQUE` (`unitCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,19 +49,19 @@ DROP TABLE IF EXISTS `enrollments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `enrollments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `studentNo` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `surname` varchar(45) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `unitCode` varchar(45) NOT NULL,
-  `session` varchar(3) NOT NULL,
-  `classSection` varchar(1) NOT NULL,
-  `expiryDate` datetime NOT NULL,
-  `status` varchar(45) DEFAULT 'ENROLLED',
-  `courseId` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                               `id` int NOT NULL AUTO_INCREMENT,
+                               `studentNo` int NOT NULL,
+                               `name` varchar(45) NOT NULL,
+                               `surname` varchar(45) NOT NULL,
+                               `subject` varchar(45) NOT NULL,
+                               `unitCode` varchar(45) NOT NULL,
+                               `session` varchar(3) NOT NULL,
+                               `classSection` varchar(1) NOT NULL,
+                               `expiryDate` datetime NOT NULL,
+                               `status` varchar(45) DEFAULT 'ENROLLED',
+                               `courseId` int DEFAULT '0',
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,10 +81,10 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `userID` varchar(45) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `role` varchar(45) NOT NULL,
-  PRIMARY KEY (`userID`)
+                         `userID` varchar(45) NOT NULL,
+                         `password` varchar(100) NOT NULL,
+                         `role` varchar(45) NOT NULL,
+                         PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -94,7 +94,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('admin','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','admin'),('steve','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','user');
+INSERT INTO `users` VALUES ('admin','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','admin'),('steve','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','user'),('test','test','test');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ DELIMITER ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
 /*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `delete_old_enrollments` ON SCHEDULE EVERY 1 DAY STARTS '2020-05-28 18:44:55' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Delete enrollments from table when expiry date is reached' DO DELETE FROM `coms3-misis`.`enrollments`
-  WHERE `expiryDate` < NOW() */ ;;
+                                                                                                                                                                                                                                                              WHERE `expiryDate` < NOW() */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -137,7 +137,7 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-08 16:43:36
+-- Dump completed on 2020-08-08 16:49:36
 CREATE DATABASE  IF NOT EXISTS `moodle` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `moodle`;
 -- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
@@ -165,43 +165,43 @@ DROP TABLE IF EXISTS `mdl_course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mdl_course` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `category` bigint NOT NULL DEFAULT '0',
-  `sortorder` bigint NOT NULL DEFAULT '0',
-  `fullname` varchar(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `shortname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `idnumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `summaryformat` tinyint NOT NULL DEFAULT '0',
-  `format` varchar(21) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'topics',
-  `showgrades` tinyint NOT NULL DEFAULT '1',
-  `newsitems` mediumint NOT NULL DEFAULT '1',
-  `startdate` bigint NOT NULL DEFAULT '0',
-  `enddate` bigint NOT NULL DEFAULT '0',
-  `relativedatesmode` tinyint(1) NOT NULL DEFAULT '0',
-  `marker` bigint NOT NULL DEFAULT '0',
-  `maxbytes` bigint NOT NULL DEFAULT '0',
-  `legacyfiles` smallint NOT NULL DEFAULT '0',
-  `showreports` smallint NOT NULL DEFAULT '0',
-  `visible` tinyint(1) NOT NULL DEFAULT '1',
-  `visibleold` tinyint(1) NOT NULL DEFAULT '1',
-  `groupmode` smallint NOT NULL DEFAULT '0',
-  `groupmodeforce` smallint NOT NULL DEFAULT '0',
-  `defaultgroupingid` bigint NOT NULL DEFAULT '0',
-  `lang` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `calendartype` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `theme` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `timecreated` bigint NOT NULL DEFAULT '0',
-  `timemodified` bigint NOT NULL DEFAULT '0',
-  `requested` tinyint(1) NOT NULL DEFAULT '0',
-  `enablecompletion` tinyint(1) NOT NULL DEFAULT '0',
-  `completionnotify` tinyint(1) NOT NULL DEFAULT '0',
-  `cacherev` bigint NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `mdl_cour_cat_ix` (`category`),
-  KEY `mdl_cour_idn_ix` (`idnumber`),
-  KEY `mdl_cour_sho_ix` (`shortname`),
-  KEY `mdl_cour_sor_ix` (`sortorder`)
+                              `id` bigint NOT NULL AUTO_INCREMENT,
+                              `category` bigint NOT NULL DEFAULT '0',
+                              `sortorder` bigint NOT NULL DEFAULT '0',
+                              `fullname` varchar(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `shortname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `idnumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+                              `summaryformat` tinyint NOT NULL DEFAULT '0',
+                              `format` varchar(21) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'topics',
+                              `showgrades` tinyint NOT NULL DEFAULT '1',
+                              `newsitems` mediumint NOT NULL DEFAULT '1',
+                              `startdate` bigint NOT NULL DEFAULT '0',
+                              `enddate` bigint NOT NULL DEFAULT '0',
+                              `relativedatesmode` tinyint(1) NOT NULL DEFAULT '0',
+                              `marker` bigint NOT NULL DEFAULT '0',
+                              `maxbytes` bigint NOT NULL DEFAULT '0',
+                              `legacyfiles` smallint NOT NULL DEFAULT '0',
+                              `showreports` smallint NOT NULL DEFAULT '0',
+                              `visible` tinyint(1) NOT NULL DEFAULT '1',
+                              `visibleold` tinyint(1) NOT NULL DEFAULT '1',
+                              `groupmode` smallint NOT NULL DEFAULT '0',
+                              `groupmodeforce` smallint NOT NULL DEFAULT '0',
+                              `defaultgroupingid` bigint NOT NULL DEFAULT '0',
+                              `lang` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `calendartype` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `theme` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                              `timecreated` bigint NOT NULL DEFAULT '0',
+                              `timemodified` bigint NOT NULL DEFAULT '0',
+                              `requested` tinyint(1) NOT NULL DEFAULT '0',
+                              `enablecompletion` tinyint(1) NOT NULL DEFAULT '0',
+                              `completionnotify` tinyint(1) NOT NULL DEFAULT '0',
+                              `cacherev` bigint NOT NULL DEFAULT '0',
+                              PRIMARY KEY (`id`),
+                              KEY `mdl_cour_cat_ix` (`category`),
+                              KEY `mdl_cour_idn_ix` (`idnumber`),
+                              KEY `mdl_cour_sho_ix` (`shortname`),
+                              KEY `mdl_cour_sor_ix` (`sortorder`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED COMMENT='Central course table';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -223,22 +223,22 @@ DROP TABLE IF EXISTS `mdl_course_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mdl_course_categories` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `idnumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `descriptionformat` tinyint NOT NULL DEFAULT '0',
-  `parent` bigint NOT NULL DEFAULT '0',
-  `sortorder` bigint NOT NULL DEFAULT '0',
-  `coursecount` bigint NOT NULL DEFAULT '0',
-  `visible` tinyint(1) NOT NULL DEFAULT '1',
-  `visibleold` tinyint(1) NOT NULL DEFAULT '1',
-  `timemodified` bigint NOT NULL DEFAULT '0',
-  `depth` bigint NOT NULL DEFAULT '0',
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `theme` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `mdl_courcate_par_ix` (`parent`)
+                                         `id` bigint NOT NULL AUTO_INCREMENT,
+                                         `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                                         `idnumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                         `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+                                         `descriptionformat` tinyint NOT NULL DEFAULT '0',
+                                         `parent` bigint NOT NULL DEFAULT '0',
+                                         `sortorder` bigint NOT NULL DEFAULT '0',
+                                         `coursecount` bigint NOT NULL DEFAULT '0',
+                                         `visible` tinyint(1) NOT NULL DEFAULT '1',
+                                         `visibleold` tinyint(1) NOT NULL DEFAULT '1',
+                                         `timemodified` bigint NOT NULL DEFAULT '0',
+                                         `depth` bigint NOT NULL DEFAULT '0',
+                                         `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+                                         `theme` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                         PRIMARY KEY (`id`),
+                                         KEY `mdl_courcate_par_ix` (`parent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED COMMENT='Course categories';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -269,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-08 16:43:36
+-- Dump completed on 2020-08-08 16:49:36
