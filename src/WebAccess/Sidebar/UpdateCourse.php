@@ -90,8 +90,14 @@ if (isset($_POST["Logout"])) {
                         class="glyphicon glyphicon-log-out"></span>Log out
             </button>
         </form>
+        <div class="collapseButtons3">
+            <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add course to suggested</button>
+        </div>
         <div class="collapseButtons2">
-            <button class='btn btn-info' onclick='saveCourseConfig()'>Save course configuration</button>
+            <button class='btn btn-success' onclick='saveCourseConfig()'>Save course configuration</button>
+        </div>
+        <div class="collapseButtons4">
+            <button class='btn btn-warning' onclick='resetChanges()'>Reset course configuration</button>
         </div>
         <div class="collapseButtons">
             <button class='btn btn-primary' onclick='showMain()'>Switch to Main view</button>
@@ -246,14 +252,40 @@ if (isset($_POST["Logout"])) {
     </div>
 </div>
 
+<div class="add-pop" id="add">
+    <div class="add-container">
+        <h2>Add Course:</h2>
+        <div class="ulDiv">
+            <ul class="addList">
+                <li><input type="text" id="unitCode" placeholder="Unit Code" class="form-control"></li>
+
+                <div class="addButtons">
+                    <li>
+                        <button type="submit" class='btn btn-success' onclick="addCourseToSuggested()">Add course to suggested
+                        </button>
+                    </li>
+                    <li>
+                        <button type="submit" id="close" class='btn btn-info' onclick="closeAdd()">Cancel</button>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script type='text/javascript'>
     var sameCourseID = [];
     var courseID = 0;
-    //var takenID = [];
+    var countSuggested = 0;
+    var resetThisCourse = "";
     function clickCourse(clickedID,id) {
+        countSuggested = 0;
+        document.getElementById('addToSuggested').innerHTML = 'Add course to suggested';
+        document.getElementById('addToSuggested').style.display = "initial";
         var chosenID = clickedID;
+        resetThisCourse = clickedID;
         var dash = chosenID.indexOf("-");
         courseID = id;
         dash = dash - 1;
@@ -288,10 +320,15 @@ if (isset($_POST["Logout"])) {
                 document.getElementById(100 + i - 1).innerHTML = courses[i];
                 document.getElementById(100 + i - 1).style.display = "initial";
                 if (i >= 1) {
+                    countSuggested = countSuggested + 1;
                     document.getElementsByName(100 + i - 1)[0].innerHTML = 'Add';
                     document.getElementsByName(100 + i - 1)[0].style.display = "initial";
                 }
             }
+        }
+
+        if(countSuggested >= 5){
+            document.getElementById('addToSuggested').style.display = "none";
         }
 
         //clear all after certain point
@@ -348,13 +385,23 @@ if (isset($_POST["Logout"])) {
                     indexSame = iLoop;
                 }
             }
-            for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
-                document.getElementById(100+iLoop).innerHTML = document.getElementById(100+iLoop+1).innerHTML;
-                if(document.getElementById(100+iLoop).innerHTML == "None"){
-                    document.getElementsByName(100+iLoop)[0].innerHTML = '';
-                    document.getElementsByName(100+iLoop)[0].style.display = "none";
+
+            if(indexSame != 4) {
+                for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
+                    document.getElementById(100 + iLoop).innerHTML = document.getElementById(100 + iLoop + 1).innerHTML;
+                    if (document.getElementById(100 + iLoop).innerHTML == "None") {
+                        document.getElementsByName(100 + iLoop)[0].innerHTML = '';
+                        document.getElementsByName(100 + iLoop)[0].style.display = "none";
+                    }
                 }
             }
+            else{
+                document.getElementsByName(100 + indexSame)[0].innerHTML = '';
+                document.getElementsByName(100 + indexSame)[0].style.display = "none";
+            }
+            document.getElementById(104).innerHTML = "None";
+            document.getElementsByName(104)[0].innerHTML = '';
+            document.getElementsByName(104)[0].style.display = "none";
 
             //add to associated
             for (var iLoop = 0; iLoop < 4; ++iLoop) {
@@ -387,13 +434,23 @@ if (isset($_POST["Logout"])) {
                 indexSame = iLoop;
             }
         }
-        for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
-            document.getElementById(200+iLoop).innerHTML = document.getElementById(200+iLoop+1).innerHTML;
-            if(document.getElementById(200+iLoop).innerHTML == "None"){
-                document.getElementsByName(200+iLoop)[0].innerHTML = '';
-                document.getElementsByName(200+iLoop)[0].style.display = "none";
+
+        if(indexSame != 4) {
+            for (var iLoop = indexSame; iLoop < 4; ++iLoop) {
+                document.getElementById(200 + iLoop).innerHTML = document.getElementById(200 + iLoop + 1).innerHTML;
+                if (document.getElementById(200 + iLoop).innerHTML == "None") {
+                    document.getElementsByName(200 + iLoop)[0].innerHTML = '';
+                    document.getElementsByName(200 + iLoop)[0].style.display = "none";
+                }
             }
         }
+        else{
+            document.getElementsByName(200 + indexSame)[0].innerHTML = '';
+            document.getElementsByName(200 + indexSame)[0].style.display = "none";
+        }
+        document.getElementById(204).innerHTML = "None";
+        document.getElementsByName(204)[0].innerHTML = '';
+        document.getElementsByName(204)[0].style.display = "none";
 
         for (var iLoop = 0; iLoop <= 4; ++iLoop) {
             if(document.getElementById(100+iLoop).innerHTML == 'None'){
@@ -405,6 +462,9 @@ if (isset($_POST["Logout"])) {
         }
     }
 
+    function resetChanges(){
+        clickCourse(resetThisCourse,courseID);
+    }
     //function when save is clicked
     function saveCourse() {
         /*if(courseID == -1){
@@ -461,8 +521,75 @@ if (isset($_POST["Logout"])) {
         document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
     }
 
+    function addCourseToSuggested() {
+        document.getElementById("add").style.display = "none";
+        document.getElementById("mainView").style.webkitFilter = "";
+        var unitCode = document.getElementById("unitCode").value;
+        if((unitCode.length < 8) || (unitCode.length > 9)){
+            alert("Invalid unit code entered. Please try again");
+        }
+        else{
+            var flag = false;
+            var letters = /^[A-Z]+$/;
+            var numbers = /^[0-9]+$/;
+            for(var iLoop = 0; iLoop < 4; ++iLoop){
+                if(!unitCode.charAt(iLoop).match(letters)){
+                    flag = true;
+                    break;
+                }
+            }
+            for(var iLoop = 4; iLoop < 8; ++iLoop){
+                if(!unitCode.charAt(iLoop).match(numbers)){
+                    flag = true;
+                    break;
+                }
+            }
+            if(unitCode.length === 9 && unitCode.charAt(8) !== "A"){
+                flag = true;
+            }
+            if(flag == true){
+                alert("Invalid unit code entered. Please try again");
+            }
+            else{
+                alert("A valid unit code was entered");
+                flag = false;
+                if(countSuggested < 5){
+                    for(var iLoop = 0; iLoop < 5; ++iLoop){
+                        if(unitCode === document.getElementById(100+iLoop).innerHTML || unitCode === document.getElementById(200+iLoop).innerHTML){
+                            flag = true;
+                            alert("This unit code is already in associated or suggested");
+                        }
+                    }
+                    if(flag == false) {
+                        document.getElementById(100 + countSuggested).innerHTML = unitCode;
+                        document.getElementById(100 + countSuggested).style.display = "initial";
+                        document.getElementsByName(100 + countSuggested)[0].innerHTML = 'Add';
+                        document.getElementsByName(100 + countSuggested)[0].style.display = "initial";
+                        countSuggested = countSuggested + 1;
+                    }
+                }
+                else {
+                    alert("No more suggestions can be added");
+                }
+            }
+        }
+
+    }
+
+    function addToSuggested() {
+        var addForm = document.getElementById("add");
+        addForm.style.display = "block";
+        addForm.style.webkitFilter = "";
+        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+    }
+
     function closeForm() {
         document.getElementById("saveForm").style.display = "none";
+        document.getElementById("mainView").style.webkitFilter = "";
+    }
+
+    function closeAdd() {
+        document.getElementById("add").style.display = "none";
         document.getElementById("mainView").style.webkitFilter = "";
     }
     //for collapsable pane
