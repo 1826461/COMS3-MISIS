@@ -296,6 +296,7 @@ if (isset($_POST["Logout"])) {
         var courses = coursesCon.split("/");
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
+        debugger;
         sameCourseID.splice(0, sameCourseID.length);
         sameCourseID.push(courses[0]);
 
@@ -353,7 +354,7 @@ if (isset($_POST["Logout"])) {
         }*/
 
         for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
-            if (jArray[iLoop]['courseID'] == courseID && jArray[iLoop]['unitCode'] != courses[0]) {
+            if (jArray[iLoop]['courseID'] == courseID && jArray[iLoop]['unitCode'] != courses[0] && jArray[iLoop]['unitCode'].endsWith("A")) {
                 sameCourseID.push(jArray[iLoop]['unitCode']);
             }
         }
