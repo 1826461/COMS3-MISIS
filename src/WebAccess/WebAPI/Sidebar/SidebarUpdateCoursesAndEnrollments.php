@@ -35,7 +35,7 @@ if ($_SESSION['admin'] == 1) {
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $JSONHelper = new JSONHelper();
 
-    $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
+//    $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
     $enrollmentDatabaseHelper->deleteAllCourseEnrollmentsWithID($courseIDStr);
 
     for ($index = 0; $index < sizeof($courseList); $index++) {

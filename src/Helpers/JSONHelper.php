@@ -15,7 +15,7 @@ class JSONHelper
     {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $data = self::getVirtusCourseJSON($unitCode);
-        $enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
+//        $enrollmentDatabaseHelper->deleteAllCourseEnrollments($unitCode);
         return self::parseEnrollmentJSON($data);
     }
 
@@ -44,7 +44,7 @@ class JSONHelper
                 $enrollmentJSON['sessionCode'], $enrollmentJSON['classSection'], $enrollmentJSON['expiryDate'],
                 $enrollmentJSON['unitStatus']);
 
-            $enrollmentDatabaseHelper->insertEnrollment($enrollment);
+            $enrollmentDatabaseHelper->insertUniqueEnrollment($enrollment);
             $success = true;
         }
         return $success;

@@ -12,6 +12,41 @@ class EnrollmentDatabaseHelper
      * @param Enrollment $enrollment
      * @return int
      */
+    public static function insertUniqueEnrollment(Enrollment $enrollment)
+    {
+        $getCurrentEnrollmentStatus = self::getEnrollment($enrollment->getStudentNo(), $enrollment->getUnitCode());
+        if ($getCurrentEnrollmentStatus === 0) {
+            $databaseHelper = new DatabaseHelper("coms3-misis");
+            $databaseHelper->query("INSERT INTO enrollments (studentNo, name, surname, subject, unitCode, session,
+                                                                    classSection, expiryDate, status) 
+                                        SELECT * FROM (SELECT :studentNo, :name, :surname, :subject
+                                                                ,:unitCode,:session,:classSection,:expiryDate,:status) AS tmp
+                                        WHERE NOT EXISTS (
+                                                        SELECT studentNo, unitCode FROM enrollments WHERE (studentNo = :studentNo AND unitCode = :unitCode)
+                                        ) LIMIT 1;");
+
+            $databaseHelper->bind(':studentNo', $enrollment->getStudentNo());
+            $databaseHelper->bind(':name', $enrollment->getName());
+            $databaseHelper->bind(':surname', $enrollment->getSurname());
+            $databaseHelper->bind(':subject', $enrollment->getSubject());
+            $databaseHelper->bind(':unitCode', $enrollment->getUnitCode());
+            $databaseHelper->bind(':session', $enrollment->getSession());
+            $databaseHelper->bind(':classSection', $enrollment->getClassSection());
+            $databaseHelper->bind(':expiryDate', $enrollment->getExpiryDate());
+            $databaseHelper->bind(':status', $enrollment->getStatus());
+            $previousInsertId = $databaseHelper->lastInsertId();
+            $databaseHelper->execute();
+            if ($previousInsertId != $databaseHelper->lastInsertId()) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param Enrollment $enrollment
+     * @return int
+     */
     public static function insertEnrollment(Enrollment $enrollment)
     {
         $getCurrentEnrollmentStatus = self::getEnrollment($enrollment->getStudentNo(), $enrollment->getUnitCode());
