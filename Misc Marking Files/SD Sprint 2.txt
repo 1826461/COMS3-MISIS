@@ -1,0 +1,18 @@
+Sprint SDP 2 Meeting with Richard - 18/08/2020
+
+This sprint tasks and maybe next sprint: - Do automatic aligned and non aligned addition.
+	- Add suggested courses
+	- Reset course configuration
+	- Make a bit user friendly(exit to menu button)
+	- Synchronisation at certain time. Stop students that drop subject remaining in course. Make it a setting. Can make it manual sync(must not clear and repopulate. Must be cleaner). Second table that is temp. pull from virtus and stick in temp. Do outer join(student number,unit code and expiry date)(enrollment left and temp right) and look for Null(left means new and right means unenrolled).
+		*e.g something like that: SELECT * FROM enrolments e OUTER JOIN tmp t ON e.studentNumber = tmp.studentNumber AND e.unitCode = tmp.unitCode AND e.expiryDate = tmp.expiryDate
+WHERE e.studentNumber is null OR tmp.studentNumber is null
+		*better to maintain changes than remove everything and repopulate
+		*Show you a list of changes(deregistered and registered)
+		*tick box(select all and none or some) and commit changes
+		*manually trigger it and timed sync in settings(pre-selected settings allow dereg and reg according to settings and what time to be done)
+	- Turn off in setting auto removal of course of student past expiry date also
+	- php when install(cron job). Triggers function every certain time. Every hour or half hour. Have something to check what was supposed to be run. then run them.
+	- have log also. when and why it removed or added people.
+
+Students can enroll in a group of courses??? Richard did not find anything to assist with that so probably not a task
