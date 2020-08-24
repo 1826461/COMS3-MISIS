@@ -17,14 +17,25 @@ session_start();
 $courseIDStr = $_POST['courseID'];
 $courseSame = $_POST['courseSame'];
 
-$courseList = json_decode($courseSame);
+$courseListJSON = json_decode($courseSame);
+$courseList = [];
+
+for ($index = 0; $index < sizeof($courseListJSON); $index++) {
+    if (substr($courseListJSON[$index], -1) == "A") {
+        array_push($courseList, rtrim($courseListJSON[$index], "A"));
+        array_push($courseList, $courseListJSON[$index]);
+    } else {
+        array_push($courseList, $courseListJSON[$index] . "A");
+        array_push($courseList, $courseListJSON[$index]);
+    }
+}
 
 if ($_SESSION['admin'] == 1) {
     $courseDatabaseHelper = new CourseDatabaseHelper();
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $JSONHelper = new JSONHelper();
 
-    $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
+//    $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
     $enrollmentDatabaseHelper->deleteAllCourseEnrollmentsWithID($courseIDStr);
 
     for ($index = 0; $index < sizeof($courseList); $index++) {

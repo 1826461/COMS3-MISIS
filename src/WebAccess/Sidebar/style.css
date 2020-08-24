@@ -55,6 +55,23 @@ body {
     top: 30%;
 }
 
+.add-container {
+    position: center;
+    height: 200px;
+    padding-left: 5px;
+    margin-top: -20px;
+    background-color: white;
+}
+
+.add-pop {
+    display: none;
+    width: 350px;
+    border: 3px solid #f1f1f1;
+    position: fixed;
+    left: 40%;
+    top: 30%;
+}
+
 .form-container {
     margin: auto;
     padding: 20px;
@@ -71,6 +88,31 @@ ul.buttonGroup li {
     width: 250px;
     padding: 5px;
 }
+
+ul.addList {
+    list-style-type: none;
+    margin: 5px;
+}
+
+ul.addList li {
+    padding: 5px;
+    margin-left: -30px;
+}
+
+.addButtons {
+    padding-top: 10px;
+}
+
+.ulDiv {
+    padding-top: 10px;
+}
+
+/*.add-container {
+    margin: auto;
+    padding: 20px;
+    height: 200px;
+    background-color: white;
+}*/
 
 #ClassList {
     margin-top: 5px;
@@ -305,12 +347,26 @@ ul.views li {
     padding-bottom: 5px;
     /*float: right;*/
     position: absolute;
-    right: 150px;
+    right: 20px;
 }
 
 .collapseButtons2{
     padding-bottom: 5px;
     /*float: right;*/
     position: absolute;
-    right: 325px;
+    right: 180px;
+}
+
+.collapseButtons3{
+    padding-bottom: 5px;
+    /*float: right;*/
+    position: absolute;
+    right: 585px;
+}
+
+.collapseButtons4{
+    padding-bottom: 5px;
+    /*float: right;*/
+    position: absolute;
+    right: 380px;
 }
