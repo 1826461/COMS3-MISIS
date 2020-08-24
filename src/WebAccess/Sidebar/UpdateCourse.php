@@ -296,7 +296,6 @@ if (isset($_POST["Logout"])) {
         var courses = coursesCon.split("/");
 
         var jArray = <?php echo json_encode($courseVirtus); ?>;
-        debugger;
         sameCourseID.splice(0, sameCourseID.length);
         sameCourseID.push(courses[0]);
 
