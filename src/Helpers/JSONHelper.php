@@ -45,8 +45,14 @@ class JSONHelper
                 $enrollmentJSON['unitStatus']);
 
             $enrollmentDatabaseHelper->insertUniqueEnrollment($enrollment);
+            $enrollmentDatabaseHelper->insertTempEnrollment($enrollment);
             $success = true;
         }
+        $obsoleteEnrollments = $enrollmentDatabaseHelper->getAllEnrollmentsWhereNotInTemp();
+        foreach ($obsoleteEnrollments as $obsoleteEnrollment) {
+            $enrollmentDatabaseHelper->deleteEnrollment($obsoleteEnrollment['studentNumber'], $obsoleteEnrollment['unitCode']);
+        }
+        $enrollmentDatabaseHelper->deleteAllTempEnrollments();
         return $success;
     }
 
