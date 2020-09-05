@@ -66,4 +66,37 @@ class JSONHelper
         return self::parseEnrollmentJSON($data);
     }
 
+    /**
+     * @param string $unitCode
+     * @return bool
+     */
+    function addCourseDataTemp(string $unitCode)
+    {
+        $data = self::getVirtusCourseJSON($unitCode);
+        return self::parseEnrollmentTempJSON($data);
+    }
+
+    /**
+     * @param array $json
+     * @return bool
+     */
+    function parseEnrollmentTempJSON(array $json)
+    {
+        $success = false;
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        foreach ($json as $enrollmentJSON) {
+            $enrollment = new Enrollment(0, $enrollmentJSON['studentNumber'], $enrollmentJSON['firstName'],
+                $enrollmentJSON['surname'], $enrollmentJSON['subject'], $enrollmentJSON['unitCode'],
+                $enrollmentJSON['sessionCode'], $enrollmentJSON['classSection'], $enrollmentJSON['expiryDate'],
+                $enrollmentJSON['unitStatus']);
+
+            $enrollmentDatabaseHelper->insertTempEnrollment($enrollment);
+            $success = true;
+        }
+        $obsoleteEnrollments = $enrollmentDatabaseHelper->getAllEnrollmentsWhereNotInTemp();
+        foreach ($obsoleteEnrollments as $obsoleteEnrollment) {
+            $enrollmentDatabaseHelper->deleteEnrollment($obsoleteEnrollment['studentNumber'], $obsoleteEnrollment['unitCode']);
+        }
+        return $success;
+    }
 }

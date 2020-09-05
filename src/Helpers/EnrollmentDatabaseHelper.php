@@ -193,6 +193,20 @@ class EnrollmentDatabaseHelper
     /**
      * @return array|int
      */
+    public static function getAllEnrollmentsWhereInTemp()
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("SELECT * FROM `coms3-misis`.enrollments_temp AS enrollments_temp WHERE NOT EXISTS (SELECT * FROM `coms3-misis`.enrollments AS enrollments WHERE enrollments_temp.studentNo=enrollments.studentNo AND enrollments_temp.unitCode = enrollments.unitCode);");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() != 0) {
+            return $result;
+        }
+        return 0;
+    }
+
+    /**
+     * @return array|int
+     */
     public static function getCourseList()
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
@@ -300,6 +314,19 @@ class EnrollmentDatabaseHelper
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("UPDATE enrollments SET courseId = :courseID WHERE (unitCode = :unitCode)");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->bind(':courseID', $courseID);
+        $databaseHelper->execute();
+    }
+
+    /**
+     * @param string $unitCode
+     * @param int $courseID
+     */
+    public static function updateEnrollmentWhenCourseChangeTemp(string $unitCode, int $courseID)
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("UPDATE enrollments_temp SET courseId = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $unitCode);
         $databaseHelper->bind(':courseID', $courseID);
         $databaseHelper->execute();

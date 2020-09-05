@@ -42,6 +42,12 @@ body {
     top: 50px;
 }
 
+.confirm {
+    position: absolute;
+    right: 280px;
+    top: 50px;
+}
+
 #exitButton {
     width: 100px;
 }
@@ -113,6 +119,16 @@ ul.addList li {
     height: 200px;
     background-color: white;
 }*/
+
+.diff-popup {
+    width: auto;
+    height: 1100px;
+}
+
+.diff-container {
+    width: auto;
+    position: relative;
+}
 
 #ClassList {
     margin-top: 5px;
