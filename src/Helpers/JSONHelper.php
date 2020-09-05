@@ -68,6 +68,7 @@ class JSONHelper
 
     /**
      * @param string $unitCode
+     * @param string $courseId
      * @return bool
      */
     function addCourseDataTemp(string $unitCode)

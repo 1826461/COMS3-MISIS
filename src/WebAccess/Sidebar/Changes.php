@@ -211,25 +211,27 @@ if (isset($_POST["Logout"])) {
 <script type='text/javascript'>
     var additions = [];
     var deletions = [];
+    var tempAdditions = [];
+    var tempDeletions = [];
     function toBeAdded(enrollment) {
         var student = JSON.stringify(enrollment);
-        var index = additions.indexOf(student);
+        var index = tempAdditions.indexOf(student);
         if(index === -1){
-            additions.push(student);
+            tempAdditions.push(student);
         }
         else{
-            additions.splice(index, 1);
+            tempAdditions.splice(index, 1);
         }
     }
 
     function toBeDeleted(enrollment) {
         var student = JSON.stringify(enrollment);
-        var index = deletions.indexOf(student);
+        var index = tempDeletions.indexOf(student);
         if(index === -1){
-            deletions.push(student);
+            tempDeletions.push(student);
         }
         else{
-            deletions.splice(index, 1);
+            tempDeletions.splice(index, 1);
         }
     }
 
@@ -266,10 +268,12 @@ if (isset($_POST["Logout"])) {
             }
         }
         else{*/
-        if(additions.length > 0 || deletions.length > 0){
-            alert(additions);
-            alert(JSON.stringify(additions));
-            alert(deletions);
+        for(var iLoop = 0; iLoop < tempAdditions.length; ++iLoop){
+            additions.push(JSON.parse(tempAdditions[iLoop]));
+        }
+        for(var iLoop = 0; iLoop < tempDeletions.length; ++iLoop){
+            deletions.push(JSON.parse(tempDeletions[iLoop]));
+        }
             $.ajax({
                 type: "POST",
                 url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
@@ -282,10 +286,6 @@ if (isset($_POST["Logout"])) {
                     window.location.href = "../Sidebar/UpdateCourse.php";
                 }
             });
-        }
-        else{
-            window.location.href = "../Sidebar/UpdateCourse.php";
-        }
 
         // }
     }

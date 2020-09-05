@@ -35,18 +35,20 @@ if ($_SESSION['admin'] == 1) {
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $JSONHelper = new JSONHelper();
 
-
-    $courses = $courseDatabaseHelper->getCourseList();
-    for ($index = 0; $index < sizeof($courses); $index++) {
-        $JSONHelper->addCourseDataTemp($courseList[$index]);
-    }
-
     for ($index = 0; $index < sizeof($courseList); $index++) {
         $course = new Course($courseList[$index], $courseIDStr);
         $courseDatabaseHelper->insertCourse($course);
-        $JSONHelper->addCourseDataTemp($courseList[$index]);
-        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChangeTemp($courseList[$index], $courseIDStr);
+        //$JSONHelper->addCourseDataTemp($courseList[$index]);
+        //$enrollmentDatabaseHelper->updateEnrollmentWhenCourseChangeTemp($courseList[$index], $courseIDStr);
     }
+
+    $courses = $courseDatabaseHelper->getCourseList();
+    for ($index = 0; $index < sizeof($courses); $index++) {
+        $JSONHelper->addCourseDataTemp($courses[$index]['unitCode']);
+        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChangeTemp($courses[$index]['unitCode'], $courseDatabaseHelper->getCourse($courses[$index]['unitCode'])->getCourseID());
+    }
+
+
 } else {
     header('Location: ../../Courses/CourseMasterView.php?action=deny');
 }
