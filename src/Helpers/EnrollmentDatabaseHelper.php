@@ -75,6 +75,38 @@ class EnrollmentDatabaseHelper
 
     /**
      * @param Enrollment $enrollment
+     * @param $courseId
+     * @return int
+     */
+    public static function insertEnrollmentWithCourseID(Enrollment $enrollment,$courseId)
+    {
+        $getCurrentEnrollmentStatus = self::getEnrollment($enrollment->getStudentNo(), $enrollment->getUnitCode());
+        if ($getCurrentEnrollmentStatus === 0) {
+            $databaseHelper = new DatabaseHelper("coms3-misis");
+            $databaseHelper->query("INSERT INTO enrollments (studentNo, name, surname, subject, unitCode, session, 
+                        classSection, expiryDate, status, courseId) VALUES (:studentNo, :name, :surname, :subject, :unitCode, 
+                                                                   :session, :classSection, :expiryDate, :status, :courseId) ");
+            $databaseHelper->bind(':studentNo', $enrollment->getStudentNo());
+            $databaseHelper->bind(':name', $enrollment->getName());
+            $databaseHelper->bind(':surname', $enrollment->getSurname());
+            $databaseHelper->bind(':subject', $enrollment->getSubject());
+            $databaseHelper->bind(':unitCode', $enrollment->getUnitCode());
+            $databaseHelper->bind(':session', $enrollment->getSession());
+            $databaseHelper->bind(':classSection', $enrollment->getClassSection());
+            $databaseHelper->bind(':expiryDate', $enrollment->getExpiryDate());
+            $databaseHelper->bind(':status', $enrollment->getStatus());
+            $databaseHelper->bind(':courseId', $courseId);
+            $previousInsertId = $databaseHelper->lastInsertId();
+            $databaseHelper->execute();
+            if ($previousInsertId != $databaseHelper->lastInsertId()) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param Enrollment $enrollment
      * @return int
      */
     public static function insertTempEnrollment(Enrollment $enrollment)
@@ -193,6 +225,20 @@ class EnrollmentDatabaseHelper
     /**
      * @return array|int
      */
+    public static function getAllEnrollmentsWhereInTemp()
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("SELECT * FROM `coms3-misis`.enrollments_temp AS enrollments_temp WHERE NOT EXISTS (SELECT * FROM `coms3-misis`.enrollments AS enrollments WHERE enrollments_temp.studentNo=enrollments.studentNo AND enrollments_temp.unitCode = enrollments.unitCode);");
+        $result = $databaseHelper->resultSet();
+        if ($databaseHelper->rowCount() != 0) {
+            return $result;
+        }
+        return 0;
+    }
+
+    /**
+     * @return array|int
+     */
     public static function getCourseList()
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
@@ -300,6 +346,19 @@ class EnrollmentDatabaseHelper
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
         $databaseHelper->query("UPDATE enrollments SET courseId = :courseID WHERE (unitCode = :unitCode)");
+        $databaseHelper->bind(':unitCode', $unitCode);
+        $databaseHelper->bind(':courseID', $courseID);
+        $databaseHelper->execute();
+    }
+
+    /**
+     * @param string $unitCode
+     * @param int $courseID
+     */
+    public static function updateEnrollmentWhenCourseChangeTemp(string $unitCode, int $courseID)
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("UPDATE enrollments_temp SET courseId = :courseID WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $unitCode);
         $databaseHelper->bind(':courseID', $courseID);
         $databaseHelper->execute();

@@ -11,6 +11,13 @@ class CourseDatabaseHelperTest extends TestCase
 {
 
     public function testGetAllCoursesEmpty() {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("TRUNCATE TABLE courses");
+        $databaseHelper->execute();
+        $databaseHelper->query("TRUNCATE TABLE enrollments");
+        $databaseHelper->execute();
+        $databaseHelper->query("TRUNCATE TABLE enrollments_temp");
+        $databaseHelper->execute();
         $courseDatabaseHelper = new CourseDatabaseHelper();
         assertEquals($courseDatabaseHelper->getAllCourses(), 0, "returns correct course count");
     }

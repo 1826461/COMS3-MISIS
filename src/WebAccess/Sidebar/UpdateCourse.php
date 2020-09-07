@@ -3,6 +3,8 @@
 use Helpers\MoodleCourseCategoriesDatabaseHelper;
 use Helpers\MoodleCourseDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
+use Helpers\EnrollmentDatabaseHelper;
+use Helpers\JSONHelper;
 use Objects\MoodleCourse;
 
 include("..\..\Helpers\DatabaseHelper.php");
@@ -115,6 +117,8 @@ if (isset($_POST["Logout"])) {
         $moodleCategories = $moodleCourseCategoryHelper->getAllMoodleCourseCategories();
 
         $courseDatabaseHelper = new CourseDatabaseHelper();
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $JSONHelper = new JSONHelper();
         $courseVirtus = $courseDatabaseHelper->getAllCourses();
 
         $allCourses = [];
@@ -498,19 +502,20 @@ if (isset($_POST["Logout"])) {
             }
         }
         else{*/
-            $.ajax({
-                type: "POST",
-                url: "../WebAPI/Sidebar/SidebarUpdateCoursesAndEnrollments.php",
-                data: {
-                    courseID : courseID,
-                    courseSame : JSON.stringify(sameCourseID)
-                },
-                success: function() {
-                    alert("Success");
-                    document.getElementById("saveForm").style.display = "none";
-                    document.getElementById("mainView").style.webkitFilter = ""
-                }
-            });
+        $.ajax({
+            type: "POST",
+            url: "../WebAPI/Sidebar/populateTemp.php",
+            data: {
+                courseID : courseID,
+                courseSame : JSON.stringify(sameCourseID)
+            },
+            success: function() {
+                alert("Success");
+                document.getElementById("saveForm").style.display = "none";
+                document.getElementById("mainView").style.webkitFilter = "";
+                window.location.href = "../Sidebar/Changes.php";
+            }
+        });
        // }
     }
 

@@ -4,6 +4,7 @@ use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 use Helpers\JSONHelper;
 use Objects\Course;
+use Objects\Enrollment;
 
 include("..\..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\..\Helpers\EnrollmentDatabaseHelper.php");
@@ -14,36 +15,27 @@ include("..\..\..\Objects\Course.php");
 
 session_start();
 
-$courseIDStr = $_POST['courseID'];
-$courseSame = $_POST['courseSame'];
+$courseAdditions = $_POST['courseAdditions'];
+$courseDeletions = $_POST['courseDeletions'];
 
-$courseListJSON = json_decode($courseSame);
-$courseList = [];
-
-for ($index = 0; $index < sizeof($courseListJSON); $index++) {
-    if (substr($courseListJSON[$index], -1) == "A") {
-        array_push($courseList, rtrim($courseListJSON[$index], "A"));
-        array_push($courseList, $courseListJSON[$index]);
-    } else {
-        array_push($courseList, $courseListJSON[$index] . "A");
-        array_push($courseList, $courseListJSON[$index]);
-    }
-}
+$courseAdd = json_decode($courseAdditions,true);
+$courseDel = json_decode($courseDeletions,true);
 
 if ($_SESSION['admin'] == 1) {
     $courseDatabaseHelper = new CourseDatabaseHelper();
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
     $JSONHelper = new JSONHelper();
 
-//    $courseDatabaseHelper->deleteCourseWithID($courseIDStr);
-//    $enrollmentDatabaseHelper->deleteAllCourseEnrollmentsWithID($courseIDStr);
-
-    for ($index = 0; $index < sizeof($courseList); $index++) {
-        $course = new Course($courseList[$index], $courseIDStr);
-        $courseDatabaseHelper->insertCourse($course);
-        $JSONHelper->addCourseData($courseList[$index]);
-        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange($courseList[$index], $courseIDStr);
+    for ($index = 0; $index < sizeof($courseAdd);$index++) {
+        $enrollment = new Enrollment($courseAdd[$index]['id'],$courseAdd[$index]['studentNo'],$courseAdd[$index]['name'], $courseAdd[$index]['surname'], $courseAdd[$index]['subject'], $courseAdd[$index]['unitCode'], $courseAdd[$index]['session'], $courseAdd[$index]['classSection'], $courseAdd[$index]['expiryDate'], $courseAdd[$index]['status']);
+        $enrollmentDatabaseHelper->insertEnrollmentWithCourseID($enrollment,$courseAdd[$index]['courseId']);
     }
+
+    for ($index = 0; $index < sizeof($courseDel); $index++) {
+        $enrollmentDatabaseHelper->deleteEnrollment($courseDel[$index]['studentNo'], $courseDel[$index]['unitCode']);
+    }
+
+    $enrollmentDatabaseHelper->deleteAllTempEnrollments();
 
 } else {
     header('Location: ../../Courses/CourseMasterView.php?action=deny');

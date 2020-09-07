@@ -2,9 +2,10 @@
 
 use Helpers\DatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
-use PHPUnit\Framework\TestCase;
 use Objects\Enrollment;
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertGreaterThan;
 
 class EnrollmentDatabaseHelperTest extends TestCase
 {
@@ -25,22 +26,32 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals($enrollmentDatabaseHelper->getCourseEnrollmentsCount("Test"), 0, "Course enrollments zero");
     }
 
-    public static function testGetEnrollmentDoesNotExist() {
+    public static function testGetEnrollmentDoesNotExist()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         assertEquals($enrollmentDatabaseHelper->getEnrollment(1, "Test"), 0, "Course enrollments zero");
     }
 
-    public static function testGetAllEnrollmentsWhereNotInTempDoesNotExist() {
+    public static function testGetAllEnrollmentsWhereNotInTempDoesNotExist()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         assertEquals($enrollmentDatabaseHelper->getAllEnrollmentsWhereNotInTemp(), 0, "Course enrollments zero");
     }
 
-    public static function testGetTempEnrollmentDoesNotExist() {
+    public static function testGetAllEnrollmentsWhereInTempDoesNotExist()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        assertEquals($enrollmentDatabaseHelper->getAllEnrollmentsWhereInTemp(), 0, "Course enrollments zero");
+    }
+
+    public static function testGetTempEnrollmentDoesNotExist()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         assertEquals($enrollmentDatabaseHelper->getTempEnrollment(1, "Test"), 0, "Course enrollments zero");
     }
 
-    public function testInsertEnrollment() {
+    public function testInsertEnrollment()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS3006A",
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
@@ -48,7 +59,17 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, $result, "Enrollment added to database table");
     }
 
-    public function testInsertEnrollmentExists() {
+    public function testInsertEnrollmentWithCourseID()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826463, "Tristen", "Paul", "COMS", "COMS3006A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $result = $enrollmentDatabaseHelper->insertEnrollmentWithCourseID($enrollment, 1);
+        assertEquals(1, $result, "Enrollment added to database table");
+    }
+
+    public function testInsertEnrollmentExists()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS", "COMS3006A",
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
@@ -56,7 +77,17 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(0, $result, "Enrollment added to database table");
     }
 
-    public function testInsertUniqueEnrollment() {
+    public function testInsertEnrollmentWithCourseIDExists()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826463, "Tristen", "Paul", "COMS", "COMS3006A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $result = $enrollmentDatabaseHelper->insertEnrollmentWithCourseID($enrollment, 1);
+        assertEquals(0, $result, "Enrollment added to database table");
+    }
+
+    public function testInsertUniqueEnrollment()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS2", "COMS3000A",
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
@@ -64,7 +95,8 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, $result, "Enrollment added to database table");
     }
 
-    public function testInsertTempEnrollment() {
+    public function testInsertTempEnrollment()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = new Enrollment(0, 1826462, "Tristen", "Paul", "COMS2", "COMS3000A",
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
@@ -89,14 +121,22 @@ class EnrollmentDatabaseHelperTest extends TestCase
         $enrollmentDatabaseHelper->deleteEnrollment(1826461, "COMS3000A");
     }
 
-    public function testGetAllEnrollmentsWhereNotInTemp() {
+    public function testGetAllEnrollmentsWhereNotInTemp()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $result = $enrollmentDatabaseHelper->getAllEnrollmentsWhereNotInTemp();
-        \PHPUnit\Framework\assertGreaterThan(0, sizeof($result), "Finds at least one discrepancy");
+        assertGreaterThan(0, sizeof($result), "Finds at least one discrepancy");
     }
 
+    public function testGetAllEnrollmentsWhereInTemp()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $result = $enrollmentDatabaseHelper->getAllEnrollmentsWhereInTemp();
+        assertGreaterThan(0, sizeof($result), "Finds at least one discrepancy");
+    }
 
-    public function testUpdateEnrollment() {
+    public function testUpdateEnrollment()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollment = $enrollmentDatabaseHelper->getEnrollment(1826461, "COMS3006A");
         $enrollment->setName("Tristan");
@@ -176,9 +216,13 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(0, $databaseHelper->rowCount(), "Enrollments removed from database table");
     }
 
-    public function testGetAllEnrollmentsEqualsZero() {
+    public function testGetAllEnrollmentsEqualsZero()
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $databaseHelper->query("TRUNCATE TABLE enrollments");
+        $databaseHelper->execute();
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
-        assertEquals($counterBeforeInsert = $enrollmentDatabaseHelper->getAllEnrollments(),0, "no enrollments ");
+        assertEquals($counterBeforeInsert = $enrollmentDatabaseHelper->getAllEnrollments(), 0, "no enrollments");
     }
 
     public function testGetAllEnrollments() {
@@ -213,11 +257,23 @@ class EnrollmentDatabaseHelperTest extends TestCase
 
     }
 
-    public function testUpdateEnrollmentWhenCourseChange() {
+    public function testUpdateEnrollmentWhenCourseChange()
+    {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChange("TEST", 1);
         assertEquals($enrollmentDatabaseHelper->getEnrollment(1826461, "TEST")->getCourseID(), 1, "Course ID equals expected value");
         $enrollmentDatabaseHelper->deleteEnrollment(1826461, "TEST");
+    }
+
+    public function testUpdateEnrollmentWhenCourseChangeTemp()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826463, "Tristen", "Paul", "COMS", "TEST",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $enrollmentDatabaseHelper->insertTempEnrollment($enrollment);
+        $enrollmentDatabaseHelper->updateEnrollmentWhenCourseChangeTemp("TEST", 4);
+        assertEquals($enrollmentDatabaseHelper->getTempEnrollment(1826463, "TEST")->getCourseID(), 4, "Course ID equals expected value");
+        $enrollmentDatabaseHelper->deleteAllTempEnrollments();
     }
 
 }
