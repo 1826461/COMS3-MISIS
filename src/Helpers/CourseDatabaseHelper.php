@@ -14,10 +14,11 @@ class CourseDatabaseHelper
     public static function insertCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
-        $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName) VALUES (:courseID, :unitCode, :courseName) ");
+        $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName, syncFrequency) VALUES (:courseID, :unitCode, :courseName, :updateFrequency) ");
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseName', $course->getCourseName());
+        $databaseHelper->bind(':updateFrequency', $course->getUpdateFrequency());
         $databaseHelper->execute();
     }
 
@@ -97,10 +98,11 @@ class CourseDatabaseHelper
     public static function updateCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
-        $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID WHERE (unitCode = :unitCode)");
+        $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID, syncFrequency = :updateFrequency WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':courseName', $course->getCourseName());
+        $databaseHelper->bind(':updateFrequency', $course->getUpdateFrequency());
         $databaseHelper->execute();
     }
 }

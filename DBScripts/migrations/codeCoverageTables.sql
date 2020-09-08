@@ -14,22 +14,27 @@ USE `coms3-misis`;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
 --
 -- Table structure for table `courses`
 --
 
 DROP TABLE IF EXISTS `courses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `courses` (
-  `unitCode` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `courseID` int DEFAULT NULL,
-  `courseName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  UNIQUE KEY `unitCode_UNIQUE` (`unitCode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `courses`
+(
+    `unitCode`      varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `courseID`      int                                                               DEFAULT NULL,
+    `courseName`    varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      DEFAULT NULL,
+    `syncFrequency` int                                                               DEFAULT NULL,
+    `updatedOn`     timestamp                                                    NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY `unitCode_UNIQUE` (`unitCode`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,8 +42,10 @@ CREATE TABLE `courses` (
 --
 
 LOCK TABLES `courses` WRITE;
-/*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `courses` ENABLE KEYS */;
+/*!40000 ALTER TABLE `courses`
+    DISABLE KEYS */;
+/*!40000 ALTER TABLE `courses`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -46,22 +53,25 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enrollments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enrollments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `studentNo` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `surname` varchar(45) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `unitCode` varchar(45) NOT NULL,
-  `session` varchar(3) NOT NULL,
-  `classSection` varchar(1) NOT NULL,
-  `expiryDate` datetime NOT NULL,
-  `status` varchar(45) DEFAULT 'ENROLLED',
-  `courseId` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `enrollments`
+(
+    `id`           int         NOT NULL AUTO_INCREMENT,
+    `studentNo`    int         NOT NULL,
+    `name`         varchar(45) NOT NULL,
+    `surname`      varchar(45) NOT NULL,
+    `subject`      varchar(45) NOT NULL,
+    `unitCode`     varchar(45) NOT NULL,
+    `session`      varchar(3)  NOT NULL,
+    `classSection` varchar(1)  NOT NULL,
+    `expiryDate`   datetime    NOT NULL,
+    `status`       varchar(45) DEFAULT 'ENROLLED',
+    `courseId`     int         DEFAULT '0',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5
+  DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,8 +79,10 @@ CREATE TABLE `enrollments` (
 --
 
 LOCK TABLES `enrollments` WRITE;
-/*!40000 ALTER TABLE `enrollments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enrollments` ENABLE KEYS */;
+/*!40000 ALTER TABLE `enrollments`
+    DISABLE KEYS */;
+/*!40000 ALTER TABLE `enrollments`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -78,22 +90,25 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `enrollments_temp`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enrollments_temp` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `studentNo` int NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `surname` varchar(45) NOT NULL,
-  `subject` varchar(45) NOT NULL,
-  `unitCode` varchar(45) NOT NULL,
-  `session` varchar(3) NOT NULL,
-  `classSection` varchar(1) NOT NULL,
-  `expiryDate` datetime NOT NULL,
-  `status` varchar(45) DEFAULT 'ENROLLED',
-  `courseId` int DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `enrollments_temp`
+(
+    `id`           int         NOT NULL AUTO_INCREMENT,
+    `studentNo`    int         NOT NULL,
+    `name`         varchar(45) NOT NULL,
+    `surname`      varchar(45) NOT NULL,
+    `subject`      varchar(45) NOT NULL,
+    `unitCode`     varchar(45) NOT NULL,
+    `session`      varchar(3)  NOT NULL,
+    `classSection` varchar(1)  NOT NULL,
+    `expiryDate`   datetime    NOT NULL,
+    `status`       varchar(45) DEFAULT 'ENROLLED',
+    `courseId`     int         DEFAULT '0',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,8 +116,12 @@ CREATE TABLE `enrollments_temp` (
 --
 
 LOCK TABLES `enrollments_temp` WRITE;
-/*!40000 ALTER TABLE `enrollments_temp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enrollments_temp` ENABLE KEYS */;
+/*!40000 ALTER TABLE `enrollments_temp`
+    DISABLE KEYS */;
+INSERT INTO `enrollments_temp`
+VALUES (1, 2420030, 'Elijah', 'Akintade', 'COMS', 'COMS1017', 'SM2', 'A', '2020-12-31 00:00:00', 'ENROLLED', 0);
+/*!40000 ALTER TABLE `enrollments_temp`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,14 +129,16 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `userID` varchar(45) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `role` varchar(45) NOT NULL,
-  PRIMARY KEY (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `users`
+(
+    `userID`   varchar(45)  NOT NULL,
+    `password` varchar(100) NOT NULL,
+    `role`     varchar(45)  NOT NULL,
+    PRIMARY KEY (`userID`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,9 +146,14 @@ CREATE TABLE `users` (
 --
 
 LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('admin','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','admin'),('steve','$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e','user'),('test','test','test');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+/*!40000 ALTER TABLE `users`
+    DISABLE KEYS */;
+INSERT INTO `users`
+VALUES ('admin', '$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e', 'admin'),
+       ('steve', '$2y$10$n6NlWtHmEWH04fN6JqAA5eDKVwA8MAFHNGYVN45GVqdU82kmeKt9e', 'user'),
+       ('test', 'test', 'test');
+/*!40000 ALTER TABLE `users`
+    ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,7 +195,7 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-04  2:59:34
+-- Dump completed on 2020-09-08  1:54:43
 CREATE DATABASE  IF NOT EXISTS `moodle` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `moodle`;
 -- MySQL dump 10.13  Distrib 8.0.20, for Win64 (x86_64)
@@ -301,4 +327,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-04  2:59:34
+-- Dump completed on 2020-09-08  1:54:43

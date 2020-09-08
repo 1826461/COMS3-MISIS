@@ -7,18 +7,21 @@ class Course
     public string $unitCode;
     public int $courseID;
     public string $courseName;
+    public string $updateFrequency;
 
 
     /**
      * Course constructor.
      * @param $unitCode
      * @param $courseID
+     * @param int $updateFrequency
      */
-    function __construct($unitCode, $courseID)
+    function __construct($unitCode, $courseID, $updateFrequency = 0)
     {
         $this->unitCode = $unitCode;
         $this->courseID = $courseID;
         $this->courseName = $this->unitCode;
+        $this->updateFrequency = $updateFrequency;
 
     }
 
@@ -68,6 +71,22 @@ class Course
     public function setUnitCode(string $unitCode): void
     {
         $this->unitCode = $unitCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdateFrequency(): string
+    {
+        return $this->updateFrequency;
+    }
+
+    /**
+     * @param string $updateFrequency
+     */
+    public function setUpdateFrequency(string $updateFrequency): void
+    {
+        $this->updateFrequency = $updateFrequency;
     }
 
 }

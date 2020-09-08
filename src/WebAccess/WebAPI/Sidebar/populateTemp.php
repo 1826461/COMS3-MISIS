@@ -16,6 +16,7 @@ session_start();
 
 $courseIDStr = $_POST['courseID'];
 $courseSame = $_POST['courseSame'];
+$updateFrequency = $_POST['updateFrequency'];
 
 $courseListJSON = json_decode($courseSame);
 $courseList = [];
@@ -37,7 +38,12 @@ if ($_SESSION['admin'] == 1) {
 
     for ($index = 0; $index < sizeof($courseList); $index++) {
         $course = new Course($courseList[$index], $courseIDStr);
-        $courseDatabaseHelper->insertCourse($course);
+        $course->setUpdateFrequency($updateFrequency);
+        if ($courseDatabaseHelper->getCourse($courseList[$index]) != 0) {
+            $courseDatabaseHelper->updateCourse($course);
+        } else {
+            $courseDatabaseHelper->insertCourse($course);
+        }
         //$JSONHelper->addCourseDataTemp($courseList[$index]);
         //$enrollmentDatabaseHelper->updateEnrollmentWhenCourseChangeTemp($courseList[$index], $courseIDStr);
     }

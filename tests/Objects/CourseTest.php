@@ -47,11 +47,20 @@ class CourseTest extends TestCase
             "course name equals expected value");
 
     }
+
     public function testSetRole()
     {
         self::$course->setCourseName("TEST101-TEST");
         assertEquals("TEST101-TEST", self::$course->getCourseName(),
             "new course name equals expected value");
+
+    }
+
+    public function testSetUpdateFrequency()
+    {
+        self::$course->setUpdateFrequency(10);
+        assertEquals(10, self::$course->getUpdateFrequency(),
+            "update frequency equals expected value");
 
     }
 
