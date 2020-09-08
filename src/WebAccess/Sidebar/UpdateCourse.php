@@ -1,10 +1,10 @@
 <?php
 
-use Helpers\MoodleCourseCategoriesDatabaseHelper;
-use Helpers\MoodleCourseDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
 use Helpers\JSONHelper;
+use Helpers\MoodleCourseCategoriesDatabaseHelper;
+use Helpers\MoodleCourseDatabaseHelper;
 use Objects\MoodleCourse;
 
 include("..\..\Helpers\DatabaseHelper.php");
@@ -93,7 +93,36 @@ if (isset($_POST["Logout"])) {
             </button>
         </form>
         <div class="collapseButtons3">
-            <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add course to suggested</button>
+            <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add
+                course to suggested
+            </button>
+        </div>
+        <div class="collapseButtons4">
+            <button class='btn btn-warning' onclick='resetChanges()'>Reset course configuration</button>
+        </div>
+        <div class="collapseButtons">
+            <button class='btn btn-primary' onclick='showMain()'>Switch to Main view</button>
+        </div>
+    </div>
+    <div class="container">
+
+        <!--logout button-->
+        <form class="logOut" method="post">
+            <div class="form-group">
+                <label for="update_select">Auto Update Frequency:</label>
+                <select class="form-control" id="update_select" disabled="disabled">
+                    <option value="0" label="off"></option>
+                    <option value="1" label="hourly"></option>
+                    <option value="2" label="daily"></option>
+                    <option value="3" label="monthly"></option>
+                    <option value="4" label="yearly"></option>
+                </select>
+            </div>
+        </form>
+        <div class="collapseButtons3">
+            <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add
+                course to suggested
+            </button>
         </div>
         <div class="collapseButtons2">
             <button class='btn btn-success' onclick='saveCourseConfig()'>Save course configuration</button>
@@ -105,7 +134,6 @@ if (isset($_POST["Logout"])) {
             <button class='btn btn-primary' onclick='showMain()'>Switch to Main view</button>
         </div>
     </div>
-
     <!-- Side navigation -->
     <div class="sidenav">
         <h2>All courses:</h2>
@@ -284,7 +312,10 @@ if (isset($_POST["Logout"])) {
     var courseID = 0;
     var countSuggested = 0;
     var resetThisCourse = "";
-    function clickCourse(clickedID,id) {
+
+    function clickCourse(clickedID, id) {
+        document.getElementById('update_select').disabled = false;
+        document.getElementById('update_select').value = 0;
         countSuggested = 0;
         document.getElementById('addToSuggested').innerHTML = 'Add course to suggested';
         document.getElementById('addToSuggested').style.display = "initial";
@@ -303,8 +334,19 @@ if (isset($_POST["Logout"])) {
         sameCourseID.splice(0, sameCourseID.length);
         sameCourseID.push(courses[0]);
 
+        for (var iLoop = 0; iLoop < jArray.length; ++iLoop) {
+            if (jArray[iLoop]['unitCode'] === sameCourseID[0]) {
+                if (jArray[iLoop]['syncFrequency'] === null) {
+                    document.getElementById('update_select').value = 0;
+                } else {
+                    document.getElementById('update_select').value = jArray[iLoop]['syncFrequency'];
+                }
+
+            }
+        }
+
         //reset suggested table
-        for(var i = 1; i <= 5; ++i) {
+        for (var i = 1; i <= 5; ++i) {
             document.getElementById(100 + i - 1).innerHTML = 'None';
             document.getElementById(100 + i - 1).style.display = "initial";
             document.getElementsByName(100 + i - 1)[0].innerHTML = '';
@@ -315,12 +357,12 @@ if (isset($_POST["Logout"])) {
         var flag = false;
         for (var i = 1; i < courses.length; ++i) {
             flag = false;
-            for(var j = 0;j < jArray.length;++j) {
-                if(jArray[j]['unitCode'] == courses[i]) {
+            for (var j = 0; j < jArray.length; ++j) {
+                if (jArray[j]['unitCode'] === courses[i]) {
                     flag = true;
                 }
             }
-            if(flag == false) {
+            if (flag === false) {
                 document.getElementById(100 + i - 1).innerHTML = courses[i];
                 document.getElementById(100 + i - 1).style.display = "initial";
                 if (i >= 1) {
@@ -502,21 +544,25 @@ if (isset($_POST["Logout"])) {
             }
         }
         else{*/
+        let updateFrequency = document.getElementById("update_select").value;
+        console.log(updateFrequency);
+        debugger;
         $.ajax({
             type: "POST",
             url: "../WebAPI/Sidebar/populateTemp.php",
             data: {
-                courseID : courseID,
-                courseSame : JSON.stringify(sameCourseID)
+                updateFrequency: updateFrequency,
+                courseID: courseID,
+                courseSame: JSON.stringify(sameCourseID)
             },
-            success: function() {
+            success: function () {
                 alert("Success");
                 document.getElementById("saveForm").style.display = "none";
                 document.getElementById("mainView").style.webkitFilter = "";
                 window.location.href = "../Sidebar/Changes.php";
             }
         });
-       // }
+        // }
     }
 
     function saveCourseConfig() {
