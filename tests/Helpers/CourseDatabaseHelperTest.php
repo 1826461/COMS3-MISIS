@@ -80,10 +80,27 @@ class CourseDatabaseHelperTest extends TestCase
         assertEquals(sizeof($courseDatabaseHelper->getAllCourses()), $courseCount + 1, "returns correct course count");
     }
 
+    public function testUpdateLastSync() {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $courseDatabaseHelper = new CourseDatabaseHelper();
+        $course = new Course("TEST100A", 1);
+        $courseDatabaseHelper->insertCourse($course);
+        $databaseHelper->query("SELECT updatedOn FROM courses WHERE unitCode = 'TEST100A' LIMIT 0,1");
+        $lastSync = $databaseHelper->single();
+        $course = $courseDatabaseHelper->getCourse("TEST100A");
+        sleep (2);
+        $courseDatabaseHelper->updatelastSync($course);
+        $databaseHelper->query("SELECT updatedOn FROM courses WHERE unitCode = 'TEST100A' LIMIT 0,1");
+        $currentSync = $databaseHelper->single();
+        \PHPUnit\Framework\assertNotEquals($lastSync, $currentSync, "returns new sync timestamp");
+    }
+
     public function testGetCourseList() {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         assertGreaterThan(0, sizeof($courseDatabaseHelper->getCourseList()), "returns correct course list");
         $courseDatabaseHelper->deleteCourse("TEST200A");
         $courseDatabaseHelper->deleteCourse("TEST100A");
     }
+
+
 }
