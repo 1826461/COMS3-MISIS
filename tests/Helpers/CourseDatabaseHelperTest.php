@@ -88,6 +88,7 @@ class CourseDatabaseHelperTest extends TestCase
         $databaseHelper->query("SELECT updatedOn FROM courses WHERE unitCode = 'TEST100A' LIMIT 0,1");
         $lastSync = $databaseHelper->single();
         $course = $courseDatabaseHelper->getCourse("TEST100A");
+        sleep (2);
         $courseDatabaseHelper->updatelastSync($course);
         $databaseHelper->query("SELECT updatedOn FROM courses WHERE unitCode = 'TEST100A' LIMIT 0,1");
         $currentSync = $databaseHelper->single();
