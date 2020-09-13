@@ -2,19 +2,49 @@
 
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\CourseDatabaseHelper.php");
+include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Objects\Enrollment.php");
 include("..\..\Helpers\JSONHelper.php");
+include("..\..\Objects\Course.php");
 
+use Helpers\EnrollmentDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
+use Objects\Enrollment;
+use Objects\Course;
 use Helpers\JSONHelper;
 
 /*Triggers update on unitCode*/
 function triggerSync($unitCode){
+    $JSONHelper = new JSONHelper();
+    $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $courseHelper = new CourseDatabaseHelper();
+    $course = $courseHelper->getCourse($unitCode);
+
+    //Delete old enrollments from specific course
+    $enrollDel = $enrollmentDatabaseHelper->getAllEnrollments();
+    for ($index = 0; $index < sizeof($enrollDel); $index++) {
+        if ($enrollDel[$index]['unitCode']===$unitCode){
+            $enrollmentDatabaseHelper->deleteEnrollment($enrollDel[$index]['studentNo'], $enrollDel[$index]['unitCode']);
+        }
+    }
+
+    //Get current virtus enrollments
+    $enrollAdd = $JSONHelper->getVirtusCourseJSON($unitCode);
+    for ($index = 0; $index < sizeof($enrollAdd);$index++) {
+        //need to get an ID for insert
+        $insertID = 0;
+        $enrollment = new Enrollment($insertID,$enrollAdd[$index]['studentNumber'],$enrollAdd[$index]['firstName'], $enrollAdd[$index]['surname'], $enrollAdd[$index]['subject'], $enrollAdd[$index]['unitCode'], $enrollAdd[$index]['sessionCode'], $enrollAdd[$index]['classSection'], $enrollAdd[$index]['expiryDate'], $enrollAdd[$index]['unitStatus']);
+        $courseID = $course->getCourseID();
+        $enrollmentDatabaseHelper->insertEnrollmentWithCourseID($enrollment,$courseID);
+    }
+
+    //once finished update last sync in Database
+    $courseHelper->updateLastSync($course);
 
 }
 
 /*Helper setup*/
 $courseHelper = new CourseDatabaseHelper();
-$JSONHelper = new JSONHelper();
 
 /*Get all courses*/
 $courses = $courseHelper->getAllCourses();
@@ -24,7 +54,7 @@ for($iter = 0; $iter<sizeof($courses);$iter++){
     $courseName = $courses[$iter]['unitCode'];
     $oldDate =  $courses[$iter]['updatedOn'];
     $syncFreq = $courses[$iter]['syncFrequency'];
-    $currDate = date("Y:m:d h:m:s");
+    $currDate = date("Y:m:d H:i:s");
 
     $currDate = date_create($currDate);
     $oldDate = date_create($oldDate);
@@ -45,7 +75,7 @@ for($iter = 0; $iter<sizeof($courses);$iter++){
         }
     }else if($syncFreq==3){
         /*Trigger Update Monthly*/
-        if ($interval->format('%m')>1){
+        if ($interval->format('%m')>=1){
             triggerSync($courseName);
         }
     }else if($syncFreq==4){

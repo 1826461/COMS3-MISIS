@@ -105,4 +105,17 @@ class CourseDatabaseHelper
         $databaseHelper->bind(':updateFrequency', $course->getUpdateFrequency());
         $databaseHelper->execute();
     }
+
+    /**
+     * @param Course $course
+     */
+    public static function updateLastSync(Course $course)
+    {
+        $databaseHelper = new DatabaseHelper("coms3-misis");
+        $lastSync = date("Y:m:d H:i:s");
+        $databaseHelper->query("UPDATE courses SET updatedOn = :lastSync WHERE (unitCode = :unitCode)");
+        $databaseHelper->bind(':unitCode', $course->getUnitCode());
+        $databaseHelper->bind(':lastSync', $lastSync);
+        $databaseHelper->execute();
+    }
 }
