@@ -8,6 +8,7 @@ class Course
     public int $courseID;
     public string $courseName;
     public string $updateFrequency;
+    public int $deleteActive;
 
 
     /**
@@ -16,12 +17,13 @@ class Course
      * @param $courseID
      * @param int $updateFrequency
      */
-    function __construct($unitCode, $courseID, $updateFrequency = 0)
+    function __construct($unitCode, $courseID, $updateFrequency = 0, $deleteActive = 0)
     {
         $this->unitCode = $unitCode;
         $this->courseID = $courseID;
         $this->courseName = $this->unitCode;
         $this->updateFrequency = $updateFrequency;
+        $this->deleteActive = $deleteActive;
 
     }
 
@@ -89,4 +91,19 @@ class Course
         $this->updateFrequency = $updateFrequency;
     }
 
+    /**
+     * @return int|mixed
+     */
+    public function getDeleteActive()
+    {
+        return $this->deleteActive;
+    }
+
+    /**
+     * @param int|mixed $deleteActive
+     */
+    public function setDeleteActive(int $deleteActive): void
+    {
+        $this->deleteActive = $deleteActive;
+    }
 }
