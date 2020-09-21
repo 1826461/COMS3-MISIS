@@ -14,7 +14,7 @@ class DatabaseHelper
     protected int $mySQLPort = 3306;
     //protected string $mySQLSocket = "";
     protected string $mySQLUser = "root";
-    protected string $mySQLPassword = "";
+    protected string $mySQLPassword = "root";
 
     /**
      * DatabaseHelper constructor.

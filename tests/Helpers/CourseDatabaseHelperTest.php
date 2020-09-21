@@ -41,6 +41,7 @@ class CourseDatabaseHelperTest extends TestCase
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getCourseID(),3, "returns correct course ID");
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getCourseName(),"TEST100A", "returns correct course name");
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getUnitCode(),"TEST100A", "returns correct unit code");
+        assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getDeleteActive(),0, "returns correct delete active");
     }
 
     public function testUpdateCourse() {
@@ -48,10 +49,12 @@ class CourseDatabaseHelperTest extends TestCase
         $course = $courseDatabaseHelper->getCourse("TEST100A");
         $course->setCourseID(4);
         $course->setCourseName("TEST100AA");
+        $course->setDeleteActive(1);
         $courseDatabaseHelper->updateCourse($course);
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getCourseID(),4, "returns correct course ID");
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getCourseName(),"TEST100AA", "returns correct course name");
         assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getUnitCode(),"TEST100A", "returns correct unit code");
+        assertEquals($courseDatabaseHelper->getCourse("TEST100A")->getDeleteActive(),1, "returns correct delete active");
     }
 
     public function testDeleteCourse() {

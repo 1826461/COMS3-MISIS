@@ -64,4 +64,18 @@ class CourseTest extends TestCase
 
     }
 
+    public function testGetDeleteActive()
+    {
+        assertEquals(0, self::$course->getDeleteActive(),
+            "delete active equals expected value");
+    }
+
+    public function testSetDeleteActive()
+    {
+        self::$course->setDeleteActive(1);
+        assertEquals(1, self::$course->getDeleteActive(),
+            "delete active equals expected value");
+
+    }
+
 }

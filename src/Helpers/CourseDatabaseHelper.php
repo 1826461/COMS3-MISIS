@@ -14,11 +14,12 @@ class CourseDatabaseHelper
     public static function insertCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
-        $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName, syncFrequency) VALUES (:courseID, :unitCode, :courseName, :updateFrequency) ");
+        $databaseHelper->query("INSERT INTO courses (courseID, unitCode, courseName, syncFrequency, deleteActive) VALUES (:courseID, :unitCode, :courseName, :updateFrequency, :deleteActive) ");
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseName', $course->getCourseName());
         $databaseHelper->bind(':updateFrequency', $course->getUpdateFrequency());
+        $databaseHelper->bind(':deleteActive', $course->getDeleteActive());
         $databaseHelper->execute();
     }
 
@@ -89,6 +90,7 @@ class CourseDatabaseHelper
         }
         $newCourse = new Course($course['unitCode'], $course['courseID']);
         $newCourse->setCourseName($course['courseName']);
+        $newCourse->setDeleteActive($course['deleteActive']);
         return $newCourse;
     }
 
@@ -98,11 +100,12 @@ class CourseDatabaseHelper
     public static function updateCourse(Course $course)
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
-        $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID, syncFrequency = :updateFrequency WHERE (unitCode = :unitCode)");
+        $databaseHelper->query("UPDATE courses SET courseName = :courseName, courseID  = :courseID, syncFrequency = :updateFrequency, deleteActive = :deleteActive WHERE (unitCode = :unitCode)");
         $databaseHelper->bind(':unitCode', $course->getUnitCode());
         $databaseHelper->bind(':courseID', $course->getCourseID());
         $databaseHelper->bind(':courseName', $course->getCourseName());
         $databaseHelper->bind(':updateFrequency', $course->getUpdateFrequency());
+        $databaseHelper->bind(':deleteActive', $course->getDeleteActive());
         $databaseHelper->execute();
     }
 
