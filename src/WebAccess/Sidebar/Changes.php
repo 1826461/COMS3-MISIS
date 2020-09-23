@@ -104,6 +104,7 @@ if (isset($_POST["Logout"])) {
             $JSONHelper = new JSONHelper();
 
             $virtusEnrollmentsNotInCurrent = $enrollmentDatabaseHelper->getAllEnrollmentsWhereInTemp();
+            $allAdditions = json_encode($virtusEnrollmentsNotInCurrent);
             echo "<table id=\"tableAdditions\" class=\"table table-hover table-responsive table-bordered\">";
             echo "<tr>";
 
@@ -111,7 +112,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInCurrent != 0) {
 
                 //add echos for table fields from database
-                echo "<th>Select</th>";
+                echo "<th><input type=\"checkbox\" onclick='checkAllAdditions(this)'>Select all additions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -127,7 +128,7 @@ if (isset($_POST["Logout"])) {
                 for ($index = 0; $index < sizeof($virtusEnrollmentsNotInCurrent); $index++) {
                     $currEnrollment = json_encode($virtusEnrollmentsNotInCurrent[$index]);
                     echo "<tr>";
-                    echo "<td><input type=\"checkbox\" onclick='toBeAdded({$currEnrollment})'></td>";
+                    echo "<td><input type=\"checkbox\" onclick='toBeAdded({$currEnrollment})' name=\"checkboxAddition\"></td>";
                     echo "<td>{$virtusEnrollmentsNotInCurrent[$index]['studentNo']}</td>";
                     echo "<td>{$virtusEnrollmentsNotInCurrent[$index]['name']}</td>";
                     echo "<td>{$virtusEnrollmentsNotInCurrent[$index]['surname']}</td>";
@@ -158,6 +159,7 @@ if (isset($_POST["Logout"])) {
             $JSONHelper = new JSONHelper();
 
             $virtusEnrollmentsNotInTemp = $enrollmentDatabaseHelper->getAllEnrollmentsWhereNotInTemp();
+            $allDeletions = json_encode($virtusEnrollmentsNotInTemp);
             echo "<table id=\"tableDeletions\" class=\"table table-hover table-responsive table-bordered\">";
             echo "<tr>";
 
@@ -165,7 +167,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInTemp != 0) {
 
                 //add echos for table fields from database
-                echo "<th>Select</th>";
+                echo "<th><input type=\"checkbox\" onclick='checkAllDeletions(this)'>Select all deletions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -181,7 +183,7 @@ if (isset($_POST["Logout"])) {
                 for ($index = 0; $index < sizeof($virtusEnrollmentsNotInTemp); $index++) {
                     $currEnrollment = json_encode($virtusEnrollmentsNotInTemp[$index]);
                     echo "<tr>";
-                    echo "<td><input type=\"checkbox\" onclick='toBeDeleted({$currEnrollment})'></td>";
+                    echo "<td><input type=\"checkbox\" onclick='toBeDeleted({$currEnrollment})' name=\"checkboxDeletion\"></td>";
                     echo "<td>{$virtusEnrollmentsNotInTemp[$index]['studentNo']}</td>";
                     echo "<td>{$virtusEnrollmentsNotInTemp[$index]['name']}</td>";
                     echo "<td>{$virtusEnrollmentsNotInTemp[$index]['surname']}</td>";
@@ -213,6 +215,7 @@ if (isset($_POST["Logout"])) {
     var deletions = [];
     var tempAdditions = [];
     var tempDeletions = [];
+
     function toBeAdded(enrollment) {
         var student = JSON.stringify(enrollment);
         var index = tempAdditions.indexOf(student);
@@ -232,6 +235,24 @@ if (isset($_POST["Logout"])) {
         }
         else{
             tempDeletions.splice(index, 1);
+        }
+    }
+
+    function checkAllAdditions(source){
+        var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
+        for(var i = 0;i < checkboxes.length;i++){
+            if(checkboxes[i] !== source){
+                checkboxes[i].click();
+            }
+        }
+    }
+
+    function checkAllDeletions(source){
+        var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
+        for(var i = 0;i < checkboxes.length;i++){
+            if(checkboxes[i] !== source){
+                checkboxes[i].click();
+            }
         }
     }
 
