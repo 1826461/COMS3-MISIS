@@ -119,6 +119,19 @@ if (isset($_POST["Logout"])) {
                 </select>
             </div>
         </form>
+				
+				<form class="logOut2" method="post">
+            <div class="form-group">
+                <label for="update_select">Auto Deletion Setting:</label>
+                <select class="form-control" id="update_select" disabled="disabled">
+                    <option value="0" label="off"></option>
+                    <option value="1" label="on"></option>
+                </select>
+            </div>
+        </form>
+				
+				
+				
         <div class="collapseButtons3">
             <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add
                 course to suggested
