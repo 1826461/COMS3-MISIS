@@ -95,6 +95,15 @@ class EnrollmentDatabaseHelperTest extends TestCase
         assertEquals(1, $result, "Enrollment added to database table");
     }
 
+    public function testInsertUniqueEnrollmentWithCourseID()
+    {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826465, "Tristen", "Paul", "COMS2", "COMS3000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $result = $enrollmentDatabaseHelper->insertUniqueEnrollmentWithCourseID($enrollment, 100);
+        assertEquals(1, $result, "Enrollment added to database table");
+    }
+
     public function testInsertTempEnrollment()
     {
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
@@ -117,6 +126,15 @@ class EnrollmentDatabaseHelperTest extends TestCase
         $enrollment = new Enrollment(0, 1826461, "Tristen", "Paul", "COMS2", "COMS3000A",
             "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
         $result = $enrollmentDatabaseHelper->insertUniqueEnrollment($enrollment);
+        assertEquals(0, $result, "Enrollment added to database table");
+        $enrollmentDatabaseHelper->deleteEnrollment(1826461, "COMS3000A");
+    }
+
+    public function testInsertUniqueEnrollmentWithCourseIDExists() {
+        $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $enrollment = new Enrollment(0, 1826465, "Tristen", "Paul", "COMS2", "COMS3000A",
+            "SM1", "A", "2020-06-30 00:00:00", "ENROLLED");
+        $result = $enrollmentDatabaseHelper->insertUniqueEnrollmentWithCourseID($enrollment, 100);
         assertEquals(0, $result, "Enrollment added to database table");
         $enrollmentDatabaseHelper->deleteEnrollment(1826461, "COMS3000A");
     }

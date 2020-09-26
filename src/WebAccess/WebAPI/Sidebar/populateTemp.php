@@ -17,6 +17,8 @@ session_start();
 $courseIDStr = $_POST['courseID'];
 $courseSame = $_POST['courseSame'];
 $updateFrequency = $_POST['updateFrequency'];
+$deleteActive = $_POST['deleteActive'];
+
 
 $courseListJSON = json_decode($courseSame);
 $courseList = [];
@@ -39,6 +41,7 @@ if ($_SESSION['admin'] == 1) {
     for ($index = 0; $index < sizeof($courseList); $index++) {
         $course = new Course($courseList[$index], $courseIDStr);
         $course->setUpdateFrequency($updateFrequency);
+        $course->setDeleteActive($deleteActive);
         if ($courseDatabaseHelper->getCourse($courseList[$index]) != 0) {
             $courseDatabaseHelper->updateCourse($course);
         } else {

@@ -41,6 +41,13 @@ body {
     right: 150px;
     top: 50px;
 }
+.logOut2 {
+    position: absolute;
+    right: 150px;
+    top: 120px;
+}
+
+
 
 .confirm {
     position: absolute;

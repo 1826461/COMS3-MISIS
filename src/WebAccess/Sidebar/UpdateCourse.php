@@ -119,6 +119,19 @@ if (isset($_POST["Logout"])) {
                 </select>
             </div>
         </form>
+				
+				<form class="logOut2" method="post">
+            <div class="form-group">
+                <label for="auto_delete_select">Auto Deletion Setting:</label>
+                <select class="form-control" id="auto_delete_select" disabled="disabled">
+                    <option value="0" label="off"></option>
+                    <option value="1" label="on"></option>
+                </select>
+            </div>
+        </form>
+				
+				
+				
         <div class="collapseButtons3">
             <button id='addToSuggested' class='btn btn-info' style="display: none;" onclick='addToSuggested()'>Add
                 course to suggested
@@ -315,7 +328,10 @@ if (isset($_POST["Logout"])) {
 
     function clickCourse(clickedID, id) {
         document.getElementById('update_select').disabled = false;
+        document.getElementById('auto_delete_select').disabled = false;
         document.getElementById('update_select').value = 0;
+        document.getElementById('auto_delete_select').value = 0;
+
         countSuggested = 0;
         document.getElementById('addToSuggested').innerHTML = 'Add course to suggested';
         document.getElementById('addToSuggested').style.display = "initial";
@@ -338,8 +354,11 @@ if (isset($_POST["Logout"])) {
             if (jArray[iLoop]['unitCode'] === sameCourseID[0]) {
                 if (jArray[iLoop]['syncFrequency'] === null) {
                     document.getElementById('update_select').value = 0;
+                    document.getElementById('auto_delete_select').value = 0;
+
                 } else {
                     document.getElementById('update_select').value = jArray[iLoop]['syncFrequency'];
+                    document.getElementById('auto_delete_select').value = jArray[iLoop]['deleteActive'];
                 }
 
             }
@@ -545,6 +564,8 @@ if (isset($_POST["Logout"])) {
         }
         else{*/
         let updateFrequency = document.getElementById("update_select").value;
+        let deleteActive = document.getElementById("auto_delete_select").value;
+
         console.log(updateFrequency);
         debugger;
         $.ajax({
@@ -552,6 +573,7 @@ if (isset($_POST["Logout"])) {
             url: "../WebAPI/Sidebar/populateTemp.php",
             data: {
                 updateFrequency: updateFrequency,
+                deleteActive: deleteActive,
                 courseID: courseID,
                 courseSame: JSON.stringify(sameCourseID)
             },
