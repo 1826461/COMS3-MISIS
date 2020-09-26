@@ -120,7 +120,7 @@ if (isset($_POST["Logout"])) {
             </div>
         </form>
 				
-				<form class="delete_active_form" method="post">
+				<form class="logOut2" method="post">
             <div class="form-group">
                 <label for="auto_delete_select">Auto Deletion Setting:</label>
                 <select class="form-control" id="auto_delete_select" disabled="disabled">
