@@ -7,6 +7,16 @@ include("..\Helpers\UserDatabaseHelper.php");
 include("..\Helpers\DatabaseHelper.php");
 include("..\Objects\User.php");
 
+require_once("..\..\..\config.php") ;
+require_login();
+session_start();
+
+$_SESSION['loggedin'] = true;
+$_SESSION['username'] = $USER['username'];
+$_SESSION['admin'] = 1;
+header("location: Enrollments\EnrollmentMasterView.php");
+
+
 //TODO REMOVE console_log function and uses
 function console_log($output, $with_script_tags = true)
 {
