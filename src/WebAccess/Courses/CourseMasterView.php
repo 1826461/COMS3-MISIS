@@ -2,11 +2,13 @@
 
 use Helpers\CourseDatabaseHelper;
 use Helpers\EnrollmentDatabaseHelper;
+use Helpers\TextHelper;
 
 include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\EnrollmentDatabaseHelper.php");
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\JSONHelper.php");
+include("..\..\Helpers\TextHelper.php");
 include("..\..\Objects\Course.php");
 
 session_start();
@@ -139,6 +141,7 @@ if (isset($_POST["Logout"])) {
         $courseDatabaseHelper = new CourseDatabaseHelper();
         $courses = $courseDatabaseHelper->getAllCourses();
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+        $textHelper = new TextHelper();
         echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
         //start table
         //creating our table heading
@@ -152,6 +155,8 @@ if (isset($_POST["Logout"])) {
             echo "<th>Unit Code</th>";
             echo "<th>Course ID</th>";
             echo "<th>Course Name</th>";
+            echo "<th>Sync Frequency</th>";
+            echo "<th>Delete Active</th>";
             echo "<th>Enrollment Count</th>";
             echo "<th>Actions</th>";
             echo "</tr>";
@@ -168,6 +173,8 @@ if (isset($_POST["Logout"])) {
                 echo "<td>{$courses[$index]['unitCode']}</td>";
                 echo "<td>{$courses[$index]['courseID']}</td>";
                 echo "<td>{$courses[$index]['courseName']}</td>";
+                echo "<td>{$textHelper->setSyncFrequency($courses[$index]['syncFrequency'])}</td>";
+                echo "<td>{$textHelper->setDeleteActive($courses[$index]['deleteActive'])}</td>";
                 echo "<td>{$enrollmentDatabaseHelper->getCourseEnrollmentsCount($courses[$index]['unitCode'])}</td>";
                 $name = $courses[$index]['courseName'];
                 $code = $courses[$index]['unitCode'];
