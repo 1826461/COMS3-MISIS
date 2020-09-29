@@ -89,6 +89,14 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
             <td><?php echo $textHelper->getSpecialChars($course->getCourseName()); ?></td>
         </tr>
         <tr>
+            <td>Sync Frequency</td>
+            <td><?php echo $textHelper->setSyncFrequency($course->getUpdateFrequency()); ?></td>
+        </tr>
+        <tr>
+            <td>Delete Active</td>
+            <td><?php echo $textHelper->setDeleteActive($course->getDeleteActive()); ?></td>
+        </tr>
+        <tr>
             <td>Enrollment Count</td>
             <td><?php echo $textHelper->getSpecialChars($enrollmentCount); ?></td>
         </tr>
