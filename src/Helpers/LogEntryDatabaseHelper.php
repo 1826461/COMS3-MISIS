@@ -26,7 +26,7 @@ class LogEntryDatabaseHelper
     public static function getAllLogEntries()
     {
         $databaseHelper = new DatabaseHelper("coms3-misis");
-        $databaseHelper->query("SELECT DISTINCT * FROM log ORDER BY id");
+        $databaseHelper->query("SELECT DISTINCT * FROM log ORDER BY id DESC");
         $result = $databaseHelper->resultSet();
         if ($databaseHelper->rowCount() == 0) {
             return 0;

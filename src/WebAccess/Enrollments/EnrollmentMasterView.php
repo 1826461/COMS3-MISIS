@@ -127,6 +127,7 @@ if (isset($_POST["Logout"])) {
             echo "<ul class='views'>";
             echo "<li><button class='btn btn-primary' onclick='showCourses()'>Switch to course view</button></li>";
             echo "<li><button class='btn btn-danger' onclick='showUpdate()'>Update Courses</button></li>";
+            echo "<li><button class='btn btn-warning' onclick='showLog()'>Show Log</button></li>";
             echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
        </div> ";
         } else {
@@ -395,6 +396,10 @@ if (isset($_POST["Logout"])) {
 
     function showCourses() {
         window.location.href = '../Courses/CourseMasterView.php';
+    }
+
+    function showLog() {
+        window.location.href = '../Log/LogMasterView.php';
     }
 
     function isBlank() {

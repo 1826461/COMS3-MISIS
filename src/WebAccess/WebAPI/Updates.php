@@ -3,27 +3,32 @@
 include("..\..\Helpers\DatabaseHelper.php");
 include("..\..\Helpers\CourseDatabaseHelper.php");
 include("..\..\Helpers\EnrollmentDatabaseHelper.php");
+include("..\..\Helpers\LogEntryDatabaseHelper.php");
 include("..\..\Objects\Enrollment.php");
 include("..\..\Helpers\JSONHelper.php");
 include("..\..\Objects\Course.php");
+include("..\..\Objects\LogEntry.php");
 
 use Helpers\EnrollmentDatabaseHelper;
 use Helpers\CourseDatabaseHelper;
+use Helpers\LogEntryDatabaseHelper;
 use Objects\Enrollment;
 use Objects\Course;
+use Objects\LogEntry;
 use Helpers\JSONHelper;
 
 /*Triggers update on unitCode*/
 function triggerSync($unitCode, $delActive){
     $JSONHelper = new JSONHelper();
     $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
+    $logEntryDatabaseHelper = new LogEntryDatabaseHelper();
     $courseHelper = new CourseDatabaseHelper();
     $course = $courseHelper->getCourse($unitCode);
 
     if($delActive==0){//Only do new user additions
-
         //Get current virtus enrollments
         $enrollAdd = $JSONHelper->getVirtusCourseJSON($unitCode);
+
         for ($index = 0; $index < sizeof($enrollAdd);$index++) {
             //need to get an ID for insert
             $insertID = 0;
@@ -31,6 +36,8 @@ function triggerSync($unitCode, $delActive){
             $courseID = $course->getCourseID();
             $enrollmentDatabaseHelper->insertUniqueEnrollmentWithCourseID($enrollment,$courseID);
         }
+        $logEntry = new LogEntry("CRON", sizeof($enrollAdd) . " enrollments added to " . $course->getCourseName());
+        $logEntryDatabaseHelper->insertLogEntry($logEntry);
     }else if ($delActive==1){//Delete old users and insert new users
 
         //Delete old enrollments from specific course
@@ -40,7 +47,8 @@ function triggerSync($unitCode, $delActive){
                 $enrollmentDatabaseHelper->deleteEnrollment($enrollDel[$index]['studentNo'], $enrollDel[$index]['unitCode']);
             }
         }
-
+        $logEntry = new LogEntry("CRON", sizeof($enrollDel) . " enrollments deleted from " . $course->getCourseName());
+        $logEntryDatabaseHelper->insertLogEntry($logEntry);
         //Get current virtus enrollments
         $enrollAdd = $JSONHelper->getVirtusCourseJSON($unitCode);
         for ($index = 0; $index < sizeof($enrollAdd);$index++) {
@@ -50,9 +58,9 @@ function triggerSync($unitCode, $delActive){
             $courseID = $course->getCourseID();
             $enrollmentDatabaseHelper->insertEnrollmentWithCourseID($enrollment,$courseID);
         }
-
+        $logEntry = new LogEntry("CRON", sizeof($enrollAdd) . " enrollments added to " . $course->getCourseName());
+        $logEntryDatabaseHelper->insertLogEntry($logEntry);
     }
-
     //once finished update last sync in Database
     $courseHelper->updateLastSync($course);
 
@@ -84,7 +92,7 @@ for($iter = 0; $iter<sizeof($courses);$iter++){
     }else if($syncFreq==1){
         /*Trigger Update Hourly*/
         if ($interval->format('%h')>1){
-            triggerSync($courseName,$deleteActive);
+             triggerSync($courseName,$deleteActive);
         }
     }else if($syncFreq==2){
         /*Trigger Update Daily*/
@@ -102,5 +110,5 @@ for($iter = 0; $iter<sizeof($courses);$iter++){
             triggerSync($courseName,$deleteActive);
         }
     }
-    
+
 }
