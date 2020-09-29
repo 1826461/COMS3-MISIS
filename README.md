@@ -22,7 +22,7 @@ Wits Moodle Integration with Student Information System written in PHP and JavaS
   - Enable Moodle external database enrollment plug-in and configure using the MySQL tables
   
 **How it works:**
-  - When a new course is created, the COMS3-MISIS system uses the Wits SIMS API to obtain all students registered for that specific course and adds them to a MySQL database. When a user logs into Moodle, he/she is automatically enrolled in each of the courses with corresponding entries in the database based on their username, enrollment status and expiry date. 
+  - When a new course is created, the COMS3-MISIS system uses the Wits SIMS API to obtain all students registered for that specific course and adds them to a MySQL database. When a user logs into Moodle, he/she is automatically enrolled in each of the courses with corresponding entries in the database based on their username, enrollment status and expiry date.  
 
 **Contributors:**
 
