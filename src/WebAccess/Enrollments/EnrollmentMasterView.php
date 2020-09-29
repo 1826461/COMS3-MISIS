@@ -73,14 +73,37 @@ if (isset($_POST["Logout"])) {
     <!--Container-->
     <div class="container">
         <div class="page-header">
-            <h1>Enrollment Master</h1>
         </div>
         <!--logout button-->
-        <form class="logOut" method="post">
-            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
-                        class="glyphicon glyphicon-log-out"></span>Log out
-            </button>
-        </form>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">COMS3-MISIS</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#" onclick="showEnrollments()">Enrollments</a></li>
+                        <li><a href="#" onclick="showCourses()">Courses</a></li>
+                        <li><a href="#" onclick="showLog()">Log</a></li>
+                        <li><a href="#" onclick="showMoodleCourses()" >Moodle Courses</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    </ul>
+                    <div class="input-group navbar-form navbar-right">
+                        <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
+                    </div>
+
+
+                </div>
+            </div>
+        </nav>
         <!-- PHP code for read records here-->
         <?php
 
@@ -104,6 +127,13 @@ if (isset($_POST["Logout"])) {
             echo "<div class='alert alert-success' id='message'>Enrollment edited.</div>";
         }
 
+
+
+        //search for user
+        echo "<div class='createHold'> 
+<h1 class='text-center'>Enrollment Master</h1><br> <div id='tableOptions'>";
+
+
         echo "Filter by unit code: ";
         echo "<select id='ClassList' class='selectpicker list' name='ClassList' onChange='changeClasses()'>";
         echo "<option selected='selected' name='All'>All</option>";
@@ -114,44 +144,19 @@ if (isset($_POST["Logout"])) {
             $listItem = $result[$index]['unitCode'];
             echo "<option name='$listItem' value=$listItem>$listItem</option>";
         }
-        echo "</select>";
+        echo "</select><button class='btn btn-success pull-right' onclick='showCreate()'> Create Enrollment</button></div> <br><br>";
         //end of select
-
-        //search for user
-        echo "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findUser()'>
-       <div class='createHold'>";
-
-        if ($_SESSION['admin'] == 1) {
-            echo "<div class='viewButtons'>";
-            echo "<ul class='views'>";
-            echo "<li><button class='btn btn-primary' onclick='showCourses()'>Switch to course view</button></li>";
-            echo "<li><button class='btn btn-danger' onclick='showUpdate()'>Update Courses</button></li>";
-            echo "<li><button class='btn btn-warning' onclick='showLog()'>Show Log</button></li>";
-            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Enrollment</button></li></ul></div></div>
-       </div> ";
-        } else {
-            echo "<button class='btn btn-success' onclick='showCourses()'>Switch to course view</button></div></div>";
-        }
-
 
         //add create button
         //echo "<div class='btnCreate'><button class='btn' onclick='showCreate()'>Create User</button></div>";
-        function console_log($output, $with_script_tags = true)
-        {
-            $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-                ');';
-            if ($with_script_tags) {
-                $js_code = '<script>' . $js_code . '</script>';
-            }
-            echo $js_code;
-        }
 
         $enrollmentDatabaseHelper = new EnrollmentDatabaseHelper();
         $enrollments = $enrollmentDatabaseHelper->getAllEnrollments();
 
         //start table
         //creating our table heading
+
+
 
         echo "<table id='tableData' class='table table-hover table-responsive table-bordered'>";
 
@@ -244,7 +249,7 @@ if (isset($_POST["Logout"])) {
 
 <div class="create_pop" id="create">
     <div class="create-container">
-        <h2>Add Enrollment:</h2>
+        <h2 class="text-center">Add Enrollment:</h2>
         <div class="ulDiv">
             <ul class="createList">
                 <li><input type="text" id="studentNo" placeholder="Student Number" class="form-control"></li>
@@ -341,7 +346,8 @@ if (isset($_POST["Logout"])) {
         var delForm = document.getElementById("deleteForm");
         delForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("tableData").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("tableOptions").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
         deleteStudentNumber = studentNumber[0];
         deleteUnitCode = studentNumber[1];
     }
@@ -354,12 +360,14 @@ if (isset($_POST["Logout"])) {
 
     function closeForm() {
         document.getElementById("deleteForm").style.display = "none";
-        document.getElementById("mainView").style.webkitFilter = "";
+        document.getElementById("tableData").style.webkitFilter = "";
+        document.getElementById("tableOptions").style.webkitFilter = "";
     }
 
     function closeCreate() {
         document.getElementById("create").style.display = "none";
-        document.getElementById("mainView").style.webkitFilter = "";
+        document.getElementById("tableData").style.webkitFilter = "";
+        document.getElementById("tableOptions").style.webkitFilter = "";
     }
 
     function findUser() {
@@ -386,7 +394,8 @@ if (isset($_POST["Logout"])) {
         var createForm = document.getElementById("create");
         createForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("tableData").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("tableOptions").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
         document.getElementById("studentNo").focus();
     }
 
@@ -400,6 +409,14 @@ if (isset($_POST["Logout"])) {
 
     function showLog() {
         window.location.href = '../Log/LogMasterView.php';
+    }
+
+    function showMoodleCourses() {
+        window.location.href = "../Sidebar/UpdateCourse.php";
+    }
+
+    function logout() {
+        window.location.href = "../WebAPI/Logout/logout.php";
     }
 
     function isBlank() {

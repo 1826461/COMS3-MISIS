@@ -50,35 +50,45 @@ if (isset($_POST["Logout"])) {
 
 <body>
 <!--main form-->
-<div class="detail" method="post" id="mainView">
+<div class="container">
+    <div class="page-header">
+    </div>
+    <!--logout button-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">COMS3-MISIS</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#" onclick="showEnrollments()">Enrollments</a></li>
+                    <li><a href="#" onclick="showCourses()">Courses</a></li>
+                    <li class="active" ><a href="#" onclick="showLog()">Log</a></li>
+                    <li><a href="#" onclick="showMoodleCourses()" >Moodle Courses</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+                <div class="input-group navbar-form navbar-right">
+                    <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findLogEntry()'>
+                </div>
 
-    <!--Container-->
-    <div class="container">
-        <div class="page-header">
-            <h1>Log</h1>
+
+            </div>
         </div>
-        <!--logout button-->
-        <form class="logOut" method="post">
-            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
-                        class="glyphicon glyphicon-log-out"></span>Log out
-            </button>
-        </form>
+    </nav>
         <!-- PHP code for read records here-->
         <?php
 
         //search for user
-        echo "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findLogEntry()'>
-       <div class='createHold'>";
-
-        if ($_SESSION['admin'] == 1) {
-            echo "<div class='viewButtons'>";
-            echo "<ul class='views'>";
-            echo "<li><button class='btn btn-primary' onclick='showEnrollments()'>Switch to enrollment view</button></li></ul></div></div>
-       </div> ";
-        } else {
-            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></div></div>";
-        }
+        echo "<div class='createHold'> 
+<h1 class='text-center'>Log Master</h1><br>";
 
 
         //add create button
@@ -182,6 +192,21 @@ if (isset($_POST["Logout"])) {
 
     function showEnrollments() {
         window.location.href = "../Enrollments/EnrollmentMasterView.php";
+    }
+
+    function logout() {
+        window.location.href = "../WebAPI/Logout/logout.php";
+    }
+
+    function showCourses() {
+        window.location.href = "../Courses/CourseMasterView.php";
+    }
+
+    function showLog() {
+        window.location.href = "../Log/LogMasterView.php";
+    }
+    function showMoodleCourses() {
+        window.location.href = "../Sidebar/UpdateCourse.php";
     }
 
 
