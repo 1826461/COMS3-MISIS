@@ -132,7 +132,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInCurrent != 0) {
 
                 //add echos for table fields from database
-                echo "<th><input type=\"checkbox\" onclick='checkAllAdditions(this)'>Select all additions</th>";
+                echo "<th><input type=\"checkbox\" name=\"checkAllAdd\" onclick='checkAllAdditions(this)'>Select all additions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -187,7 +187,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInTemp != 0) {
 
                 //add echos for table fields from database
-                echo "<th><input type=\"checkbox\" onclick='checkAllDeletions(this)'>Select all deletions</th>";
+                echo "<th><input type=\"checkbox\" name=\"checkAllDel\" onclick='checkAllDeletions(this)'>Select all deletions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -259,19 +259,41 @@ if (isset($_POST["Logout"])) {
     }
 
     function checkAllAdditions(source){
-        var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
-        for(var i = 0;i < checkboxes.length;i++){
-            if(checkboxes[i] !== source){
-                checkboxes[i].click();
+        var mainCheckbox = document.querySelectorAll('input[name="checkAllAdd"]');
+        if(mainCheckbox[0].checked == true){
+            var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == false) {
+                    checkboxes[i].click();
+                }
+            }
+        }
+        else {
+            var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == true) {
+                    checkboxes[i].click();
+                }
             }
         }
     }
 
     function checkAllDeletions(source){
-        var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
-        for(var i = 0;i < checkboxes.length;i++){
-            if(checkboxes[i] !== source){
-                checkboxes[i].click();
+        var mainCheckbox = document.querySelectorAll('input[name="checkAllDel"]');
+        if(mainCheckbox[0].checked == true){
+            var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == false) {
+                    checkboxes[i].click();
+                }
+            }
+        }
+        else {
+            var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == true) {
+                    checkboxes[i].click();
+                }
             }
         }
     }
