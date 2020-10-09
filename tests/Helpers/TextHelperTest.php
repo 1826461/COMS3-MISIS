@@ -44,12 +44,17 @@ class TextHelperTest extends TestCase
 
     public function testSetSyncFrequency3() {
         $textHelper = new TextHelper();
-        assertEquals($textHelper->setSyncFrequency(3),"monthly", "returns correct sync frequency");
+        assertEquals($textHelper->setSyncFrequency(3),"weekly", "returns correct sync frequency");
     }
 
     public function testSetSyncFrequency4() {
         $textHelper = new TextHelper();
-        assertEquals($textHelper->setSyncFrequency(4),"yearly", "returns correct sync frequency");
+        assertEquals($textHelper->setSyncFrequency(4),"monthly", "returns correct sync frequency");
+    }
+
+    public function testSetSyncFrequency5() {
+        $textHelper = new TextHelper();
+        assertEquals($textHelper->setSyncFrequency(5),"yearly", "returns correct sync frequency");
     }
 
     public function testSetSyncFrequencyOther() {

@@ -27,9 +27,12 @@ class TextHelper
             return "daily";
         }
         else if ($frequency == 3) {
-            return "monthly";
+            return "weekly";
         }
         else if ($frequency == 4) {
+            return "monthly";
+        }
+        else if ($frequency == 5) {
             return "yearly";
         } else {
             return "none";

@@ -121,8 +121,9 @@ if (isset($_POST["Logout"])) {
                     <option value="0" label="off"></option>
                     <option value="1" label="hourly"></option>
                     <option value="2" label="daily"></option>
-                    <option value="3" label="monthly"></option>
-                    <option value="4" label="yearly"></option>
+                    <option value="3" label="weekly"></option>
+                    <option value="4" label="monthly"></option>
+                    <option value="5" label="yearly"></option>
                 </select>
             </div>
         </form>

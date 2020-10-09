@@ -90,28 +90,37 @@ for($iter = 0; $iter<sizeof($courses);$iter++){
     $oldDate = date_create($oldDate);
     $interval = date_diff($currDate,$oldDate);
 
+    $diff = $currDate->diff($oldDate);
+    $hours = $diff->h + ($diff->days * 24);
 
     /*Checking if sync is required*/
     if ($syncFreq==0){
         /*Default trigger means do no update*/
     }else if($syncFreq==1){
         /*Trigger Update Hourly*/
-        if ($interval->format('%h')>1){
+        if ($hours >= 1){
              triggerSync($courseName,$deleteActive);
         }
     }else if($syncFreq==2){
         /*Trigger Update Daily*/
-        if ($interval->format('%a')>7){
+        if ($hours >= 24){
             triggerSync($courseName,$deleteActive);
         }
     }else if($syncFreq==3){
-        /*Trigger Update Monthly*/
-        if ($interval->format('%m')>=1){
+        /*Trigger Update Weekly*/
+        if ($hours >= 168){
             triggerSync($courseName,$deleteActive);
         }
-    }else if($syncFreq==4){
+    }
+    else if($syncFreq==4){
+        /*Trigger Update Month;y*/
+        if ($hours >= 730){
+            triggerSync($courseName,$deleteActive);
+        }
+    }
+    else if($syncFreq==5){
         /*Trigger Update Yearly*/
-        if ($interval->format('%a')>365){
+        if ($hours >= 8760){
             triggerSync($courseName,$deleteActive);
         }
     }
