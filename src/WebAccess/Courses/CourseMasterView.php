@@ -57,14 +57,37 @@ if (isset($_POST["Logout"])) {
     <!--Container-->
     <div class="container">
         <div class="page-header">
-            <h1>Course Master</h1>
         </div>
         <!--logout button-->
-        <form class="logOut" method="post">
-            <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
-                        class="glyphicon glyphicon-log-out"></span>Log out
-            </button>
-        </form>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">COMS3-MISIS</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" onclick="showEnrollments()">Enrollments</a></li>
+                        <li class="active" ><a href="#" onclick="showCourses()">Courses</a></li>
+                        <li><a href="#" onclick="showLog()">Log</a></li>
+                        <li><a href="#" onclick="showMoodleCourses()" >Moodle Courses</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    </ul>
+                    <div class="input-group navbar-form navbar-right">
+                        <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findCourse()'>
+                    </div>
+
+
+                </div>
+            </div>
+        </nav>
         <!-- PHP code for read records here-->
         <?php
 
@@ -96,34 +119,9 @@ if (isset($_POST["Logout"])) {
             echo "<div class='alert alert-success' id='message'>Course updated.</div>";
         }
 
-        //        echo "Filter by unit code: ";
-        //        echo "<select id='CourseList' class='selectpicker list' name='CourseList' onChange='changeCourses()'>";
-        //        echo"<option selected='selected' name='All'>All</option>";
-        //        $courseDatabaseHelper = new CourseDatabaseHelper();
-        //        $result = $courseDatabaseHelper->getCourseList();
-        //
-        //
-        //        for ($index = 0; $index < sizeof($result); $index++) {
-        //            $listItem = $result[$index]['unitCode'];
-        //            echo"<option name='$listItem' value=$listItem>$listItem</option>";
-        //        }
-        //        echo "</select>";
-        //end of select
-
         //search for user
-        echo "<div class='topnav'>
-       <input class='form-control' id='searchBar' type='text' placeholder='Search by column' onkeyup='findCourse()'>
-       <div class='createHold'>";
-
-        if ($_SESSION['admin'] == 1) {
-            echo "<div class='viewButtons'>";
-            echo "<ul class='views'>";
-            echo "<li><button class='btn btn-primary' onclick='showEnrollments()'>Switch to enrollment view</button></li>";
-            echo "<li><button class='btn btn-success' onclick='showCreate()'>Create Course</button></li></ul></div></div>
-       </div> ";
-        } else {
-            echo "<button class='btn btn-success' onclick='showEnrollments()'>Switch to enrollment view</button></div></div>";
-        }
+        echo "<div class='createHold'> 
+<h1 class='text-center'>Courses Master</h1><br>";
 
 
         //add create button
@@ -189,13 +187,11 @@ if (isset($_POST["Logout"])) {
                 echo "<a href='CourseDetailView.php?unitCode={$courses[$index]['unitCode']}' class='btn btn-info m-r-1em'>View</a>";
                 //edit user
                 if ($_SESSION['admin'] == 1) {
-                    echo "<a class='btn btn-warning' href='CourseEditView.php?courseName={$courses[$index]['courseName']}&unitCode={$courses[$index]['unitCode']}'>Edit</a>";
                     //href='editUser.php?studentNo={$row['studentNo']}'
 
                     // link for deleting this user
                     echo "<a onclick='showDelete({$deleteParams})' class='btn btn-danger  m-l-1em'>Delete</a>";
 
-                    echo "<a onclick='refreshCourse({$deleteParams})' class='btn btn-primary  m-l-1em'>Refresh</a>";
                 }
 
 
@@ -312,7 +308,7 @@ if (isset($_POST["Logout"])) {
         var delForm = document.getElementById("deleteForm");
         delForm.style.display = "block";
         //hide table and make it un-editable
-        document.getElementById("mainView").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
+        document.getElementById("tableData").style.webkitFilter = "brightness(50%)blur(4px)grayscale(30%)";
         deleteUnitCode = unitCode;
     }
 
@@ -323,7 +319,7 @@ if (isset($_POST["Logout"])) {
 
     function closeForm() {
         document.getElementById("deleteForm").style.display = "none";
-        document.getElementById("mainView").style.webkitFilter = "";
+        document.getElementById("tableData").style.webkitFilter = "";
     }
 
     function closeCreate() {
@@ -420,6 +416,21 @@ if (isset($_POST["Logout"])) {
 
     function showEnrollments() {
         window.location.href = "../Enrollments/EnrollmentMasterView.php";
+    }
+
+    function logout() {
+        window.location.href = "../WebAPI/Logout/logout.php";
+    }
+
+    function showCourses() {
+        window.location.href = "../Courses/CourseMasterView.php";
+    }
+
+    function showLog() {
+        window.location.href = "../Log/LogMasterView.php";
+    }
+    function showMoodleCourses() {
+        window.location.href = "../Sidebar/UpdateCourse.php";
     }
 
 

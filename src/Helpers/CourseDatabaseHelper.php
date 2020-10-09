@@ -91,6 +91,7 @@ class CourseDatabaseHelper
         $newCourse = new Course($course['unitCode'], $course['courseID']);
         $newCourse->setCourseName($course['courseName']);
         $newCourse->setDeleteActive($course['deleteActive']);
+        $newCourse->setUpdateFrequency($course['syncFrequency']);
         return $newCourse;
     }
 

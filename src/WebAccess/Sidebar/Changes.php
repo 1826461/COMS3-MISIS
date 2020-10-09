@@ -84,18 +84,38 @@ if (isset($_POST["Logout"])) {
     <div class="diff-container">
         <div class="container">
             <div class="page-header">
-                <h1>Save course sync</h1>
             </div>
-            <form class="logOut" method="post">
-                <button type="submit" class="btn" name="Logout" id="exitButton" value="Logout"><span
-                            class="glyphicon glyphicon-log-out"></span>Log out
-                </button>
-            </form>
-            <div class="confirm">
-                <button id='confirm' class='btn btn-success' onclick='confirm()'>Confirm selections</button>
-            </div>
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">COMS3-MISIS</a>
+                    </div>
+                    <div id="navbar" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#" onclick="showEnrollments()">Enrollments</a></li>
+                            <li><a href="#" onclick="showCourses()">Courses</a></li>
+                            <li><a href="#" onclick="showLog()">Log</a></li>
+                            <li class="active"><a href="#" onclick="showMoodleCourses()" >Moodle Courses</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#" onclick="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
+        <br>
 
+        <div class="text-center">
+            <button id='confirm' class='btn btn-success' onclick='confirm()'>Confirm selections</button>
+            <button id='cancel' class='btn btn-primary' onclick='showMoodleCourses()'>Cancel</button>
+        </div>
         <div class="additions">
             <h2>Suggested additions:</h2>
             <?php
@@ -112,7 +132,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInCurrent != 0) {
 
                 //add echos for table fields from database
-                echo "<th><input type=\"checkbox\" onclick='checkAllAdditions(this)'>Select all additions</th>";
+                echo "<th><input type=\"checkbox\" name=\"checkAllAdd\" onclick='checkAllAdditions(this)'>Select all additions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -167,7 +187,7 @@ if (isset($_POST["Logout"])) {
             if ($virtusEnrollmentsNotInTemp != 0) {
 
                 //add echos for table fields from database
-                echo "<th><input type=\"checkbox\" onclick='checkAllDeletions(this)'>Select all deletions</th>";
+                echo "<th><input type=\"checkbox\" name=\"checkAllDel\" onclick='checkAllDeletions(this)'>Select all deletions</th>";
                 echo "<th>Student Number</th>";
                 echo "<th>Name</th>";
                 echo "<th>Surname</th>";
@@ -239,19 +259,41 @@ if (isset($_POST["Logout"])) {
     }
 
     function checkAllAdditions(source){
-        var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
-        for(var i = 0;i < checkboxes.length;i++){
-            if(checkboxes[i] !== source){
-                checkboxes[i].click();
+        var mainCheckbox = document.querySelectorAll('input[name="checkAllAdd"]');
+        if(mainCheckbox[0].checked == true){
+            var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == false) {
+                    checkboxes[i].click();
+                }
+            }
+        }
+        else {
+            var checkboxes = document.querySelectorAll('input[name="checkboxAddition"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == true) {
+                    checkboxes[i].click();
+                }
             }
         }
     }
 
     function checkAllDeletions(source){
-        var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
-        for(var i = 0;i < checkboxes.length;i++){
-            if(checkboxes[i] !== source){
-                checkboxes[i].click();
+        var mainCheckbox = document.querySelectorAll('input[name="checkAllDel"]');
+        if(mainCheckbox[0].checked == true){
+            var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == false) {
+                    checkboxes[i].click();
+                }
+            }
+        }
+        else {
+            var checkboxes = document.querySelectorAll('input[name="checkboxDeletion"]');
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i] !== source && checkboxes[i].checked == true) {
+                    checkboxes[i].click();
+                }
             }
         }
     }
@@ -309,6 +351,25 @@ if (isset($_POST["Logout"])) {
             });
 
         // }
+    }
+
+    function showEnrollments() {
+        window.location.href = "../Enrollments/EnrollmentMasterView.php";
+    }
+
+    function logout() {
+        window.location.href = "../WebAPI/Logout/logout.php";
+    }
+
+    function showCourses() {
+        window.location.href = "../Courses/CourseMasterView.php";
+    }
+
+    function showLog() {
+        window.location.href = "../Log/LogMasterView.php";
+    }
+    function showMoodleCourses() {
+        window.location.href = "../Sidebar/UpdateCourse.php";
     }
 </script>
 
