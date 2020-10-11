@@ -9,6 +9,7 @@
             <file>./tests/Objects/MoodleCourseTest.php</file>
             <file>./tests/Objects/EnrollmentTest.php</file>
             <file>./tests/Objects/UserTest.php</file>
+            <file>./tests/Objects/LogEntryTest.php</file>
         </testsuite>
         <testsuite name="Helpers">
             <file>./tests/Helpers/CourseDatabaseHelperTest.php</file>
@@ -18,6 +19,7 @@
             <file>./tests/Helpers/MoodleCourseCategoryDatabaseHelperTest.php</file>
             <file>./tests/Helpers/TextHelperTest.php</file>
             <file>./tests/Helpers/UserDatabaseHelperTest.php</file>
+            <file>./tests/Helpers/LogEntryDatabaseHelperTest.php</file>
         </testsuite>
     </testsuites>
     <filter>
@@ -28,6 +30,7 @@
             <file>./src/Objects/MoodleCourseCategory.php</file>
             <file>./src/Objects/Enrollment.php</file>
             <file>./src/Objects/User.php</file>
+            <file>./src/Objects/LogEntry.php</file>
             <file>./src/Helpers/CourseDatabaseHelper.php</file>
             <file>./src/Helpers/DatabaseHelper.php</file>
             <file>./src/Helpers/EnrollmentDatabaseHelper.php</file>
@@ -35,6 +38,8 @@
             <file>./src/Helpers/MoodleCourseCategoriesDatabaseHelper.php</file>
             <file>./src/Helpers/UserDatabaseHelper.php</file>
             <file>./src/Helpers/TextHelper.php</file>
+            <file>./src/Helpers/LogEntryDatabaseHelper.php</file>
+
         </whitelist>
     </filter>
 </phpunit>

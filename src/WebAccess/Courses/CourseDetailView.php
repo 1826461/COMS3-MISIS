@@ -17,7 +17,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
 ?>
 
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
     <title>Course Detail</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -26,7 +26,37 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
 <body>
 <!-- container -->
 <div class="container">
-    <div class="page-header">
+
+    <div class="container">
+        <div class="page-header">
+        </div>
+        <!--logout button-->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">COMS3-MISIS</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" onclick="showEnrollments()">Enrollments</a></li>
+                        <li class="active" ><a href="#" onclick="showCourses()">Courses</a></li>
+                        <li><a href="#" onclick="showLog()">Log</a></li>
+                        <li><a href="#" onclick="showMoodleCourses()" >Moodle Courses</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    <div>
         <?php
         $unitCode = isset($_GET['unitCode']) ? $_GET['unitCode'] : die('Error: Course not found.');
         $courseDatabaseHelper = new CourseDatabaseHelper();
@@ -39,7 +69,7 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         } else {
             $enrollmentCount = sizeof($enrollmentDatabaseHelper->getAllCourseEnrollments($unitCode));
         }
-        echo "<h1>Course Detail: {$course->getUnitCode()}</h1>" ?>
+        echo "<h1 class='text-center'>Course Detail: {$course->getUnitCode()}</h1>" ?>
     </div>
 
 
@@ -57,6 +87,14 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         <tr>
             <td>Course Name</td>
             <td><?php echo $textHelper->getSpecialChars($course->getCourseName()); ?></td>
+        </tr>
+        <tr>
+            <td>Sync Frequency</td>
+            <td><?php echo $textHelper->setSyncFrequency($course->getUpdateFrequency()); ?></td>
+        </tr>
+        <tr>
+            <td>Delete Active</td>
+            <td><?php echo $textHelper->setDeleteActive($course->getDeleteActive()); ?></td>
         </tr>
         <tr>
             <td>Enrollment Count</td>
@@ -88,6 +126,28 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
         background-color: white;
     }
 </style>
+
+<script>
+    function showUpdate() {
+        window.location.href = '../Sidebar/UpdateCourse.php';
+    }
+
+    function showCourses() {
+        window.location.href = '../Courses/CourseMasterView.php';
+    }
+
+    function showLog() {
+        window.location.href = '../Log/LogMasterView.php';
+    }
+
+    function showMoodleCourses() {
+        window.location.href = "../Sidebar/UpdateCourse.php";
+    }
+
+    function logout() {
+        window.location.href = "../WebAPI/Logout/logout.php";
+    }
+</script>
 
 </body>
 </html>
