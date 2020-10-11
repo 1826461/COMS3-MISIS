@@ -1,0 +1,5 @@
+Sprint SDP 4 and Final Sprint Meeting with Richard - 21/09/2020
+
+- Checkboxes to select all proposed additions and deletions.
+- Enable/disable cron update when course expiry ends.
+- Auto log in. Folder in root of moodle then require once.
