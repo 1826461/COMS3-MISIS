@@ -11,11 +11,20 @@ require_once("..\..\..\config.php") ;
 require_login();
 session_start();
 
-$_SESSION['loggedin'] = true;
-$_SESSION['username'] = $USER['username'];
-$_SESSION['admin'] = 1;
-header("location: Enrollments\EnrollmentMasterView.php");
+//Copied from Moodle documentation
+//https://docs.moodle.org/dev/NEWMODULE_Adding_capabilities
+$cmid = required_param('cmid', PARAM_INT);
+if (!$cm = get_coursemodule_from_id('<<NEWMODULE>>', $cmid)) {
+    error("Course module ID was incorrect");
+}
+$context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
+if (has_capability('mod/<<NEWMODULE>>:<<CAPABILITYNAME>>', $context)) {
+    $_SESSION['loggedin'] = true;
+    $_SESSION['username'] = $USER['username'];
+    $_SESSION['admin'] = 1;
+    header("location: Enrollments\EnrollmentMasterView.php");
+}
 
 //TODO REMOVE console_log function and uses
 function console_log($output, $with_script_tags = true)
