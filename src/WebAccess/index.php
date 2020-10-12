@@ -19,7 +19,7 @@ if (!$cm = get_coursemodule_from_id('<<NEWMODULE>>', $cmid)) {
 }
 $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
-if (has_capability('mod/<<NEWMODULE>>:<<CAPABILITYNAME>>', $context)) {
+if (has_capability('mod/COMS3-MISIS:ManageCourses', $context)) {
     $_SESSION['loggedin'] = true;
     $_SESSION['username'] = $USER['username'];
     $_SESSION['admin'] = 1;
