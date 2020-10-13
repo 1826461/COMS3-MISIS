@@ -135,6 +135,9 @@ if (!(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true)) {
     function showCourses() {
         window.location.href = '../Courses/CourseMasterView.php';
     }
+    function showEnrollments() {
+        window.location.href = '../Enrollments/EnrollmentMasterView.php';
+    }
 
     function showLog() {
         window.location.href = '../Log/LogMasterView.php';
